@@ -25,13 +25,33 @@ The benchmark’s main novelty is testing whether models can selectively attend 
 2. selective × feature-based
 3. selective × structure-sensitive
 
-# First implemented task
+# Task: cluster_constrained_counting_v1
 
+## Status
+MVP / frozen for now
+
+## Purpose
 Selective × structure-sensitive (cluster-constrained counting)
 
-## Task goal
-
 The model must count target items that belong to the same spatial cluster as the anchor item while ignoring feature-matched distractors outside that cluster.
+
+## Current strengths
+- deterministic scoring
+- clear model differentiation
+- visible difficulty effect
+- works in Kaggle benchmark pipeline
+
+## Known limitations
+- medium and hard are not yet cleanly separated
+- some run-to-run instability for a subset of models
+- only 60 items in current MVP set
+- may still contain a few borderline items
+
+## Planned future improvements
+- expand to 90 items or more
+- review borderline failures manually
+- tighten medium/hard calibration
+- test on a second independently generated dataset
 
 ## Stimulus type
 
