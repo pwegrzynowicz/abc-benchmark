@@ -1,0 +1,33 @@
+Overall: 45/60 (75.0%)
+
+Stats by difficulty:
+  difficulty  passed  total  accuracy_pct
+0       easy      17     20          85.0
+1       hard      12     20          60.0
+2     medium      16     20          80.0
+
+Failures by difficulty:
+
+=== easy (3 failures) ===
+        image  gold_target  predicted_answer                   prompt_short
+easy_1004.png            4                 3 Count the yellow triangles in
+easy_1009.png            1                 0 Count the blue squares in the
+easy_1015.png            4                 3 Count the blue squares in the
+
+=== hard (8 failures) ===
+        image  gold_target  predicted_answer                   prompt_short
+hard_3000.png            3                 2 Count the blue triangles in th
+hard_3001.png            1                 5 Count the yellow circles in th
+hard_3007.png            4                 5 Count the blue circles in the
+hard_3009.png            4                 3 Count the blue triangles in th
+hard_3010.png            3                 5 Count the green squares in the
+hard_3011.png            3                 2 Count the red squares in the s
+hard_3012.png            4                 5 Count the red circles in the s
+hard_3015.png            4                 3 Count the yellow circles in th
+
+=== medium (4 failures) ===
+          image  gold_target  predicted_answer                   prompt_short
+medium_2006.png            3                 2 Count the blue squares in the
+medium_2007.png            1                 3 Count the yellow triangles in
+medium_2012.png            3                 2 Count the red circles in the s
+medium_2014.png            2                 4 Count the yellow triangles in

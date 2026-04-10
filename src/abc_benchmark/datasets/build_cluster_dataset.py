@@ -25,7 +25,7 @@ def build_cluster_dataset(output_dir: str | Path, difficulty: str, count: int, s
                 "seed": scene.seed,
                 "difficulty": scene.difficulty,
                 "prompt": scene.prompt,
-                "image_path": str(image_path),
+                "image_path": str(Path("images") / difficulty / f"{difficulty}_{seed}.png"),
                 "gold_label": scene.gold_label,
                 "target_shape": scene.target_shape,
                 "target_color": scene.target_color,

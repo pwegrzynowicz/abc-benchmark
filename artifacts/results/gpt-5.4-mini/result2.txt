@@ -1,0 +1,39 @@
+Overall: 39/60 (65.0%)
+
+Stats by difficulty:
+  difficulty  passed  total  accuracy_pct
+0       easy      14     20          70.0
+1       hard      10     20          50.0
+2     medium      15     20          75.0
+
+Failures by difficulty:
+
+=== easy (6 failures) ===
+        image  gold_target  predicted_answer                   prompt_short
+easy_1003.png            3                 2 Count the red circles in the s
+easy_1006.png            2                 1 Count the blue circles in the
+easy_1008.png            0                 1 Count the red squares in the s
+easy_1013.png            4                 3 Count the red triangles in the
+easy_1015.png            4                 3 Count the blue squares in the
+easy_1017.png            0                 1 Count the yellow squares in th
+
+=== hard (10 failures) ===
+        image  gold_target  predicted_answer                   prompt_short
+hard_3001.png            1                 5 Count the yellow circles in th
+hard_3003.png            4                 1 Count the yellow squares in th
+hard_3007.png            4                 5 Count the blue circles in the
+hard_3008.png            4                 3 Count the yellow circles in th
+hard_3009.png            4                 1 Count the blue triangles in th
+hard_3010.png            3                 1 Count the green squares in the
+hard_3011.png            3                 2 Count the red squares in the s
+hard_3014.png            0                 2 Count the blue triangles in th
+hard_3017.png            0                 1 Count the yellow squares in th
+hard_3019.png            0                 1 Count the blue circles in the
+
+=== medium (5 failures) ===
+          image  gold_target  predicted_answer                   prompt_short
+medium_2003.png            3                 2 Count the red squares in the s
+medium_2004.png            4                 3 Count the yellow triangles in
+medium_2005.png            0                 1 Count the green circles in the
+medium_2011.png            0                 1 Count the green triangles in t
+medium_2017.png            4                 2 Count the green triangles in t

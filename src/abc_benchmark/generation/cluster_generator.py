@@ -56,7 +56,7 @@ MEDIUM = DifficultyConfig(
     num_clusters_max=5,
     cluster_size_min=5,
     cluster_size_max=7,
-    cluster_radius=58.0,
+    cluster_radius=56.0,
     min_cluster_separation=145.0,
     noise_items=1,
 )
@@ -66,9 +66,9 @@ HARD = DifficultyConfig(
     num_clusters_max=5,
     cluster_size_min=6,
     cluster_size_max=8,
-    cluster_radius=62.0,
+    cluster_radius=60.0,
     min_cluster_separation=135.0,
-    noise_items=2,
+    noise_items=1,
 )
 
 
@@ -266,32 +266,66 @@ class ClusterConstrainedCountingGenerator:
         rng: random.Random,
     ) -> list[ItemSpec]:
         updated = list(items)
-        in_cluster = [i for i, it in enumerate(updated) if it.cluster_id == target_cluster_id and not it.is_anchor]
-        desired = rng.randint(self.config.target_count_min, self.config.target_count_max)
-        desired = min(desired, len(in_cluster))
 
-        rng.shuffle(in_cluster)
-        chosen = set(in_cluster[:desired])
-        for idx in in_cluster:
+        in_cluster = [i for i, it in enumerate(updated) if it.cluster_id == target_cluster_id]
+        anchor_idx = next(
+            i for i, it in enumerate(updated) if it.cluster_id == target_cluster_id and it.is_anchor
+        )
+        non_anchor_in_cluster = [i for i in in_cluster if i != anchor_idx]
+
+        desired_total = rng.randint(self.config.target_count_min, self.config.target_count_max)
+        desired_total = min(desired_total, len(in_cluster))
+
+        include_anchor = rng.choice([True, False]) if desired_total > 0 else False
+        if include_anchor:
+            desired_non_anchor = max(0, desired_total - 1)
+            updated[anchor_idx] = ItemSpec(
+                updated[anchor_idx].x,
+                updated[anchor_idx].y,
+                target_shape,
+                target_color,
+                updated[anchor_idx].cluster_id,
+                True,
+            )
+        else:
+            desired_non_anchor = desired_total
+            new_shape, new_color = self._sample_non_target_feature(target_shape, target_color, rng)
+            updated[anchor_idx] = ItemSpec(
+                updated[anchor_idx].x,
+                updated[anchor_idx].y,
+                new_shape,
+                new_color,
+                updated[anchor_idx].cluster_id,
+                True,
+            )
+
+        desired_non_anchor = min(desired_non_anchor, len(non_anchor_in_cluster))
+
+        rng.shuffle(non_anchor_in_cluster)
+        chosen = set(non_anchor_in_cluster[:desired_non_anchor])
+
+        for idx in non_anchor_in_cluster:
             item = updated[idx]
             if idx in chosen:
-                updated[idx] = ItemSpec(item.x, item.y, target_shape, target_color, item.cluster_id, item.is_anchor)
+                updated[idx] = ItemSpec(
+                    item.x, item.y, target_shape, target_color, item.cluster_id, item.is_anchor
+                )
             else:
-                new_shape, new_color = self._sample_non_target_feature(target_shape, target_color, rng)
-                updated[idx] = ItemSpec(item.x, item.y, new_shape, new_color, item.cluster_id, item.is_anchor)
+                new_shape, new_color = self._sample_non_target_feature(
+                    target_shape, target_color, rng
+                )
+                updated[idx] = ItemSpec(
+                    item.x, item.y, new_shape, new_color, item.cluster_id, item.is_anchor
+                )
 
         outside = [i for i, it in enumerate(updated) if it.cluster_id != target_cluster_id]
         rng.shuffle(outside)
         if outside:
             idx = outside[0]
             item = updated[idx]
-            updated[idx] = ItemSpec(item.x, item.y, target_shape, target_color, item.cluster_id, item.is_anchor)
-
-        if desired == len(in_cluster) and in_cluster:
-            idx = in_cluster[0]
-            item = updated[idx]
-            new_shape, new_color = self._sample_non_target_feature(target_shape, target_color, rng)
-            updated[idx] = ItemSpec(item.x, item.y, new_shape, new_color, item.cluster_id, item.is_anchor)
+            updated[idx] = ItemSpec(
+                item.x, item.y, target_shape, target_color, item.cluster_id, item.is_anchor
+            )
 
         return updated
 
@@ -376,9 +410,10 @@ class ClusterConstrainedCountingGenerator:
         return sum(
             1
             for it in items
-            if it.cluster_id == target_cluster_id and not it.is_anchor and it.shape == target_shape and it.color == target_color
+            if it.cluster_id == target_cluster_id
+            and it.shape == target_shape
+            and it.color == target_color
         )
-
     def _sample_non_target_feature(self, target_shape: Shape, target_color: ColorName, rng: random.Random) -> tuple[Shape, ColorName]:
         candidates = [(s, c) for s in SHAPES for c in COLORS if not (s == target_shape and c == target_color)]
         return rng.choice(candidates)

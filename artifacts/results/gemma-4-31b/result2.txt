@@ -1,0 +1,38 @@
+Overall: 40/60 (66.7%)
+
+Stats by difficulty:
+  difficulty  passed  total  accuracy_pct
+0       easy      16     20          80.0
+1       hard       9     20          45.0
+2     medium      15     20          75.0
+
+Failures by difficulty:
+
+=== easy (4 failures) ===
+        image  gold_target  predicted_answer                   prompt_short
+easy_1000.png            0                 1 Count the blue circles in the
+easy_1004.png            4                 3 Count the yellow triangles in
+easy_1013.png            4                 3 Count the red triangles in the
+easy_1015.png            4                 3 Count the blue squares in the
+
+=== hard (11 failures) ===
+        image  gold_target  predicted_answer                   prompt_short
+hard_3000.png            3                 2 Count the blue triangles in th
+hard_3001.png            1                 3 Count the yellow circles in th
+hard_3003.png            4                 3 Count the yellow squares in th
+hard_3005.png            4                 3 Count the green squares in the
+hard_3006.png            2                 3 Count the red squares in the s
+hard_3008.png            4                 3 Count the yellow circles in th
+hard_3009.png            4                 3 Count the blue triangles in th
+hard_3010.png            3                 2 Count the green squares in the
+hard_3011.png            3                 2 Count the red squares in the s
+hard_3012.png            4                 3 Count the red circles in the s
+hard_3015.png            4                 3 Count the yellow circles in th
+
+=== medium (5 failures) ===
+          image  gold_target  predicted_answer                   prompt_short
+medium_2004.png            4                 3 Count the yellow triangles in
+medium_2010.png            5                 4 Count the yellow triangles in
+medium_2014.png            2                 1 Count the yellow triangles in
+medium_2016.png            4                 3 Count the yellow circles in th
+medium_2019.png            3                 2 Count the yellow circles in th
