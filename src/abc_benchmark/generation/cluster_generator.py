@@ -2,24 +2,23 @@ from __future__ import annotations
 
 import math
 import random
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable, Literal
+from typing import Iterable
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image
 
-Shape = Literal["circle", "square", "triangle"]
-ColorName = Literal["red", "blue", "green", "yellow"]
-
-PALETTE: dict[ColorName, tuple[int, int, int]] = {
-    "red": (220, 60, 60),
-    "blue": (70, 120, 230),
-    "green": (70, 170, 90),
-    "yellow": (220, 180, 60),
-}
-
-SHAPES: tuple[Shape, ...] = ("circle", "square", "triangle")
-COLORS: tuple[ColorName, ...] = tuple(PALETTE.keys())
+from abc_benchmark.generation.common import (
+    COLORS,
+    SHAPES,
+    ColorName,
+    GenerationError,
+    ItemSpec,
+    SceneSpec,
+    Shape,
+    distance,
+    render_scene,
+)
 
 
 @dataclass(frozen=True)
@@ -39,6 +38,7 @@ class DifficultyConfig:
     target_count_min: int = 0
     target_count_max: int = 5
     noise_items: int = 0
+    has_anchor: bool = True
 
 
 EASY = DifficultyConfig(
@@ -72,39 +72,6 @@ HARD = DifficultyConfig(
 )
 
 
-@dataclass
-class ItemSpec:
-    x: float
-    y: float
-    shape: Shape
-    color: ColorName
-    cluster_id: int
-    is_anchor: bool = False
-
-
-@dataclass
-class SceneSpec:
-    seed: int
-    difficulty: str
-    width: int
-    height: int
-    target_shape: Shape
-    target_color: ColorName
-    target_cluster_id: int
-    gold_label: int
-    items: list[ItemSpec]
-    prompt: str
-
-    def to_dict(self) -> dict:
-        payload = asdict(self)
-        payload["items"] = [asdict(i) for i in self.items]
-        return payload
-
-
-class GenerationError(RuntimeError):
-    pass
-
-
 class ClusterConstrainedCountingGenerator:
     def __init__(self, config: DifficultyConfig, rng: random.Random | None = None) -> None:
         self.config = config
@@ -126,7 +93,9 @@ class ClusterConstrainedCountingGenerator:
             target_shape = local_rng.choice(SHAPES)
             target_color = local_rng.choice(COLORS)
 
-            items = self._assign_anchor(items, target_cluster_id, local_rng)
+            if self.config.has_anchor:
+                items = self._assign_anchor(items, target_cluster_id, local_rng)
+
             items = self._enforce_target_count_constraints(
                 items, target_cluster_id, target_shape, target_color, local_rng
             )
@@ -161,26 +130,11 @@ class ClusterConstrainedCountingGenerator:
         raise GenerationError("Failed to generate a valid scene within max_attempts")
 
     def render(self, scene: SceneSpec, output_path: str | Path | None = None) -> Image.Image:
-        img = Image.new("RGB", (scene.width, scene.height), (250, 250, 248))
-        draw = ImageDraw.Draw(img)
-        font = ImageFont.load_default()
-
-        for item in scene.items:
-            self._draw_item(draw, item)
-
-        for item in scene.items:
-            if item.is_anchor:
-                self._draw_anchor_marker(draw, item)
-                break
-
-        prompt_y = scene.height - 28
-        draw.rectangle([(0, prompt_y - 6), (scene.width, scene.height)], fill=(245, 245, 240))
-        draw.text((12, prompt_y), scene.prompt, fill=(30, 30, 30), font=font)
-
-        if output_path is not None:
-            Path(output_path).parent.mkdir(parents=True, exist_ok=True)
-            img.save(output_path)
-        return img
+        return render_scene(
+            scene,
+            object_radius=self.config.object_radius,
+            output_path=output_path,
+        )
 
     def generate_many(self, count: int, difficulty_name: str = "custom", start_seed: int = 0) -> list[SceneSpec]:
         return [
@@ -202,7 +156,7 @@ class ClusterConstrainedCountingGenerator:
                     self.config.margin + self.config.cluster_radius,
                     self.config.height - self.config.margin - self.config.cluster_radius - 36,
                 )
-                if all(self._distance((x, y), c) >= self.config.min_cluster_separation for c in centers):
+                if all(distance((x, y), c) >= self.config.min_cluster_separation for c in centers):
                     centers.append((x, y))
                     placed = True
                     break
@@ -218,19 +172,19 @@ class ClusterConstrainedCountingGenerator:
             for _ in range(cluster_size):
                 placed = False
                 for _ in range(200):
-                    angle = rng.uniform(0, 2 * math.pi)
+                    angle = rng.uniform(0, 2 * 3.141592653589793)
                     radius = rng.uniform(0, self.config.cluster_radius)
                     x = center[0] + math.cos(angle) * radius
                     y = center[1] + math.sin(angle) * radius
                     if not self._within_bounds((x, y)):
                         continue
                     if any(
-                        self._distance((x, y), p) < (2 * self.config.object_radius + self.config.min_object_gap)
+                        distance((x, y), p) < (2 * self.config.object_radius + self.config.min_object_gap)
                         for p in cluster_points
                     ):
                         continue
                     if any(
-                        self._distance((x, y), (it.x, it.y)) < (2 * self.config.object_radius + self.config.min_object_gap)
+                        distance((x, y), (it.x, it.y)) < (2 * self.config.object_radius + self.config.min_object_gap)
                         for it in items
                     ):
                         continue
@@ -254,7 +208,15 @@ class ClusterConstrainedCountingGenerator:
         eligible = [i for i, item in enumerate(items) if item.cluster_id == target_cluster_id]
         anchor_idx = rng.choice(eligible)
         updated = list(items)
-        updated[anchor_idx] = ItemSpec(**{**asdict(updated[anchor_idx]), "is_anchor": True})
+        chosen = updated[anchor_idx]
+        updated[anchor_idx] = ItemSpec(
+            x=chosen.x,
+            y=chosen.y,
+            shape=chosen.shape,
+            color=chosen.color,
+            cluster_id=chosen.cluster_id,
+            is_anchor=True,
+        )
         return updated
 
     def _enforce_target_count_constraints(
@@ -311,9 +273,7 @@ class ClusterConstrainedCountingGenerator:
                     item.x, item.y, target_shape, target_color, item.cluster_id, item.is_anchor
                 )
             else:
-                new_shape, new_color = self._sample_non_target_feature(
-                    target_shape, target_color, rng
-                )
+                new_shape, new_color = self._sample_non_target_feature(target_shape, target_color, rng)
                 updated[idx] = ItemSpec(
                     item.x, item.y, new_shape, new_color, item.cluster_id, item.is_anchor
                 )
@@ -342,11 +302,11 @@ class ClusterConstrainedCountingGenerator:
                 x = rng.uniform(self.config.margin, self.config.width - self.config.margin)
                 y = rng.uniform(self.config.margin, self.config.height - self.config.margin - 36)
                 if any(
-                    self._distance((x, y), (it.x, it.y)) < (2 * self.config.object_radius + self.config.min_object_gap)
+                    distance((x, y), (it.x, it.y)) < (2 * self.config.object_radius + self.config.min_object_gap)
                     for it in updated
                 ):
                     continue
-                if min(self._distance((x, y), c) for c in centers) < self.config.cluster_radius + 18:
+                if min(distance((x, y), c) for c in centers) < self.config.cluster_radius + 18:
                     continue
                 updated.append(
                     ItemSpec(
@@ -371,7 +331,7 @@ class ClusterConstrainedCountingGenerator:
             if not self._within_bounds((a.x, a.y)):
                 return False
             for b in items[i + 1 :]:
-                if self._distance((a.x, a.y), (b.x, b.y)) < (2 * self.config.object_radius + self.config.min_object_gap):
+                if distance((a.x, a.y), (b.x, b.y)) < (2 * self.config.object_radius + self.config.min_object_gap):
                     return False
         return True
 
@@ -406,7 +366,13 @@ class ClusterConstrainedCountingGenerator:
             return False
         return True
 
-    def _count_targets(self, items: Iterable[ItemSpec], target_cluster_id: int, target_shape: Shape, target_color: ColorName) -> int:
+    def _count_targets(
+        self,
+        items: Iterable[ItemSpec],
+        target_cluster_id: int,
+        target_shape: Shape,
+        target_color: ColorName,
+    ) -> int:
         return sum(
             1
             for it in items
@@ -414,36 +380,15 @@ class ClusterConstrainedCountingGenerator:
             and it.shape == target_shape
             and it.color == target_color
         )
-    def _sample_non_target_feature(self, target_shape: Shape, target_color: ColorName, rng: random.Random) -> tuple[Shape, ColorName]:
+
+    def _sample_non_target_feature(
+        self,
+        target_shape: Shape,
+        target_color: ColorName,
+        rng: random.Random,
+    ) -> tuple[Shape, ColorName]:
         candidates = [(s, c) for s in SHAPES for c in COLORS if not (s == target_shape and c == target_color)]
         return rng.choice(candidates)
-
-    def _draw_item(self, draw: ImageDraw.ImageDraw, item: ItemSpec) -> None:
-        x, y = item.x, item.y
-        r = self.config.object_radius
-        fill = PALETTE[item.color]
-        outline = (30, 30, 30)
-
-        if item.shape == "circle":
-            draw.ellipse([(x - r, y - r), (x + r, y + r)], fill=fill, outline=outline, width=2)
-        elif item.shape == "square":
-            draw.rectangle([(x - r, y - r), (x + r, y + r)], fill=fill, outline=outline, width=2)
-        elif item.shape == "triangle":
-            pts = [(x, y - r), (x - 0.9 * r, y + 0.8 * r), (x + 0.9 * r, y + 0.8 * r)]
-            draw.polygon(pts, fill=fill, outline=outline)
-        else:
-            raise ValueError(f"Unknown shape: {item.shape}")
-
-    def _draw_anchor_marker(self, draw: ImageDraw.ImageDraw, item: ItemSpec) -> None:
-        cx, cy = item.x, item.y
-        outer = self.config.object_radius + 10
-        inner = self.config.object_radius + 4
-        points: list[tuple[float, float]] = []
-        for i in range(10):
-            angle = -math.pi / 2 + i * math.pi / 5
-            radius = outer if i % 2 == 0 else inner
-            points.append((cx + math.cos(angle) * radius, cy + math.sin(angle) * radius))
-        draw.polygon(points, outline=(20, 20, 20), width=2)
 
     def _within_bounds(self, point: tuple[float, float]) -> bool:
         x, y = point
@@ -452,10 +397,6 @@ class ClusterConstrainedCountingGenerator:
             self.config.margin + r <= x <= self.config.width - self.config.margin - r
             and self.config.margin + r <= y <= self.config.height - self.config.margin - r - 36
         )
-
-    @staticmethod
-    def _distance(a: tuple[float, float], b: tuple[float, float]) -> float:
-        return math.dist(a, b)
 
 
 def make_generator(difficulty: str) -> ClusterConstrainedCountingGenerator:
