@@ -1,4 +1,4 @@
-seed,difficulty,instruction,text_input,prompt,gold_label,target_color,target_shape,target_marker,num_records
+seed,difficulty,instruction,text_input,prompt,filter_instruction,filter_prompt,gold_label,gold_lines,target_color,target_shape,target_marker,num_records
 1000,easy,Count the entries that are yellow triangles. Respond with a number only.,"blue | circle | 0
 green | square | 1
 yellow | square | 0
@@ -23,7 +23,32 @@ yellow | triangle | 1
 yellow | triangle | 1
 yellow | square | 1
 yellow | triangle | 0
-red | triangle | 0",4,yellow,triangle,,12
+red | triangle | 0","Return the line numbers (1-based) of the entries that are yellow triangles.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","Return the line numbers (1-based) of the entries that are yellow triangles.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+blue | circle | 0
+green | square | 1
+yellow | square | 0
+yellow | triangle | 0
+yellow | square | 1
+blue | triangle | 1
+yellow | square | 1
+yellow | triangle | 1
+yellow | triangle | 1
+yellow | square | 1
+yellow | triangle | 0
+red | triangle | 0",4,"[4, 8, 9, 11]",yellow,triangle,,12
 1001,easy,Count the entries that are red circles. Respond with a number only.,"red | square | 0
 yellow | square | 1
 blue | circle | 1
@@ -48,7 +73,32 @@ red | circle | 1
 yellow | triangle | 0
 red | circle | 1
 yellow | circle | 0
-red | circle | 0",4,red,circle,,12
+red | circle | 0","Return the line numbers (1-based) of the entries that are red circles.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","Return the line numbers (1-based) of the entries that are red circles.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+red | square | 0
+yellow | square | 1
+blue | circle | 1
+blue | square | 0
+red | circle | 1
+yellow | square | 1
+blue | circle | 0
+red | circle | 1
+yellow | triangle | 0
+red | circle | 1
+yellow | circle | 0
+red | circle | 0",4,"[5, 8, 10, 12]",red,circle,,12
 1002,easy,Count the entries that are yellow circles. Respond with a number only.,"green | circle | 1
 yellow | circle | 1
 red | circle | 1
@@ -75,7 +125,33 @@ green | triangle | 0
 yellow | square | 0
 green | circle | 1
 yellow | square | 0
-red | circle | 0",2,yellow,circle,,13
+red | circle | 0","Return the line numbers (1-based) of the entries that are yellow circles.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","Return the line numbers (1-based) of the entries that are yellow circles.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+green | circle | 1
+yellow | circle | 1
+red | circle | 1
+yellow | circle | 1
+green | triangle | 1
+red | circle | 1
+blue | circle | 1
+blue | circle | 1
+green | triangle | 0
+yellow | square | 0
+green | circle | 1
+yellow | square | 0
+red | circle | 0",2,"[2, 4]",yellow,circle,,13
 1003,easy,Count the entries that are yellow triangles. Respond with a number only.,"green | triangle | 0
 green | square | 1
 red | square | 0
@@ -104,7 +180,34 @@ red | triangle | 1
 yellow | triangle | 1
 green | triangle | 0
 blue | square | 1
-blue | triangle | 0",2,yellow,triangle,,14
+blue | triangle | 0","Return the line numbers (1-based) of the entries that are yellow triangles.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","Return the line numbers (1-based) of the entries that are yellow triangles.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+green | triangle | 0
+green | square | 1
+red | square | 0
+green | square | 0
+red | square | 0
+yellow | triangle | 1
+yellow | square | 1
+yellow | circle | 0
+green | triangle | 0
+red | triangle | 1
+yellow | triangle | 1
+green | triangle | 0
+blue | square | 1
+blue | triangle | 0",2,"[6, 11]",yellow,triangle,,14
 1004,easy,Count the entries that are yellow circles. Respond with a number only.,"red | triangle | 0
 green | triangle | 0
 red | square | 0
@@ -137,7 +240,36 @@ green | triangle | 0
 blue | circle | 1
 yellow | circle | 1
 yellow | circle | 0
-red | circle | 0",2,yellow,circle,,16
+red | circle | 0","Return the line numbers (1-based) of the entries that are yellow circles.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","Return the line numbers (1-based) of the entries that are yellow circles.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+red | triangle | 0
+green | triangle | 0
+red | square | 0
+yellow | square | 0
+green | circle | 1
+red | triangle | 0
+red | triangle | 0
+green | circle | 1
+red | square | 0
+blue | triangle | 0
+red | circle | 0
+green | triangle | 0
+blue | circle | 1
+yellow | circle | 1
+yellow | circle | 0
+red | circle | 0",2,"[14, 15]",yellow,circle,,16
 1005,easy,Count the entries that are yellow squares. Respond with a number only.,"red | square | 1
 yellow | circle | 0
 blue | square | 1
@@ -170,7 +302,36 @@ red | circle | 1
 yellow | circle | 1
 yellow | square | 1
 yellow | square | 1
-yellow | triangle | 1",4,yellow,square,,16
+yellow | triangle | 1","Return the line numbers (1-based) of the entries that are yellow squares.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","Return the line numbers (1-based) of the entries that are yellow squares.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+red | square | 1
+yellow | circle | 0
+blue | square | 1
+yellow | square | 1
+red | circle | 1
+blue | square | 0
+yellow | square | 0
+red | circle | 1
+green | square | 1
+yellow | triangle | 1
+blue | triangle | 0
+red | circle | 1
+yellow | circle | 1
+yellow | square | 1
+yellow | square | 1
+yellow | triangle | 1",4,"[4, 7, 14, 15]",yellow,square,,16
 1006,easy,Count the entries that are green circles. Respond with a number only.,"green | circle | 1
 green | circle | 0
 red | square | 0
@@ -197,7 +358,33 @@ red | circle | 0
 blue | square | 1
 blue | square | 0
 green | square | 1
-green | circle | 0",4,green,circle,,13
+green | circle | 0","Return the line numbers (1-based) of the entries that are green circles.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","Return the line numbers (1-based) of the entries that are green circles.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+green | circle | 1
+green | circle | 0
+red | square | 0
+green | circle | 0
+yellow | circle | 0
+red | circle | 0
+yellow | square | 0
+green | square | 0
+red | circle | 0
+blue | square | 1
+blue | square | 0
+green | square | 1
+green | circle | 0",4,"[1, 2, 4, 13]",green,circle,,13
 1007,easy,Count the entries that are red triangles. Respond with a number only.,"red | circle | 1
 yellow | square | 1
 red | circle | 0
@@ -224,7 +411,33 @@ red | circle | 1
 green | triangle | 1
 red | triangle | 0
 red | square | 1
-blue | square | 1",3,red,triangle,,13
+blue | square | 1","Return the line numbers (1-based) of the entries that are red triangles.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","Return the line numbers (1-based) of the entries that are red triangles.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+red | circle | 1
+yellow | square | 1
+red | circle | 0
+green | square | 1
+red | square | 0
+red | triangle | 0
+red | triangle | 0
+blue | square | 0
+red | circle | 1
+green | triangle | 1
+red | triangle | 0
+red | square | 1
+blue | square | 1",3,"[6, 7, 11]",red,triangle,,13
 1008,easy,Count the entries that are yellow squares. Respond with a number only.,"blue | circle | 1
 green | triangle | 1
 blue | triangle | 0
@@ -249,7 +462,32 @@ red | triangle | 0
 yellow | circle | 0
 green | square | 1
 yellow | triangle | 1
-yellow | square | 0",1,yellow,square,,12
+yellow | square | 0","Return the line numbers (1-based) of the entries that are yellow squares.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","Return the line numbers (1-based) of the entries that are yellow squares.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+blue | circle | 1
+green | triangle | 1
+blue | triangle | 0
+red | circle | 0
+green | triangle | 1
+green | square | 1
+blue | square | 0
+red | triangle | 0
+yellow | circle | 0
+green | square | 1
+yellow | triangle | 1
+yellow | square | 0",1,[12],yellow,square,,12
 1009,easy,Count the entries that are blue circles. Respond with a number only.,"red | square | 1
 yellow | circle | 0
 red | circle | 1
@@ -280,7 +518,35 @@ red | circle | 1
 red | square | 0
 blue | circle | 1
 yellow | square | 0
-blue | square | 0",1,blue,circle,,15
+blue | square | 0","Return the line numbers (1-based) of the entries that are blue circles.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","Return the line numbers (1-based) of the entries that are blue circles.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+red | square | 1
+yellow | circle | 0
+red | circle | 1
+blue | square | 0
+red | square | 0
+red | triangle | 1
+blue | square | 0
+green | triangle | 1
+yellow | square | 0
+yellow | triangle | 1
+red | circle | 1
+red | square | 0
+blue | circle | 1
+yellow | square | 0
+blue | square | 0",1,[13],blue,circle,,15
 1010,easy,Count the entries that are blue triangles. Respond with a number only.,"green | square | 0
 yellow | square | 0
 blue | triangle | 0
@@ -305,7 +571,32 @@ blue | triangle | 1
 blue | triangle | 1
 red | triangle | 0
 red | triangle | 1
-yellow | square | 1",4,blue,triangle,,12
+yellow | square | 1","Return the line numbers (1-based) of the entries that are blue triangles.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","Return the line numbers (1-based) of the entries that are blue triangles.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+green | square | 0
+yellow | square | 0
+blue | triangle | 0
+blue | triangle | 0
+green | triangle | 1
+blue | square | 0
+blue | square | 0
+blue | triangle | 1
+blue | triangle | 1
+red | triangle | 0
+red | triangle | 1
+yellow | square | 1",4,"[3, 4, 8, 9]",blue,triangle,,12
 1011,easy,Count the entries that are green squares. Respond with a number only.,"green | circle | 0
 green | triangle | 0
 green | square | 1
@@ -330,7 +621,32 @@ blue | square | 1
 red | square | 1
 yellow | triangle | 1
 green | square | 1
-green | square | 1",4,green,square,,12
+green | square | 1","Return the line numbers (1-based) of the entries that are green squares.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","Return the line numbers (1-based) of the entries that are green squares.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+green | circle | 0
+green | triangle | 0
+green | square | 1
+yellow | square | 1
+red | square | 1
+blue | triangle | 1
+green | square | 0
+blue | square | 1
+red | square | 1
+yellow | triangle | 1
+green | square | 1
+green | square | 1",4,"[3, 7, 11, 12]",green,square,,12
 1012,easy,Count the entries that are blue circles. Respond with a number only.,"blue | square | 0
 red | triangle | 1
 green | circle | 1
@@ -357,7 +673,33 @@ blue | square | 1
 blue | square | 1
 yellow | square | 1
 yellow | circle | 0
-yellow | triangle | 0",1,blue,circle,,13
+yellow | triangle | 0","Return the line numbers (1-based) of the entries that are blue circles.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","Return the line numbers (1-based) of the entries that are blue circles.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+blue | square | 0
+red | triangle | 1
+green | circle | 1
+blue | square | 0
+red | circle | 0
+blue | circle | 1
+yellow | circle | 0
+red | circle | 1
+blue | square | 1
+blue | square | 1
+yellow | square | 1
+yellow | circle | 0
+yellow | triangle | 0",1,[6],blue,circle,,13
 1013,easy,Count the entries that are yellow squares. Respond with a number only.,"red | square | 0
 red | circle | 0
 green | square | 0
@@ -384,7 +726,33 @@ red | square | 0
 red | square | 1
 blue | triangle | 0
 blue | circle | 0
-yellow | triangle | 0",1,yellow,square,,13
+yellow | triangle | 0","Return the line numbers (1-based) of the entries that are yellow squares.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","Return the line numbers (1-based) of the entries that are yellow squares.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+red | square | 0
+red | circle | 0
+green | square | 0
+yellow | square | 1
+yellow | circle | 1
+yellow | circle | 1
+yellow | triangle | 0
+blue | triangle | 0
+red | square | 0
+red | square | 1
+blue | triangle | 0
+blue | circle | 0
+yellow | triangle | 0",1,[4],yellow,square,,13
 1014,easy,Count the entries that are red circles. Respond with a number only.,"green | square | 1
 red | triangle | 1
 yellow | square | 0
@@ -413,7 +781,34 @@ blue | circle | 0
 blue | square | 1
 red | square | 0
 yellow | square | 0
-green | circle | 1",1,red,circle,,14
+green | circle | 1","Return the line numbers (1-based) of the entries that are red circles.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","Return the line numbers (1-based) of the entries that are red circles.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+green | square | 1
+red | triangle | 1
+yellow | square | 0
+yellow | circle | 0
+red | circle | 1
+green | triangle | 1
+red | triangle | 0
+blue | triangle | 0
+blue | square | 0
+blue | circle | 0
+blue | square | 1
+red | square | 0
+yellow | square | 0
+green | circle | 1",1,[5],red,circle,,14
 1015,easy,Count the entries that are red squares. Respond with a number only.,"green | square | 1
 red | square | 1
 blue | square | 1
@@ -444,7 +839,35 @@ red | square | 1
 blue | triangle | 1
 green | square | 1
 yellow | triangle | 0
-red | square | 1",4,red,square,,15
+red | square | 1","Return the line numbers (1-based) of the entries that are red squares.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","Return the line numbers (1-based) of the entries that are red squares.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+green | square | 1
+red | square | 1
+blue | square | 1
+yellow | circle | 0
+red | circle | 1
+green | circle | 0
+red | square | 1
+blue | square | 1
+red | circle | 0
+yellow | triangle | 0
+red | square | 1
+blue | triangle | 1
+green | square | 1
+yellow | triangle | 0
+red | square | 1",4,"[2, 7, 11, 15]",red,square,,15
 1016,easy,Count the entries that are green triangles. Respond with a number only.,"yellow | circle | 0
 green | triangle | 0
 green | square | 0
@@ -475,7 +898,35 @@ green | square | 1
 red | triangle | 1
 red | square | 1
 yellow | square | 0
-blue | triangle | 1",3,green,triangle,,15
+blue | triangle | 1","Return the line numbers (1-based) of the entries that are green triangles.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","Return the line numbers (1-based) of the entries that are green triangles.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+yellow | circle | 0
+green | triangle | 0
+green | square | 0
+yellow | square | 1
+green | triangle | 1
+green | circle | 0
+green | triangle | 0
+yellow | square | 0
+red | triangle | 1
+yellow | square | 0
+green | square | 1
+red | triangle | 1
+red | square | 1
+yellow | square | 0
+blue | triangle | 1",3,"[2, 5, 7]",green,triangle,,15
 1017,easy,Count the entries that are yellow triangles. Respond with a number only.,"green | square | 1
 blue | triangle | 0
 yellow | triangle | 0
@@ -506,7 +957,35 @@ green | square | 1
 yellow | circle | 0
 yellow | circle | 1
 green | triangle | 0
-red | circle | 0",2,yellow,triangle,,15
+red | circle | 0","Return the line numbers (1-based) of the entries that are yellow triangles.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","Return the line numbers (1-based) of the entries that are yellow triangles.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+green | square | 1
+blue | triangle | 0
+yellow | triangle | 0
+blue | square | 1
+yellow | square | 0
+blue | triangle | 1
+yellow | square | 1
+yellow | square | 0
+green | circle | 1
+yellow | triangle | 1
+green | square | 1
+yellow | circle | 0
+yellow | circle | 1
+green | triangle | 0
+red | circle | 0",2,"[3, 10]",yellow,triangle,,15
 1018,easy,Count the entries that are yellow triangles. Respond with a number only.,"green | triangle | 1
 green | triangle | 0
 red | triangle | 1
@@ -537,7 +1016,35 @@ red | triangle | 0
 red | circle | 1
 green | triangle | 0
 red | square | 1
-yellow | square | 1",1,yellow,triangle,,15
+yellow | square | 1","Return the line numbers (1-based) of the entries that are yellow triangles.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","Return the line numbers (1-based) of the entries that are yellow triangles.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+green | triangle | 1
+green | triangle | 0
+red | triangle | 1
+green | circle | 1
+yellow | circle | 0
+yellow | triangle | 0
+green | circle | 0
+yellow | square | 0
+blue | circle | 0
+green | circle | 0
+red | triangle | 0
+red | circle | 1
+green | triangle | 0
+red | square | 1
+yellow | square | 1",1,[6],yellow,triangle,,15
 1019,easy,Count the entries that are red squares. Respond with a number only.,"green | circle | 1
 blue | triangle | 0
 red | circle | 1
@@ -564,4 +1071,30 @@ yellow | triangle | 0
 green | square | 1
 blue | triangle | 1
 blue | triangle | 0
-green | square | 1",1,red,square,,13
+green | square | 1","Return the line numbers (1-based) of the entries that are red squares.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","Return the line numbers (1-based) of the entries that are red squares.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+green | circle | 1
+blue | triangle | 0
+red | circle | 1
+red | triangle | 0
+green | square | 0
+red | triangle | 1
+blue | square | 1
+red | square | 0
+yellow | triangle | 0
+green | square | 1
+blue | triangle | 1
+blue | triangle | 0
+green | square | 1",1,[8],red,square,,13

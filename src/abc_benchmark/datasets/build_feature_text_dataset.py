@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import pandas as pd
@@ -29,7 +30,10 @@ def build_feature_text_dataset(
                 "instruction": scene.instruction,
                 "text_input": scene.text_input,
                 "prompt": scene.prompt,
+                "filter_instruction": scene.filter_instruction,
+                "filter_prompt": scene.filter_prompt,
                 "gold_label": scene.gold_label,
+                "gold_lines": json.dumps(scene.gold_lines),
                 "target_color": scene.target_color,
                 "target_shape": scene.target_shape,
                 "target_marker": scene.target_marker,

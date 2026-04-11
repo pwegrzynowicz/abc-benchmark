@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import random
 from dataclasses import asdict, dataclass
 from typing import Literal
@@ -81,7 +82,10 @@ class TextSceneSpec:
     instruction: str
     text_input: str
     prompt: str
+    filter_instruction: str
+    filter_prompt: str
     gold_label: int
+    gold_lines: list[int]
     target_color: ColorName
     target_shape: Shape
     target_marker: MarkerValue | None
@@ -152,19 +156,28 @@ class FeatureTextSelectiveAttentionGenerator:
             ):
                 continue
 
-            instruction = self._build_instruction(
+            instruction = self._build_count_instruction(
                 target_color=target_color,
                 target_shape=target_shape,
                 target_marker=target_marker,
             )
+            filter_instruction = self._build_filter_instruction(
+                target_color=target_color,
+                target_shape=target_shape,
+                target_marker=target_marker,
+            )
+
             text_input = "\n".join(record.to_text() for record in records)
             prompt = f"{instruction}\n\n{text_input}"
-            gold_label = self._count_targets(
+            filter_prompt = f"{filter_instruction}\n\n{text_input}"
+
+            gold_lines = self._matching_line_numbers(
                 records=records,
                 target_color=target_color,
                 target_shape=target_shape,
                 target_marker=target_marker,
             )
+            gold_label = len(gold_lines)
 
             return TextSceneSpec(
                 seed=seed if seed is not None else -1,
@@ -172,7 +185,10 @@ class FeatureTextSelectiveAttentionGenerator:
                 instruction=instruction,
                 text_input=text_input,
                 prompt=prompt,
+                filter_instruction=filter_instruction,
+                filter_prompt=filter_prompt,
                 gold_label=gold_label,
+                gold_lines=gold_lines,
                 target_color=target_color,
                 target_shape=target_shape,
                 target_marker=target_marker,
@@ -215,31 +231,21 @@ class FeatureTextSelectiveAttentionGenerator:
 
         for _ in range(self.config.min_same_color_wrong_shape):
             wrong_shape = rng.choice([shape for shape in SHAPES if shape != target_shape])
-            marker = (
-                rng.choice(MARKERS)
-                if target_marker is None
-                else rng.choice(MARKERS)
-            )
             records.append(
                 RecordSpec(
                     color=target_color,
                     shape=wrong_shape,
-                    marker=marker,
+                    marker=rng.choice(MARKERS),
                 )
             )
 
         for _ in range(self.config.min_same_shape_wrong_color):
             wrong_color = rng.choice([color for color in COLORS if color != target_color])
-            marker = (
-                rng.choice(MARKERS)
-                if target_marker is None
-                else rng.choice(MARKERS)
-            )
             records.append(
                 RecordSpec(
                     color=wrong_color,
                     shape=target_shape,
-                    marker=marker,
+                    marker=rng.choice(MARKERS),
                 )
             )
 
@@ -348,7 +354,7 @@ class FeatureTextSelectiveAttentionGenerator:
 
         return True
 
-    def _build_instruction(
+    def _build_count_instruction(
         self,
         target_color: ColorName,
         target_shape: Shape,
@@ -362,6 +368,26 @@ class FeatureTextSelectiveAttentionGenerator:
         return (
             f"Count the entries that are {target_color} {target_shape}s with marker={target_marker}. "
             "Respond with a number only."
+        )
+
+    def _build_filter_instruction(
+        self,
+        target_color: ColorName,
+        target_shape: Shape,
+        target_marker: MarkerValue | None,
+    ) -> str:
+        target_desc = f"{target_color} {target_shape}s"
+        if target_marker is not None:
+            target_desc += f" with marker={target_marker}"
+
+        return (
+            f"Return the line numbers (1-based) of the entries that are {target_desc}.\n"
+            'Respond with a JSON object of the form {"lines": [<sorted unique integers>]}. \n'
+            "Rules:\n"
+            "- Use 1-based indexing\n"
+            "- Sort ascending\n"
+            "- Do not include duplicates\n"
+            "- Return only the JSON object"
         )
 
     @staticmethod
@@ -396,6 +422,24 @@ class FeatureTextSelectiveAttentionGenerator:
                 target_marker=target_marker,
             )
         )
+
+    def _matching_line_numbers(
+        self,
+        records: list[RecordSpec],
+        target_color: ColorName,
+        target_shape: Shape,
+        target_marker: MarkerValue | None,
+    ) -> list[int]:
+        return [
+            i + 1
+            for i, record in enumerate(records)
+            if self._matches_target(
+                record=record,
+                target_color=target_color,
+                target_shape=target_shape,
+                target_marker=target_marker,
+            )
+        ]
 
 
 def make_generator(difficulty: str) -> FeatureTextSelectiveAttentionGenerator:

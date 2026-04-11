@@ -11,7 +11,7 @@ dfs = [
 ]
 
 full_df = pd.concat(dfs, ignore_index=True)
-full_df.to_csv(f"{out_dir}/feature_count_full.csv", index=False)
+full_df.to_csv(f"{out_dir}/feature_text_full.csv", index=False)
 
 print(full_df["difficulty"].value_counts())
 print(full_df.head())
