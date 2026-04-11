@@ -1,7 +1,7 @@
 import pandas as pd
 from abc_benchmark.datasets.build_cluster_dataset import build_cluster_dataset
 
-out_dir = "artifacts/datasets"
+out_dir = "artifacts/datasets/cluster_visual"
 
 dfs = [
     build_cluster_dataset(out_dir, "easy", 20, 1000),
