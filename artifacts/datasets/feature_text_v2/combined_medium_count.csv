@@ -1,0 +1,1881 @@
+seed,difficulty,regime,regime_level,response_mode,count_instruction,filter_instruction,text_input,count_prompt,filter_prompt,gold_count,gold_lines,target_definition,num_records,target_feature_count,target_count,active_fields,target_fields,irrelevant_noise_fields,same_color_wrong_shape_count,same_shape_wrong_color_count,same_core_wrong_marker_count,same_core_wrong_size_count,same_core_wrong_pattern_count,unrelated_count
+6100,medium,combined,medium,count,"Count the entries matching all of the following attributes: color=yellow, shape=circle, marker=0.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=yellow, shape=circle, marker=0.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","red | circle | 0 | medium | dotted
+green | triangle | 1 | large | striped
+yellow | circle | 1 | medium | dotted
+green | square | 1 | medium | dotted
+red | circle | 0 | large | striped
+green | square | 1 | large | striped
+blue | triangle | 1 | large | solid
+red | triangle | 1 | large | solid
+green | square | 1 | large | dotted
+yellow | circle | 0 | large | dotted
+yellow | circle | 0 | small | dotted
+yellow | square | 0 | small | striped
+red | circle | 0 | medium | dotted
+blue | square | 1 | large | striped
+yellow | circle | 0 | medium | solid
+green | square | 1 | small | solid
+green | triangle | 1 | small | dotted
+yellow | triangle | 0 | medium | solid
+yellow | circle | 1 | medium | dotted
+red | square | 1 | small | solid
+yellow | circle | 0 | large | solid
+yellow | triangle | 0 | small | solid
+blue | triangle | 1 | small | dotted
+red | square | 1 | medium | solid","Count the entries matching all of the following attributes: color=yellow, shape=circle, marker=0.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+red | circle | 0 | medium | dotted
+green | triangle | 1 | large | striped
+yellow | circle | 1 | medium | dotted
+green | square | 1 | medium | dotted
+red | circle | 0 | large | striped
+green | square | 1 | large | striped
+blue | triangle | 1 | large | solid
+red | triangle | 1 | large | solid
+green | square | 1 | large | dotted
+yellow | circle | 0 | large | dotted
+yellow | circle | 0 | small | dotted
+yellow | square | 0 | small | striped
+red | circle | 0 | medium | dotted
+blue | square | 1 | large | striped
+yellow | circle | 0 | medium | solid
+green | square | 1 | small | solid
+green | triangle | 1 | small | dotted
+yellow | triangle | 0 | medium | solid
+yellow | circle | 1 | medium | dotted
+red | square | 1 | small | solid
+yellow | circle | 0 | large | solid
+yellow | triangle | 0 | small | solid
+blue | triangle | 1 | small | dotted
+red | square | 1 | medium | solid","Return the line numbers (1-based) of the entries matching all of the following attributes: color=yellow, shape=circle, marker=0.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+red | circle | 0 | medium | dotted
+green | triangle | 1 | large | striped
+yellow | circle | 1 | medium | dotted
+green | square | 1 | medium | dotted
+red | circle | 0 | large | striped
+green | square | 1 | large | striped
+blue | triangle | 1 | large | solid
+red | triangle | 1 | large | solid
+green | square | 1 | large | dotted
+yellow | circle | 0 | large | dotted
+yellow | circle | 0 | small | dotted
+yellow | square | 0 | small | striped
+red | circle | 0 | medium | dotted
+blue | square | 1 | large | striped
+yellow | circle | 0 | medium | solid
+green | square | 1 | small | solid
+green | triangle | 1 | small | dotted
+yellow | triangle | 0 | medium | solid
+yellow | circle | 1 | medium | dotted
+red | square | 1 | small | solid
+yellow | circle | 0 | large | solid
+yellow | triangle | 0 | small | solid
+blue | triangle | 1 | small | dotted
+red | square | 1 | medium | solid",4,"[10, 11, 15, 21]","{""color"": ""yellow"", ""marker"": ""0"", ""shape"": ""circle""}",24,3,4,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape"", ""marker""]","[""size"", ""pattern""]",3,3,2,0,0,12
+6101,medium,combined,medium,count,"Count the entries matching all of the following attributes: color=yellow, shape=circle, marker=0.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=yellow, shape=circle, marker=0.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","yellow | circle | 0 | medium | solid
+red | triangle | 1 | medium | striped
+yellow | square | 0 | medium | dotted
+yellow | square | 0 | medium | solid
+yellow | circle | 1 | large | solid
+blue | triangle | 1 | medium | dotted
+blue | square | 1 | small | dotted
+blue | circle | 0 | small | striped
+green | triangle | 1 | small | striped
+blue | square | 1 | medium | striped
+green | triangle | 1 | medium | striped
+yellow | circle | 0 | medium | striped
+blue | triangle | 1 | medium | solid
+yellow | circle | 0 | small | dotted
+blue | triangle | 1 | small | striped
+yellow | circle | 0 | medium | solid
+green | circle | 0 | large | solid
+red | triangle | 1 | large | dotted
+yellow | circle | 1 | small | solid
+red | triangle | 1 | large | striped
+yellow | square | 0 | large | solid
+blue | triangle | 1 | large | striped
+red | triangle | 1 | small | dotted
+green | circle | 0 | small | striped","Count the entries matching all of the following attributes: color=yellow, shape=circle, marker=0.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+yellow | circle | 0 | medium | solid
+red | triangle | 1 | medium | striped
+yellow | square | 0 | medium | dotted
+yellow | square | 0 | medium | solid
+yellow | circle | 1 | large | solid
+blue | triangle | 1 | medium | dotted
+blue | square | 1 | small | dotted
+blue | circle | 0 | small | striped
+green | triangle | 1 | small | striped
+blue | square | 1 | medium | striped
+green | triangle | 1 | medium | striped
+yellow | circle | 0 | medium | striped
+blue | triangle | 1 | medium | solid
+yellow | circle | 0 | small | dotted
+blue | triangle | 1 | small | striped
+yellow | circle | 0 | medium | solid
+green | circle | 0 | large | solid
+red | triangle | 1 | large | dotted
+yellow | circle | 1 | small | solid
+red | triangle | 1 | large | striped
+yellow | square | 0 | large | solid
+blue | triangle | 1 | large | striped
+red | triangle | 1 | small | dotted
+green | circle | 0 | small | striped","Return the line numbers (1-based) of the entries matching all of the following attributes: color=yellow, shape=circle, marker=0.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+yellow | circle | 0 | medium | solid
+red | triangle | 1 | medium | striped
+yellow | square | 0 | medium | dotted
+yellow | square | 0 | medium | solid
+yellow | circle | 1 | large | solid
+blue | triangle | 1 | medium | dotted
+blue | square | 1 | small | dotted
+blue | circle | 0 | small | striped
+green | triangle | 1 | small | striped
+blue | square | 1 | medium | striped
+green | triangle | 1 | medium | striped
+yellow | circle | 0 | medium | striped
+blue | triangle | 1 | medium | solid
+yellow | circle | 0 | small | dotted
+blue | triangle | 1 | small | striped
+yellow | circle | 0 | medium | solid
+green | circle | 0 | large | solid
+red | triangle | 1 | large | dotted
+yellow | circle | 1 | small | solid
+red | triangle | 1 | large | striped
+yellow | square | 0 | large | solid
+blue | triangle | 1 | large | striped
+red | triangle | 1 | small | dotted
+green | circle | 0 | small | striped",4,"[1, 12, 14, 16]","{""color"": ""yellow"", ""marker"": ""0"", ""shape"": ""circle""}",24,3,4,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape"", ""marker""]","[""size"", ""pattern""]",3,3,2,0,0,12
+6102,medium,combined,medium,count,"Count the entries matching all of the following attributes: color=green, shape=circle, marker=1.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=green, shape=circle, marker=1.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","green | circle | 1 | large | striped
+yellow | square | 0 | large | dotted
+red | square | 0 | large | dotted
+yellow | triangle | 0 | small | solid
+green | circle | 1 | large | dotted
+green | triangle | 1 | small | dotted
+green | circle | 0 | large | striped
+red | triangle | 0 | small | striped
+yellow | circle | 1 | medium | striped
+blue | circle | 1 | small | solid
+red | square | 0 | large | dotted
+green | triangle | 1 | medium | solid
+green | circle | 1 | medium | dotted
+blue | circle | 1 | medium | solid
+red | triangle | 0 | medium | striped
+red | square | 0 | medium | solid
+blue | square | 0 | small | dotted
+red | triangle | 0 | small | dotted
+blue | triangle | 0 | large | dotted
+red | triangle | 0 | medium | dotted
+blue | square | 0 | small | solid
+green | circle | 1 | small | striped
+green | circle | 0 | small | striped
+green | square | 1 | large | striped","Count the entries matching all of the following attributes: color=green, shape=circle, marker=1.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+green | circle | 1 | large | striped
+yellow | square | 0 | large | dotted
+red | square | 0 | large | dotted
+yellow | triangle | 0 | small | solid
+green | circle | 1 | large | dotted
+green | triangle | 1 | small | dotted
+green | circle | 0 | large | striped
+red | triangle | 0 | small | striped
+yellow | circle | 1 | medium | striped
+blue | circle | 1 | small | solid
+red | square | 0 | large | dotted
+green | triangle | 1 | medium | solid
+green | circle | 1 | medium | dotted
+blue | circle | 1 | medium | solid
+red | triangle | 0 | medium | striped
+red | square | 0 | medium | solid
+blue | square | 0 | small | dotted
+red | triangle | 0 | small | dotted
+blue | triangle | 0 | large | dotted
+red | triangle | 0 | medium | dotted
+blue | square | 0 | small | solid
+green | circle | 1 | small | striped
+green | circle | 0 | small | striped
+green | square | 1 | large | striped","Return the line numbers (1-based) of the entries matching all of the following attributes: color=green, shape=circle, marker=1.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+green | circle | 1 | large | striped
+yellow | square | 0 | large | dotted
+red | square | 0 | large | dotted
+yellow | triangle | 0 | small | solid
+green | circle | 1 | large | dotted
+green | triangle | 1 | small | dotted
+green | circle | 0 | large | striped
+red | triangle | 0 | small | striped
+yellow | circle | 1 | medium | striped
+blue | circle | 1 | small | solid
+red | square | 0 | large | dotted
+green | triangle | 1 | medium | solid
+green | circle | 1 | medium | dotted
+blue | circle | 1 | medium | solid
+red | triangle | 0 | medium | striped
+red | square | 0 | medium | solid
+blue | square | 0 | small | dotted
+red | triangle | 0 | small | dotted
+blue | triangle | 0 | large | dotted
+red | triangle | 0 | medium | dotted
+blue | square | 0 | small | solid
+green | circle | 1 | small | striped
+green | circle | 0 | small | striped
+green | square | 1 | large | striped",4,"[1, 5, 13, 22]","{""color"": ""green"", ""marker"": ""1"", ""shape"": ""circle""}",24,3,4,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape"", ""marker""]","[""size"", ""pattern""]",3,3,2,0,0,12
+6103,medium,combined,medium,count,"Count the entries matching all of the following attributes: color=yellow, shape=circle, marker=1.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=yellow, shape=circle, marker=1.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","yellow | triangle | 1 | medium | dotted
+yellow | circle | 1 | small | solid
+red | triangle | 0 | medium | dotted
+yellow | circle | 1 | medium | dotted
+green | circle | 1 | large | solid
+red | triangle | 0 | large | solid
+blue | triangle | 0 | large | solid
+blue | triangle | 0 | large | striped
+red | triangle | 0 | small | dotted
+green | triangle | 0 | small | solid
+yellow | circle | 0 | small | solid
+green | square | 0 | medium | striped
+red | circle | 1 | medium | solid
+yellow | triangle | 1 | large | dotted
+green | square | 0 | small | dotted
+yellow | triangle | 1 | large | striped
+red | square | 0 | small | solid
+yellow | circle | 1 | medium | dotted
+blue | square | 0 | large | striped
+green | triangle | 0 | large | dotted
+yellow | circle | 1 | medium | striped
+blue | square | 0 | small | dotted
+green | circle | 1 | large | dotted
+yellow | circle | 0 | small | solid","Count the entries matching all of the following attributes: color=yellow, shape=circle, marker=1.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+yellow | triangle | 1 | medium | dotted
+yellow | circle | 1 | small | solid
+red | triangle | 0 | medium | dotted
+yellow | circle | 1 | medium | dotted
+green | circle | 1 | large | solid
+red | triangle | 0 | large | solid
+blue | triangle | 0 | large | solid
+blue | triangle | 0 | large | striped
+red | triangle | 0 | small | dotted
+green | triangle | 0 | small | solid
+yellow | circle | 0 | small | solid
+green | square | 0 | medium | striped
+red | circle | 1 | medium | solid
+yellow | triangle | 1 | large | dotted
+green | square | 0 | small | dotted
+yellow | triangle | 1 | large | striped
+red | square | 0 | small | solid
+yellow | circle | 1 | medium | dotted
+blue | square | 0 | large | striped
+green | triangle | 0 | large | dotted
+yellow | circle | 1 | medium | striped
+blue | square | 0 | small | dotted
+green | circle | 1 | large | dotted
+yellow | circle | 0 | small | solid","Return the line numbers (1-based) of the entries matching all of the following attributes: color=yellow, shape=circle, marker=1.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+yellow | triangle | 1 | medium | dotted
+yellow | circle | 1 | small | solid
+red | triangle | 0 | medium | dotted
+yellow | circle | 1 | medium | dotted
+green | circle | 1 | large | solid
+red | triangle | 0 | large | solid
+blue | triangle | 0 | large | solid
+blue | triangle | 0 | large | striped
+red | triangle | 0 | small | dotted
+green | triangle | 0 | small | solid
+yellow | circle | 0 | small | solid
+green | square | 0 | medium | striped
+red | circle | 1 | medium | solid
+yellow | triangle | 1 | large | dotted
+green | square | 0 | small | dotted
+yellow | triangle | 1 | large | striped
+red | square | 0 | small | solid
+yellow | circle | 1 | medium | dotted
+blue | square | 0 | large | striped
+green | triangle | 0 | large | dotted
+yellow | circle | 1 | medium | striped
+blue | square | 0 | small | dotted
+green | circle | 1 | large | dotted
+yellow | circle | 0 | small | solid",4,"[2, 4, 18, 21]","{""color"": ""yellow"", ""marker"": ""1"", ""shape"": ""circle""}",24,3,4,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape"", ""marker""]","[""size"", ""pattern""]",3,3,2,0,0,12
+6104,medium,combined,medium,count,"Count the entries matching all of the following attributes: color=red, shape=square, marker=0.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=red, shape=square, marker=0.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","red | square | 1 | medium | dotted
+red | square | 1 | large | striped
+red | square | 0 | small | solid
+red | circle | 0 | medium | striped
+blue | triangle | 1 | large | striped
+green | square | 0 | small | dotted
+yellow | circle | 1 | medium | striped
+green | circle | 1 | small | striped
+red | circle | 0 | small | striped
+blue | triangle | 1 | large | dotted
+red | square | 0 | small | dotted
+green | triangle | 1 | small | dotted
+red | square | 0 | small | dotted
+blue | square | 0 | large | striped
+blue | triangle | 1 | small | dotted
+red | circle | 0 | medium | striped
+blue | square | 0 | medium | dotted
+blue | circle | 1 | medium | solid
+green | circle | 1 | large | solid
+red | square | 0 | large | dotted
+blue | triangle | 1 | small | solid
+yellow | triangle | 1 | medium | striped
+blue | circle | 1 | medium | striped
+blue | triangle | 1 | small | solid","Count the entries matching all of the following attributes: color=red, shape=square, marker=0.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+red | square | 1 | medium | dotted
+red | square | 1 | large | striped
+red | square | 0 | small | solid
+red | circle | 0 | medium | striped
+blue | triangle | 1 | large | striped
+green | square | 0 | small | dotted
+yellow | circle | 1 | medium | striped
+green | circle | 1 | small | striped
+red | circle | 0 | small | striped
+blue | triangle | 1 | large | dotted
+red | square | 0 | small | dotted
+green | triangle | 1 | small | dotted
+red | square | 0 | small | dotted
+blue | square | 0 | large | striped
+blue | triangle | 1 | small | dotted
+red | circle | 0 | medium | striped
+blue | square | 0 | medium | dotted
+blue | circle | 1 | medium | solid
+green | circle | 1 | large | solid
+red | square | 0 | large | dotted
+blue | triangle | 1 | small | solid
+yellow | triangle | 1 | medium | striped
+blue | circle | 1 | medium | striped
+blue | triangle | 1 | small | solid","Return the line numbers (1-based) of the entries matching all of the following attributes: color=red, shape=square, marker=0.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+red | square | 1 | medium | dotted
+red | square | 1 | large | striped
+red | square | 0 | small | solid
+red | circle | 0 | medium | striped
+blue | triangle | 1 | large | striped
+green | square | 0 | small | dotted
+yellow | circle | 1 | medium | striped
+green | circle | 1 | small | striped
+red | circle | 0 | small | striped
+blue | triangle | 1 | large | dotted
+red | square | 0 | small | dotted
+green | triangle | 1 | small | dotted
+red | square | 0 | small | dotted
+blue | square | 0 | large | striped
+blue | triangle | 1 | small | dotted
+red | circle | 0 | medium | striped
+blue | square | 0 | medium | dotted
+blue | circle | 1 | medium | solid
+green | circle | 1 | large | solid
+red | square | 0 | large | dotted
+blue | triangle | 1 | small | solid
+yellow | triangle | 1 | medium | striped
+blue | circle | 1 | medium | striped
+blue | triangle | 1 | small | solid",4,"[3, 11, 13, 20]","{""color"": ""red"", ""marker"": ""0"", ""shape"": ""square""}",24,3,4,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape"", ""marker""]","[""size"", ""pattern""]",3,3,2,0,0,12
+6105,medium,combined,medium,count,"Count the entries matching all of the following attributes: color=red, shape=circle, marker=1.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=red, shape=circle, marker=1.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","blue | triangle | 0 | medium | striped
+green | square | 0 | small | dotted
+green | square | 0 | small | dotted
+yellow | square | 0 | small | solid
+red | circle | 1 | small | striped
+red | circle | 1 | small | dotted
+blue | square | 0 | medium | dotted
+yellow | circle | 1 | medium | striped
+yellow | circle | 1 | small | solid
+blue | triangle | 0 | large | solid
+green | triangle | 0 | medium | striped
+red | square | 1 | medium | dotted
+blue | triangle | 0 | small | dotted
+red | circle | 0 | large | striped
+blue | triangle | 0 | large | solid
+blue | square | 0 | large | striped
+yellow | triangle | 0 | small | striped
+red | square | 1 | medium | solid
+red | circle | 1 | medium | dotted
+red | circle | 1 | small | solid
+green | circle | 1 | large | dotted
+red | circle | 0 | large | solid
+blue | square | 0 | medium | solid
+red | triangle | 1 | large | dotted","Count the entries matching all of the following attributes: color=red, shape=circle, marker=1.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+blue | triangle | 0 | medium | striped
+green | square | 0 | small | dotted
+green | square | 0 | small | dotted
+yellow | square | 0 | small | solid
+red | circle | 1 | small | striped
+red | circle | 1 | small | dotted
+blue | square | 0 | medium | dotted
+yellow | circle | 1 | medium | striped
+yellow | circle | 1 | small | solid
+blue | triangle | 0 | large | solid
+green | triangle | 0 | medium | striped
+red | square | 1 | medium | dotted
+blue | triangle | 0 | small | dotted
+red | circle | 0 | large | striped
+blue | triangle | 0 | large | solid
+blue | square | 0 | large | striped
+yellow | triangle | 0 | small | striped
+red | square | 1 | medium | solid
+red | circle | 1 | medium | dotted
+red | circle | 1 | small | solid
+green | circle | 1 | large | dotted
+red | circle | 0 | large | solid
+blue | square | 0 | medium | solid
+red | triangle | 1 | large | dotted","Return the line numbers (1-based) of the entries matching all of the following attributes: color=red, shape=circle, marker=1.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+blue | triangle | 0 | medium | striped
+green | square | 0 | small | dotted
+green | square | 0 | small | dotted
+yellow | square | 0 | small | solid
+red | circle | 1 | small | striped
+red | circle | 1 | small | dotted
+blue | square | 0 | medium | dotted
+yellow | circle | 1 | medium | striped
+yellow | circle | 1 | small | solid
+blue | triangle | 0 | large | solid
+green | triangle | 0 | medium | striped
+red | square | 1 | medium | dotted
+blue | triangle | 0 | small | dotted
+red | circle | 0 | large | striped
+blue | triangle | 0 | large | solid
+blue | square | 0 | large | striped
+yellow | triangle | 0 | small | striped
+red | square | 1 | medium | solid
+red | circle | 1 | medium | dotted
+red | circle | 1 | small | solid
+green | circle | 1 | large | dotted
+red | circle | 0 | large | solid
+blue | square | 0 | medium | solid
+red | triangle | 1 | large | dotted",4,"[5, 6, 19, 20]","{""color"": ""red"", ""marker"": ""1"", ""shape"": ""circle""}",24,3,4,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape"", ""marker""]","[""size"", ""pattern""]",3,3,2,0,0,12
+6106,medium,combined,medium,count,"Count the entries matching all of the following attributes: color=blue, shape=circle, marker=0.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=blue, shape=circle, marker=0.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","blue | triangle | 0 | medium | dotted
+red | square | 1 | medium | dotted
+green | square | 1 | medium | solid
+green | square | 1 | small | striped
+yellow | circle | 0 | large | solid
+blue | triangle | 0 | small | striped
+green | triangle | 1 | large | striped
+blue | circle | 1 | large | dotted
+blue | circle | 0 | small | solid
+red | triangle | 1 | small | striped
+yellow | triangle | 1 | medium | solid
+green | triangle | 1 | medium | striped
+blue | circle | 0 | small | striped
+red | square | 1 | large | striped
+yellow | square | 1 | large | striped
+red | circle | 0 | small | striped
+blue | circle | 0 | small | solid
+blue | triangle | 0 | small | striped
+red | square | 1 | small | dotted
+blue | circle | 0 | large | dotted
+green | triangle | 1 | small | striped
+blue | circle | 1 | large | striped
+red | circle | 0 | large | striped
+red | triangle | 1 | medium | striped","Count the entries matching all of the following attributes: color=blue, shape=circle, marker=0.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+blue | triangle | 0 | medium | dotted
+red | square | 1 | medium | dotted
+green | square | 1 | medium | solid
+green | square | 1 | small | striped
+yellow | circle | 0 | large | solid
+blue | triangle | 0 | small | striped
+green | triangle | 1 | large | striped
+blue | circle | 1 | large | dotted
+blue | circle | 0 | small | solid
+red | triangle | 1 | small | striped
+yellow | triangle | 1 | medium | solid
+green | triangle | 1 | medium | striped
+blue | circle | 0 | small | striped
+red | square | 1 | large | striped
+yellow | square | 1 | large | striped
+red | circle | 0 | small | striped
+blue | circle | 0 | small | solid
+blue | triangle | 0 | small | striped
+red | square | 1 | small | dotted
+blue | circle | 0 | large | dotted
+green | triangle | 1 | small | striped
+blue | circle | 1 | large | striped
+red | circle | 0 | large | striped
+red | triangle | 1 | medium | striped","Return the line numbers (1-based) of the entries matching all of the following attributes: color=blue, shape=circle, marker=0.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+blue | triangle | 0 | medium | dotted
+red | square | 1 | medium | dotted
+green | square | 1 | medium | solid
+green | square | 1 | small | striped
+yellow | circle | 0 | large | solid
+blue | triangle | 0 | small | striped
+green | triangle | 1 | large | striped
+blue | circle | 1 | large | dotted
+blue | circle | 0 | small | solid
+red | triangle | 1 | small | striped
+yellow | triangle | 1 | medium | solid
+green | triangle | 1 | medium | striped
+blue | circle | 0 | small | striped
+red | square | 1 | large | striped
+yellow | square | 1 | large | striped
+red | circle | 0 | small | striped
+blue | circle | 0 | small | solid
+blue | triangle | 0 | small | striped
+red | square | 1 | small | dotted
+blue | circle | 0 | large | dotted
+green | triangle | 1 | small | striped
+blue | circle | 1 | large | striped
+red | circle | 0 | large | striped
+red | triangle | 1 | medium | striped",4,"[9, 13, 17, 20]","{""color"": ""blue"", ""marker"": ""0"", ""shape"": ""circle""}",24,3,4,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape"", ""marker""]","[""size"", ""pattern""]",3,3,2,0,0,12
+6107,medium,combined,medium,count,"Count the entries matching all of the following attributes: color=green, shape=circle, marker=0.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=green, shape=circle, marker=0.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","green | triangle | 0 | small | solid
+green | triangle | 0 | large | dotted
+green | circle | 0 | medium | solid
+yellow | triangle | 1 | small | striped
+green | circle | 0 | medium | dotted
+green | square | 0 | medium | striped
+yellow | triangle | 1 | medium | solid
+blue | circle | 0 | large | striped
+red | triangle | 1 | small | dotted
+green | circle | 1 | large | solid
+red | circle | 0 | medium | striped
+red | square | 1 | small | dotted
+yellow | triangle | 1 | medium | striped
+green | circle | 1 | medium | solid
+blue | circle | 0 | large | solid
+green | circle | 0 | large | solid
+red | square | 1 | large | dotted
+red | square | 1 | small | solid
+yellow | triangle | 1 | medium | solid
+blue | triangle | 1 | medium | striped
+green | circle | 0 | medium | solid
+blue | triangle | 1 | small | solid
+yellow | square | 1 | small | solid
+blue | square | 1 | medium | striped","Count the entries matching all of the following attributes: color=green, shape=circle, marker=0.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+green | triangle | 0 | small | solid
+green | triangle | 0 | large | dotted
+green | circle | 0 | medium | solid
+yellow | triangle | 1 | small | striped
+green | circle | 0 | medium | dotted
+green | square | 0 | medium | striped
+yellow | triangle | 1 | medium | solid
+blue | circle | 0 | large | striped
+red | triangle | 1 | small | dotted
+green | circle | 1 | large | solid
+red | circle | 0 | medium | striped
+red | square | 1 | small | dotted
+yellow | triangle | 1 | medium | striped
+green | circle | 1 | medium | solid
+blue | circle | 0 | large | solid
+green | circle | 0 | large | solid
+red | square | 1 | large | dotted
+red | square | 1 | small | solid
+yellow | triangle | 1 | medium | solid
+blue | triangle | 1 | medium | striped
+green | circle | 0 | medium | solid
+blue | triangle | 1 | small | solid
+yellow | square | 1 | small | solid
+blue | square | 1 | medium | striped","Return the line numbers (1-based) of the entries matching all of the following attributes: color=green, shape=circle, marker=0.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+green | triangle | 0 | small | solid
+green | triangle | 0 | large | dotted
+green | circle | 0 | medium | solid
+yellow | triangle | 1 | small | striped
+green | circle | 0 | medium | dotted
+green | square | 0 | medium | striped
+yellow | triangle | 1 | medium | solid
+blue | circle | 0 | large | striped
+red | triangle | 1 | small | dotted
+green | circle | 1 | large | solid
+red | circle | 0 | medium | striped
+red | square | 1 | small | dotted
+yellow | triangle | 1 | medium | striped
+green | circle | 1 | medium | solid
+blue | circle | 0 | large | solid
+green | circle | 0 | large | solid
+red | square | 1 | large | dotted
+red | square | 1 | small | solid
+yellow | triangle | 1 | medium | solid
+blue | triangle | 1 | medium | striped
+green | circle | 0 | medium | solid
+blue | triangle | 1 | small | solid
+yellow | square | 1 | small | solid
+blue | square | 1 | medium | striped",4,"[3, 5, 16, 21]","{""color"": ""green"", ""marker"": ""0"", ""shape"": ""circle""}",24,3,4,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape"", ""marker""]","[""size"", ""pattern""]",3,3,2,0,0,12
+6108,medium,combined,medium,count,"Count the entries matching all of the following attributes: color=red, shape=triangle, marker=1.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=red, shape=triangle, marker=1.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","blue | triangle | 1 | large | dotted
+red | circle | 1 | large | solid
+red | circle | 1 | large | striped
+yellow | triangle | 1 | small | striped
+red | triangle | 1 | medium | solid
+red | square | 1 | large | dotted
+yellow | circle | 0 | medium | dotted
+blue | circle | 0 | small | solid
+yellow | square | 0 | small | striped
+red | triangle | 0 | large | dotted
+yellow | circle | 0 | medium | striped
+blue | triangle | 1 | small | dotted
+yellow | square | 0 | large | solid
+red | triangle | 0 | small | dotted
+red | triangle | 1 | small | striped
+blue | square | 0 | medium | solid
+green | circle | 0 | large | solid
+blue | circle | 0 | medium | dotted
+red | triangle | 1 | medium | dotted
+blue | square | 0 | large | dotted
+blue | square | 0 | large | striped
+blue | circle | 0 | small | striped
+red | triangle | 1 | medium | dotted
+blue | square | 0 | small | dotted","Count the entries matching all of the following attributes: color=red, shape=triangle, marker=1.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+blue | triangle | 1 | large | dotted
+red | circle | 1 | large | solid
+red | circle | 1 | large | striped
+yellow | triangle | 1 | small | striped
+red | triangle | 1 | medium | solid
+red | square | 1 | large | dotted
+yellow | circle | 0 | medium | dotted
+blue | circle | 0 | small | solid
+yellow | square | 0 | small | striped
+red | triangle | 0 | large | dotted
+yellow | circle | 0 | medium | striped
+blue | triangle | 1 | small | dotted
+yellow | square | 0 | large | solid
+red | triangle | 0 | small | dotted
+red | triangle | 1 | small | striped
+blue | square | 0 | medium | solid
+green | circle | 0 | large | solid
+blue | circle | 0 | medium | dotted
+red | triangle | 1 | medium | dotted
+blue | square | 0 | large | dotted
+blue | square | 0 | large | striped
+blue | circle | 0 | small | striped
+red | triangle | 1 | medium | dotted
+blue | square | 0 | small | dotted","Return the line numbers (1-based) of the entries matching all of the following attributes: color=red, shape=triangle, marker=1.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+blue | triangle | 1 | large | dotted
+red | circle | 1 | large | solid
+red | circle | 1 | large | striped
+yellow | triangle | 1 | small | striped
+red | triangle | 1 | medium | solid
+red | square | 1 | large | dotted
+yellow | circle | 0 | medium | dotted
+blue | circle | 0 | small | solid
+yellow | square | 0 | small | striped
+red | triangle | 0 | large | dotted
+yellow | circle | 0 | medium | striped
+blue | triangle | 1 | small | dotted
+yellow | square | 0 | large | solid
+red | triangle | 0 | small | dotted
+red | triangle | 1 | small | striped
+blue | square | 0 | medium | solid
+green | circle | 0 | large | solid
+blue | circle | 0 | medium | dotted
+red | triangle | 1 | medium | dotted
+blue | square | 0 | large | dotted
+blue | square | 0 | large | striped
+blue | circle | 0 | small | striped
+red | triangle | 1 | medium | dotted
+blue | square | 0 | small | dotted",4,"[5, 15, 19, 23]","{""color"": ""red"", ""marker"": ""1"", ""shape"": ""triangle""}",24,3,4,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape"", ""marker""]","[""size"", ""pattern""]",3,3,2,0,0,12
+6109,medium,combined,medium,count,"Count the entries matching all of the following attributes: color=blue, shape=triangle, marker=1.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=blue, shape=triangle, marker=1.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","yellow | circle | 0 | small | dotted
+yellow | square | 0 | large | striped
+red | circle | 0 | medium | dotted
+blue | triangle | 1 | small | dotted
+red | triangle | 1 | medium | dotted
+blue | triangle | 1 | medium | striped
+blue | triangle | 0 | medium | solid
+yellow | circle | 0 | medium | dotted
+blue | circle | 1 | medium | striped
+red | square | 0 | medium | solid
+green | square | 0 | medium | striped
+green | triangle | 1 | medium | solid
+blue | square | 1 | large | striped
+green | circle | 0 | small | dotted
+yellow | triangle | 1 | large | striped
+blue | square | 1 | medium | striped
+blue | triangle | 1 | medium | dotted
+red | square | 0 | medium | striped
+red | circle | 0 | large | solid
+yellow | circle | 0 | small | dotted
+blue | triangle | 1 | medium | dotted
+green | square | 0 | small | solid
+blue | triangle | 0 | small | striped
+green | square | 0 | large | solid","Count the entries matching all of the following attributes: color=blue, shape=triangle, marker=1.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+yellow | circle | 0 | small | dotted
+yellow | square | 0 | large | striped
+red | circle | 0 | medium | dotted
+blue | triangle | 1 | small | dotted
+red | triangle | 1 | medium | dotted
+blue | triangle | 1 | medium | striped
+blue | triangle | 0 | medium | solid
+yellow | circle | 0 | medium | dotted
+blue | circle | 1 | medium | striped
+red | square | 0 | medium | solid
+green | square | 0 | medium | striped
+green | triangle | 1 | medium | solid
+blue | square | 1 | large | striped
+green | circle | 0 | small | dotted
+yellow | triangle | 1 | large | striped
+blue | square | 1 | medium | striped
+blue | triangle | 1 | medium | dotted
+red | square | 0 | medium | striped
+red | circle | 0 | large | solid
+yellow | circle | 0 | small | dotted
+blue | triangle | 1 | medium | dotted
+green | square | 0 | small | solid
+blue | triangle | 0 | small | striped
+green | square | 0 | large | solid","Return the line numbers (1-based) of the entries matching all of the following attributes: color=blue, shape=triangle, marker=1.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+yellow | circle | 0 | small | dotted
+yellow | square | 0 | large | striped
+red | circle | 0 | medium | dotted
+blue | triangle | 1 | small | dotted
+red | triangle | 1 | medium | dotted
+blue | triangle | 1 | medium | striped
+blue | triangle | 0 | medium | solid
+yellow | circle | 0 | medium | dotted
+blue | circle | 1 | medium | striped
+red | square | 0 | medium | solid
+green | square | 0 | medium | striped
+green | triangle | 1 | medium | solid
+blue | square | 1 | large | striped
+green | circle | 0 | small | dotted
+yellow | triangle | 1 | large | striped
+blue | square | 1 | medium | striped
+blue | triangle | 1 | medium | dotted
+red | square | 0 | medium | striped
+red | circle | 0 | large | solid
+yellow | circle | 0 | small | dotted
+blue | triangle | 1 | medium | dotted
+green | square | 0 | small | solid
+blue | triangle | 0 | small | striped
+green | square | 0 | large | solid",4,"[4, 6, 17, 21]","{""color"": ""blue"", ""marker"": ""1"", ""shape"": ""triangle""}",24,3,4,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape"", ""marker""]","[""size"", ""pattern""]",3,3,2,0,0,12
+6110,medium,combined,medium,count,"Count the entries matching all of the following attributes: color=yellow, shape=circle, marker=1.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=yellow, shape=circle, marker=1.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","blue | triangle | 0 | small | dotted
+green | triangle | 0 | large | striped
+red | square | 0 | small | solid
+green | circle | 1 | small | solid
+green | circle | 1 | medium | striped
+yellow | circle | 1 | large | solid
+yellow | circle | 0 | large | striped
+green | square | 0 | small | solid
+green | square | 0 | medium | solid
+red | circle | 1 | medium | dotted
+red | square | 0 | large | striped
+yellow | circle | 0 | small | striped
+yellow | square | 1 | small | solid
+yellow | circle | 1 | medium | solid
+blue | square | 0 | large | dotted
+yellow | circle | 1 | small | dotted
+green | square | 0 | small | dotted
+yellow | triangle | 1 | large | solid
+yellow | circle | 1 | small | striped
+green | square | 0 | small | striped
+blue | square | 0 | large | solid
+yellow | triangle | 1 | small | dotted
+green | triangle | 0 | small | dotted
+blue | triangle | 0 | small | dotted","Count the entries matching all of the following attributes: color=yellow, shape=circle, marker=1.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+blue | triangle | 0 | small | dotted
+green | triangle | 0 | large | striped
+red | square | 0 | small | solid
+green | circle | 1 | small | solid
+green | circle | 1 | medium | striped
+yellow | circle | 1 | large | solid
+yellow | circle | 0 | large | striped
+green | square | 0 | small | solid
+green | square | 0 | medium | solid
+red | circle | 1 | medium | dotted
+red | square | 0 | large | striped
+yellow | circle | 0 | small | striped
+yellow | square | 1 | small | solid
+yellow | circle | 1 | medium | solid
+blue | square | 0 | large | dotted
+yellow | circle | 1 | small | dotted
+green | square | 0 | small | dotted
+yellow | triangle | 1 | large | solid
+yellow | circle | 1 | small | striped
+green | square | 0 | small | striped
+blue | square | 0 | large | solid
+yellow | triangle | 1 | small | dotted
+green | triangle | 0 | small | dotted
+blue | triangle | 0 | small | dotted","Return the line numbers (1-based) of the entries matching all of the following attributes: color=yellow, shape=circle, marker=1.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+blue | triangle | 0 | small | dotted
+green | triangle | 0 | large | striped
+red | square | 0 | small | solid
+green | circle | 1 | small | solid
+green | circle | 1 | medium | striped
+yellow | circle | 1 | large | solid
+yellow | circle | 0 | large | striped
+green | square | 0 | small | solid
+green | square | 0 | medium | solid
+red | circle | 1 | medium | dotted
+red | square | 0 | large | striped
+yellow | circle | 0 | small | striped
+yellow | square | 1 | small | solid
+yellow | circle | 1 | medium | solid
+blue | square | 0 | large | dotted
+yellow | circle | 1 | small | dotted
+green | square | 0 | small | dotted
+yellow | triangle | 1 | large | solid
+yellow | circle | 1 | small | striped
+green | square | 0 | small | striped
+blue | square | 0 | large | solid
+yellow | triangle | 1 | small | dotted
+green | triangle | 0 | small | dotted
+blue | triangle | 0 | small | dotted",4,"[6, 14, 16, 19]","{""color"": ""yellow"", ""marker"": ""1"", ""shape"": ""circle""}",24,3,4,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape"", ""marker""]","[""size"", ""pattern""]",3,3,2,0,0,12
+6111,medium,combined,medium,count,"Count the entries matching all of the following attributes: color=yellow, shape=triangle, marker=1.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=yellow, shape=triangle, marker=1.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","green | circle | 0 | large | striped
+yellow | square | 1 | small | solid
+red | circle | 0 | small | solid
+yellow | triangle | 0 | medium | dotted
+yellow | square | 1 | medium | dotted
+yellow | triangle | 0 | medium | dotted
+red | square | 0 | large | dotted
+green | circle | 0 | small | striped
+red | circle | 0 | medium | striped
+yellow | triangle | 1 | large | solid
+blue | triangle | 1 | large | solid
+red | triangle | 1 | large | solid
+green | square | 0 | large | striped
+yellow | circle | 1 | large | solid
+blue | circle | 0 | small | solid
+red | circle | 0 | small | solid
+yellow | triangle | 1 | medium | dotted
+red | circle | 0 | small | striped
+yellow | triangle | 1 | large | striped
+yellow | triangle | 1 | medium | dotted
+red | square | 0 | small | dotted
+red | triangle | 1 | small | solid
+green | circle | 0 | medium | striped
+red | circle | 0 | large | dotted","Count the entries matching all of the following attributes: color=yellow, shape=triangle, marker=1.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+green | circle | 0 | large | striped
+yellow | square | 1 | small | solid
+red | circle | 0 | small | solid
+yellow | triangle | 0 | medium | dotted
+yellow | square | 1 | medium | dotted
+yellow | triangle | 0 | medium | dotted
+red | square | 0 | large | dotted
+green | circle | 0 | small | striped
+red | circle | 0 | medium | striped
+yellow | triangle | 1 | large | solid
+blue | triangle | 1 | large | solid
+red | triangle | 1 | large | solid
+green | square | 0 | large | striped
+yellow | circle | 1 | large | solid
+blue | circle | 0 | small | solid
+red | circle | 0 | small | solid
+yellow | triangle | 1 | medium | dotted
+red | circle | 0 | small | striped
+yellow | triangle | 1 | large | striped
+yellow | triangle | 1 | medium | dotted
+red | square | 0 | small | dotted
+red | triangle | 1 | small | solid
+green | circle | 0 | medium | striped
+red | circle | 0 | large | dotted","Return the line numbers (1-based) of the entries matching all of the following attributes: color=yellow, shape=triangle, marker=1.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+green | circle | 0 | large | striped
+yellow | square | 1 | small | solid
+red | circle | 0 | small | solid
+yellow | triangle | 0 | medium | dotted
+yellow | square | 1 | medium | dotted
+yellow | triangle | 0 | medium | dotted
+red | square | 0 | large | dotted
+green | circle | 0 | small | striped
+red | circle | 0 | medium | striped
+yellow | triangle | 1 | large | solid
+blue | triangle | 1 | large | solid
+red | triangle | 1 | large | solid
+green | square | 0 | large | striped
+yellow | circle | 1 | large | solid
+blue | circle | 0 | small | solid
+red | circle | 0 | small | solid
+yellow | triangle | 1 | medium | dotted
+red | circle | 0 | small | striped
+yellow | triangle | 1 | large | striped
+yellow | triangle | 1 | medium | dotted
+red | square | 0 | small | dotted
+red | triangle | 1 | small | solid
+green | circle | 0 | medium | striped
+red | circle | 0 | large | dotted",4,"[10, 17, 19, 20]","{""color"": ""yellow"", ""marker"": ""1"", ""shape"": ""triangle""}",24,3,4,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape"", ""marker""]","[""size"", ""pattern""]",3,3,2,0,0,12
+6112,medium,combined,medium,count,"Count the entries matching all of the following attributes: color=yellow, shape=triangle, marker=0.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=yellow, shape=triangle, marker=0.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","yellow | triangle | 0 | large | dotted
+yellow | triangle | 0 | small | dotted
+red | square | 1 | medium | solid
+red | circle | 1 | medium | dotted
+green | triangle | 0 | small | striped
+blue | circle | 1 | large | striped
+yellow | square | 0 | large | striped
+blue | square | 1 | large | striped
+green | triangle | 0 | medium | dotted
+yellow | triangle | 1 | small | solid
+green | circle | 1 | small | dotted
+blue | circle | 1 | small | dotted
+yellow | circle | 0 | small | dotted
+blue | square | 1 | small | dotted
+yellow | triangle | 0 | medium | dotted
+yellow | circle | 0 | small | solid
+yellow | triangle | 1 | large | solid
+blue | circle | 1 | medium | dotted
+red | square | 1 | large | dotted
+red | triangle | 0 | medium | dotted
+blue | circle | 1 | small | dotted
+red | circle | 1 | large | solid
+green | square | 1 | small | striped
+yellow | triangle | 0 | small | dotted","Count the entries matching all of the following attributes: color=yellow, shape=triangle, marker=0.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+yellow | triangle | 0 | large | dotted
+yellow | triangle | 0 | small | dotted
+red | square | 1 | medium | solid
+red | circle | 1 | medium | dotted
+green | triangle | 0 | small | striped
+blue | circle | 1 | large | striped
+yellow | square | 0 | large | striped
+blue | square | 1 | large | striped
+green | triangle | 0 | medium | dotted
+yellow | triangle | 1 | small | solid
+green | circle | 1 | small | dotted
+blue | circle | 1 | small | dotted
+yellow | circle | 0 | small | dotted
+blue | square | 1 | small | dotted
+yellow | triangle | 0 | medium | dotted
+yellow | circle | 0 | small | solid
+yellow | triangle | 1 | large | solid
+blue | circle | 1 | medium | dotted
+red | square | 1 | large | dotted
+red | triangle | 0 | medium | dotted
+blue | circle | 1 | small | dotted
+red | circle | 1 | large | solid
+green | square | 1 | small | striped
+yellow | triangle | 0 | small | dotted","Return the line numbers (1-based) of the entries matching all of the following attributes: color=yellow, shape=triangle, marker=0.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+yellow | triangle | 0 | large | dotted
+yellow | triangle | 0 | small | dotted
+red | square | 1 | medium | solid
+red | circle | 1 | medium | dotted
+green | triangle | 0 | small | striped
+blue | circle | 1 | large | striped
+yellow | square | 0 | large | striped
+blue | square | 1 | large | striped
+green | triangle | 0 | medium | dotted
+yellow | triangle | 1 | small | solid
+green | circle | 1 | small | dotted
+blue | circle | 1 | small | dotted
+yellow | circle | 0 | small | dotted
+blue | square | 1 | small | dotted
+yellow | triangle | 0 | medium | dotted
+yellow | circle | 0 | small | solid
+yellow | triangle | 1 | large | solid
+blue | circle | 1 | medium | dotted
+red | square | 1 | large | dotted
+red | triangle | 0 | medium | dotted
+blue | circle | 1 | small | dotted
+red | circle | 1 | large | solid
+green | square | 1 | small | striped
+yellow | triangle | 0 | small | dotted",4,"[1, 2, 15, 24]","{""color"": ""yellow"", ""marker"": ""0"", ""shape"": ""triangle""}",24,3,4,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape"", ""marker""]","[""size"", ""pattern""]",3,3,2,0,0,12
+6113,medium,combined,medium,count,"Count the entries matching all of the following attributes: color=green, shape=square, marker=1.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=green, shape=square, marker=1.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","blue | circle | 0 | small | striped
+yellow | triangle | 0 | large | solid
+green | square | 1 | medium | dotted
+yellow | triangle | 0 | large | solid
+green | square | 1 | medium | dotted
+red | circle | 0 | medium | solid
+blue | circle | 0 | small | striped
+green | triangle | 1 | medium | dotted
+yellow | square | 1 | small | dotted
+yellow | square | 1 | small | solid
+green | circle | 1 | large | solid
+blue | circle | 0 | small | solid
+blue | triangle | 0 | medium | dotted
+red | square | 1 | small | striped
+green | square | 0 | medium | dotted
+red | triangle | 0 | small | solid
+blue | triangle | 0 | large | striped
+yellow | triangle | 0 | small | solid
+green | square | 1 | large | dotted
+green | square | 0 | large | dotted
+blue | circle | 0 | large | striped
+blue | triangle | 0 | large | dotted
+green | circle | 1 | small | dotted
+green | square | 1 | small | dotted","Count the entries matching all of the following attributes: color=green, shape=square, marker=1.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+blue | circle | 0 | small | striped
+yellow | triangle | 0 | large | solid
+green | square | 1 | medium | dotted
+yellow | triangle | 0 | large | solid
+green | square | 1 | medium | dotted
+red | circle | 0 | medium | solid
+blue | circle | 0 | small | striped
+green | triangle | 1 | medium | dotted
+yellow | square | 1 | small | dotted
+yellow | square | 1 | small | solid
+green | circle | 1 | large | solid
+blue | circle | 0 | small | solid
+blue | triangle | 0 | medium | dotted
+red | square | 1 | small | striped
+green | square | 0 | medium | dotted
+red | triangle | 0 | small | solid
+blue | triangle | 0 | large | striped
+yellow | triangle | 0 | small | solid
+green | square | 1 | large | dotted
+green | square | 0 | large | dotted
+blue | circle | 0 | large | striped
+blue | triangle | 0 | large | dotted
+green | circle | 1 | small | dotted
+green | square | 1 | small | dotted","Return the line numbers (1-based) of the entries matching all of the following attributes: color=green, shape=square, marker=1.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+blue | circle | 0 | small | striped
+yellow | triangle | 0 | large | solid
+green | square | 1 | medium | dotted
+yellow | triangle | 0 | large | solid
+green | square | 1 | medium | dotted
+red | circle | 0 | medium | solid
+blue | circle | 0 | small | striped
+green | triangle | 1 | medium | dotted
+yellow | square | 1 | small | dotted
+yellow | square | 1 | small | solid
+green | circle | 1 | large | solid
+blue | circle | 0 | small | solid
+blue | triangle | 0 | medium | dotted
+red | square | 1 | small | striped
+green | square | 0 | medium | dotted
+red | triangle | 0 | small | solid
+blue | triangle | 0 | large | striped
+yellow | triangle | 0 | small | solid
+green | square | 1 | large | dotted
+green | square | 0 | large | dotted
+blue | circle | 0 | large | striped
+blue | triangle | 0 | large | dotted
+green | circle | 1 | small | dotted
+green | square | 1 | small | dotted",4,"[3, 5, 19, 24]","{""color"": ""green"", ""marker"": ""1"", ""shape"": ""square""}",24,3,4,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape"", ""marker""]","[""size"", ""pattern""]",3,3,2,0,0,12
+6114,medium,combined,medium,count,"Count the entries matching all of the following attributes: color=red, shape=circle, marker=0.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=red, shape=circle, marker=0.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","red | triangle | 0 | large | solid
+yellow | square | 1 | medium | solid
+yellow | square | 1 | medium | dotted
+yellow | square | 1 | small | solid
+red | circle | 1 | small | striped
+yellow | square | 1 | medium | dotted
+blue | square | 1 | medium | striped
+red | circle | 0 | large | solid
+red | triangle | 0 | large | striped
+blue | triangle | 1 | large | dotted
+yellow | triangle | 1 | small | striped
+green | triangle | 1 | medium | solid
+green | circle | 0 | small | solid
+red | triangle | 0 | medium | solid
+yellow | circle | 0 | medium | dotted
+yellow | triangle | 1 | large | solid
+blue | square | 1 | small | striped
+green | square | 1 | medium | solid
+red | circle | 0 | small | solid
+blue | triangle | 1 | small | striped
+blue | circle | 0 | small | solid
+red | circle | 0 | medium | dotted
+red | circle | 1 | small | solid
+red | circle | 0 | large | dotted","Count the entries matching all of the following attributes: color=red, shape=circle, marker=0.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+red | triangle | 0 | large | solid
+yellow | square | 1 | medium | solid
+yellow | square | 1 | medium | dotted
+yellow | square | 1 | small | solid
+red | circle | 1 | small | striped
+yellow | square | 1 | medium | dotted
+blue | square | 1 | medium | striped
+red | circle | 0 | large | solid
+red | triangle | 0 | large | striped
+blue | triangle | 1 | large | dotted
+yellow | triangle | 1 | small | striped
+green | triangle | 1 | medium | solid
+green | circle | 0 | small | solid
+red | triangle | 0 | medium | solid
+yellow | circle | 0 | medium | dotted
+yellow | triangle | 1 | large | solid
+blue | square | 1 | small | striped
+green | square | 1 | medium | solid
+red | circle | 0 | small | solid
+blue | triangle | 1 | small | striped
+blue | circle | 0 | small | solid
+red | circle | 0 | medium | dotted
+red | circle | 1 | small | solid
+red | circle | 0 | large | dotted","Return the line numbers (1-based) of the entries matching all of the following attributes: color=red, shape=circle, marker=0.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+red | triangle | 0 | large | solid
+yellow | square | 1 | medium | solid
+yellow | square | 1 | medium | dotted
+yellow | square | 1 | small | solid
+red | circle | 1 | small | striped
+yellow | square | 1 | medium | dotted
+blue | square | 1 | medium | striped
+red | circle | 0 | large | solid
+red | triangle | 0 | large | striped
+blue | triangle | 1 | large | dotted
+yellow | triangle | 1 | small | striped
+green | triangle | 1 | medium | solid
+green | circle | 0 | small | solid
+red | triangle | 0 | medium | solid
+yellow | circle | 0 | medium | dotted
+yellow | triangle | 1 | large | solid
+blue | square | 1 | small | striped
+green | square | 1 | medium | solid
+red | circle | 0 | small | solid
+blue | triangle | 1 | small | striped
+blue | circle | 0 | small | solid
+red | circle | 0 | medium | dotted
+red | circle | 1 | small | solid
+red | circle | 0 | large | dotted",4,"[8, 19, 22, 24]","{""color"": ""red"", ""marker"": ""0"", ""shape"": ""circle""}",24,3,4,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape"", ""marker""]","[""size"", ""pattern""]",3,3,2,0,0,12
+6115,medium,combined,medium,count,"Count the entries matching all of the following attributes: color=blue, shape=triangle, marker=1.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=blue, shape=triangle, marker=1.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","blue | triangle | 1 | medium | dotted
+green | square | 0 | small | solid
+red | circle | 0 | small | striped
+yellow | triangle | 1 | medium | dotted
+red | square | 0 | small | dotted
+blue | circle | 1 | medium | solid
+green | circle | 0 | medium | striped
+green | square | 0 | medium | dotted
+red | circle | 0 | small | solid
+blue | triangle | 0 | small | dotted
+green | circle | 0 | large | dotted
+blue | triangle | 1 | large | dotted
+red | circle | 0 | small | dotted
+green | square | 0 | large | dotted
+blue | triangle | 1 | large | dotted
+red | triangle | 1 | small | dotted
+red | square | 0 | small | solid
+blue | triangle | 0 | small | solid
+green | triangle | 1 | small | striped
+green | square | 0 | medium | solid
+red | square | 0 | small | striped
+blue | triangle | 1 | large | solid
+blue | square | 1 | medium | dotted
+blue | circle | 1 | large | dotted","Count the entries matching all of the following attributes: color=blue, shape=triangle, marker=1.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+blue | triangle | 1 | medium | dotted
+green | square | 0 | small | solid
+red | circle | 0 | small | striped
+yellow | triangle | 1 | medium | dotted
+red | square | 0 | small | dotted
+blue | circle | 1 | medium | solid
+green | circle | 0 | medium | striped
+green | square | 0 | medium | dotted
+red | circle | 0 | small | solid
+blue | triangle | 0 | small | dotted
+green | circle | 0 | large | dotted
+blue | triangle | 1 | large | dotted
+red | circle | 0 | small | dotted
+green | square | 0 | large | dotted
+blue | triangle | 1 | large | dotted
+red | triangle | 1 | small | dotted
+red | square | 0 | small | solid
+blue | triangle | 0 | small | solid
+green | triangle | 1 | small | striped
+green | square | 0 | medium | solid
+red | square | 0 | small | striped
+blue | triangle | 1 | large | solid
+blue | square | 1 | medium | dotted
+blue | circle | 1 | large | dotted","Return the line numbers (1-based) of the entries matching all of the following attributes: color=blue, shape=triangle, marker=1.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+blue | triangle | 1 | medium | dotted
+green | square | 0 | small | solid
+red | circle | 0 | small | striped
+yellow | triangle | 1 | medium | dotted
+red | square | 0 | small | dotted
+blue | circle | 1 | medium | solid
+green | circle | 0 | medium | striped
+green | square | 0 | medium | dotted
+red | circle | 0 | small | solid
+blue | triangle | 0 | small | dotted
+green | circle | 0 | large | dotted
+blue | triangle | 1 | large | dotted
+red | circle | 0 | small | dotted
+green | square | 0 | large | dotted
+blue | triangle | 1 | large | dotted
+red | triangle | 1 | small | dotted
+red | square | 0 | small | solid
+blue | triangle | 0 | small | solid
+green | triangle | 1 | small | striped
+green | square | 0 | medium | solid
+red | square | 0 | small | striped
+blue | triangle | 1 | large | solid
+blue | square | 1 | medium | dotted
+blue | circle | 1 | large | dotted",4,"[1, 12, 15, 22]","{""color"": ""blue"", ""marker"": ""1"", ""shape"": ""triangle""}",24,3,4,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape"", ""marker""]","[""size"", ""pattern""]",3,3,2,0,0,12
+6116,medium,combined,medium,count,"Count the entries matching all of the following attributes: color=blue, shape=triangle, marker=1.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=blue, shape=triangle, marker=1.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","blue | square | 1 | large | solid
+red | circle | 0 | small | solid
+green | circle | 0 | small | dotted
+blue | triangle | 1 | large | solid
+yellow | square | 0 | large | dotted
+blue | triangle | 0 | small | striped
+blue | triangle | 1 | medium | solid
+green | square | 0 | large | solid
+yellow | square | 0 | large | dotted
+red | triangle | 1 | medium | solid
+green | triangle | 1 | medium | striped
+blue | triangle | 1 | large | dotted
+blue | triangle | 0 | large | striped
+yellow | square | 0 | small | dotted
+green | triangle | 1 | medium | solid
+yellow | square | 0 | large | solid
+yellow | circle | 0 | large | striped
+yellow | square | 0 | medium | solid
+blue | square | 1 | medium | dotted
+blue | circle | 1 | medium | striped
+yellow | circle | 0 | medium | striped
+red | square | 0 | medium | dotted
+blue | triangle | 1 | small | dotted
+red | square | 0 | large | dotted","Count the entries matching all of the following attributes: color=blue, shape=triangle, marker=1.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+blue | square | 1 | large | solid
+red | circle | 0 | small | solid
+green | circle | 0 | small | dotted
+blue | triangle | 1 | large | solid
+yellow | square | 0 | large | dotted
+blue | triangle | 0 | small | striped
+blue | triangle | 1 | medium | solid
+green | square | 0 | large | solid
+yellow | square | 0 | large | dotted
+red | triangle | 1 | medium | solid
+green | triangle | 1 | medium | striped
+blue | triangle | 1 | large | dotted
+blue | triangle | 0 | large | striped
+yellow | square | 0 | small | dotted
+green | triangle | 1 | medium | solid
+yellow | square | 0 | large | solid
+yellow | circle | 0 | large | striped
+yellow | square | 0 | medium | solid
+blue | square | 1 | medium | dotted
+blue | circle | 1 | medium | striped
+yellow | circle | 0 | medium | striped
+red | square | 0 | medium | dotted
+blue | triangle | 1 | small | dotted
+red | square | 0 | large | dotted","Return the line numbers (1-based) of the entries matching all of the following attributes: color=blue, shape=triangle, marker=1.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+blue | square | 1 | large | solid
+red | circle | 0 | small | solid
+green | circle | 0 | small | dotted
+blue | triangle | 1 | large | solid
+yellow | square | 0 | large | dotted
+blue | triangle | 0 | small | striped
+blue | triangle | 1 | medium | solid
+green | square | 0 | large | solid
+yellow | square | 0 | large | dotted
+red | triangle | 1 | medium | solid
+green | triangle | 1 | medium | striped
+blue | triangle | 1 | large | dotted
+blue | triangle | 0 | large | striped
+yellow | square | 0 | small | dotted
+green | triangle | 1 | medium | solid
+yellow | square | 0 | large | solid
+yellow | circle | 0 | large | striped
+yellow | square | 0 | medium | solid
+blue | square | 1 | medium | dotted
+blue | circle | 1 | medium | striped
+yellow | circle | 0 | medium | striped
+red | square | 0 | medium | dotted
+blue | triangle | 1 | small | dotted
+red | square | 0 | large | dotted",4,"[4, 7, 12, 23]","{""color"": ""blue"", ""marker"": ""1"", ""shape"": ""triangle""}",24,3,4,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape"", ""marker""]","[""size"", ""pattern""]",3,3,2,0,0,12
+6117,medium,combined,medium,count,"Count the entries matching all of the following attributes: color=blue, shape=circle, marker=0.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=blue, shape=circle, marker=0.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","blue | circle | 0 | small | dotted
+yellow | triangle | 1 | large | solid
+yellow | square | 1 | medium | dotted
+green | triangle | 1 | large | striped
+green | circle | 0 | large | solid
+blue | triangle | 0 | small | dotted
+yellow | square | 1 | small | dotted
+red | triangle | 1 | large | solid
+green | triangle | 1 | medium | striped
+blue | circle | 1 | large | solid
+blue | triangle | 0 | large | dotted
+blue | square | 0 | small | solid
+blue | circle | 0 | medium | striped
+yellow | square | 1 | small | solid
+red | square | 1 | medium | solid
+blue | circle | 1 | large | striped
+yellow | triangle | 1 | small | dotted
+red | triangle | 1 | small | dotted
+green | square | 1 | small | dotted
+blue | circle | 0 | large | dotted
+green | circle | 0 | small | striped
+blue | circle | 0 | small | solid
+green | circle | 0 | large | solid
+red | triangle | 1 | large | striped","Count the entries matching all of the following attributes: color=blue, shape=circle, marker=0.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+blue | circle | 0 | small | dotted
+yellow | triangle | 1 | large | solid
+yellow | square | 1 | medium | dotted
+green | triangle | 1 | large | striped
+green | circle | 0 | large | solid
+blue | triangle | 0 | small | dotted
+yellow | square | 1 | small | dotted
+red | triangle | 1 | large | solid
+green | triangle | 1 | medium | striped
+blue | circle | 1 | large | solid
+blue | triangle | 0 | large | dotted
+blue | square | 0 | small | solid
+blue | circle | 0 | medium | striped
+yellow | square | 1 | small | solid
+red | square | 1 | medium | solid
+blue | circle | 1 | large | striped
+yellow | triangle | 1 | small | dotted
+red | triangle | 1 | small | dotted
+green | square | 1 | small | dotted
+blue | circle | 0 | large | dotted
+green | circle | 0 | small | striped
+blue | circle | 0 | small | solid
+green | circle | 0 | large | solid
+red | triangle | 1 | large | striped","Return the line numbers (1-based) of the entries matching all of the following attributes: color=blue, shape=circle, marker=0.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+blue | circle | 0 | small | dotted
+yellow | triangle | 1 | large | solid
+yellow | square | 1 | medium | dotted
+green | triangle | 1 | large | striped
+green | circle | 0 | large | solid
+blue | triangle | 0 | small | dotted
+yellow | square | 1 | small | dotted
+red | triangle | 1 | large | solid
+green | triangle | 1 | medium | striped
+blue | circle | 1 | large | solid
+blue | triangle | 0 | large | dotted
+blue | square | 0 | small | solid
+blue | circle | 0 | medium | striped
+yellow | square | 1 | small | solid
+red | square | 1 | medium | solid
+blue | circle | 1 | large | striped
+yellow | triangle | 1 | small | dotted
+red | triangle | 1 | small | dotted
+green | square | 1 | small | dotted
+blue | circle | 0 | large | dotted
+green | circle | 0 | small | striped
+blue | circle | 0 | small | solid
+green | circle | 0 | large | solid
+red | triangle | 1 | large | striped",4,"[1, 13, 20, 22]","{""color"": ""blue"", ""marker"": ""0"", ""shape"": ""circle""}",24,3,4,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape"", ""marker""]","[""size"", ""pattern""]",3,3,2,0,0,12
+6118,medium,combined,medium,count,"Count the entries matching all of the following attributes: color=red, shape=square, marker=1.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=red, shape=square, marker=1.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","yellow | triangle | 0 | small | dotted
+yellow | circle | 0 | large | striped
+blue | circle | 0 | medium | dotted
+blue | circle | 0 | medium | striped
+yellow | circle | 0 | small | dotted
+red | square | 0 | medium | solid
+blue | triangle | 0 | large | dotted
+blue | circle | 0 | small | dotted
+yellow | circle | 0 | large | striped
+red | square | 1 | large | striped
+red | square | 1 | medium | striped
+red | square | 1 | large | striped
+green | square | 1 | large | striped
+blue | circle | 0 | large | solid
+red | triangle | 1 | large | solid
+blue | triangle | 0 | medium | solid
+red | square | 0 | large | striped
+green | square | 1 | small | solid
+blue | triangle | 0 | medium | dotted
+red | circle | 1 | medium | striped
+blue | circle | 0 | medium | solid
+red | triangle | 1 | small | solid
+yellow | square | 1 | small | dotted
+red | square | 1 | medium | striped","Count the entries matching all of the following attributes: color=red, shape=square, marker=1.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+yellow | triangle | 0 | small | dotted
+yellow | circle | 0 | large | striped
+blue | circle | 0 | medium | dotted
+blue | circle | 0 | medium | striped
+yellow | circle | 0 | small | dotted
+red | square | 0 | medium | solid
+blue | triangle | 0 | large | dotted
+blue | circle | 0 | small | dotted
+yellow | circle | 0 | large | striped
+red | square | 1 | large | striped
+red | square | 1 | medium | striped
+red | square | 1 | large | striped
+green | square | 1 | large | striped
+blue | circle | 0 | large | solid
+red | triangle | 1 | large | solid
+blue | triangle | 0 | medium | solid
+red | square | 0 | large | striped
+green | square | 1 | small | solid
+blue | triangle | 0 | medium | dotted
+red | circle | 1 | medium | striped
+blue | circle | 0 | medium | solid
+red | triangle | 1 | small | solid
+yellow | square | 1 | small | dotted
+red | square | 1 | medium | striped","Return the line numbers (1-based) of the entries matching all of the following attributes: color=red, shape=square, marker=1.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+yellow | triangle | 0 | small | dotted
+yellow | circle | 0 | large | striped
+blue | circle | 0 | medium | dotted
+blue | circle | 0 | medium | striped
+yellow | circle | 0 | small | dotted
+red | square | 0 | medium | solid
+blue | triangle | 0 | large | dotted
+blue | circle | 0 | small | dotted
+yellow | circle | 0 | large | striped
+red | square | 1 | large | striped
+red | square | 1 | medium | striped
+red | square | 1 | large | striped
+green | square | 1 | large | striped
+blue | circle | 0 | large | solid
+red | triangle | 1 | large | solid
+blue | triangle | 0 | medium | solid
+red | square | 0 | large | striped
+green | square | 1 | small | solid
+blue | triangle | 0 | medium | dotted
+red | circle | 1 | medium | striped
+blue | circle | 0 | medium | solid
+red | triangle | 1 | small | solid
+yellow | square | 1 | small | dotted
+red | square | 1 | medium | striped",4,"[10, 11, 12, 24]","{""color"": ""red"", ""marker"": ""1"", ""shape"": ""square""}",24,3,4,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape"", ""marker""]","[""size"", ""pattern""]",3,3,2,0,0,12
+6119,medium,combined,medium,count,"Count the entries matching all of the following attributes: color=blue, shape=circle, marker=0.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=blue, shape=circle, marker=0.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","red | square | 1 | small | dotted
+red | triangle | 1 | large | striped
+green | square | 1 | medium | solid
+blue | circle | 0 | large | solid
+blue | square | 0 | medium | dotted
+blue | circle | 0 | medium | dotted
+blue | circle | 1 | medium | solid
+red | triangle | 1 | small | dotted
+yellow | circle | 0 | medium | solid
+yellow | square | 1 | medium | solid
+green | circle | 0 | small | striped
+red | triangle | 1 | large | striped
+red | square | 1 | small | striped
+blue | triangle | 0 | medium | solid
+blue | circle | 0 | large | solid
+green | square | 1 | small | solid
+green | triangle | 1 | small | dotted
+blue | triangle | 0 | small | solid
+blue | circle | 1 | medium | striped
+red | triangle | 1 | small | solid
+yellow | square | 1 | small | striped
+blue | circle | 0 | large | striped
+green | triangle | 1 | large | dotted
+yellow | circle | 0 | medium | striped","Count the entries matching all of the following attributes: color=blue, shape=circle, marker=0.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+red | square | 1 | small | dotted
+red | triangle | 1 | large | striped
+green | square | 1 | medium | solid
+blue | circle | 0 | large | solid
+blue | square | 0 | medium | dotted
+blue | circle | 0 | medium | dotted
+blue | circle | 1 | medium | solid
+red | triangle | 1 | small | dotted
+yellow | circle | 0 | medium | solid
+yellow | square | 1 | medium | solid
+green | circle | 0 | small | striped
+red | triangle | 1 | large | striped
+red | square | 1 | small | striped
+blue | triangle | 0 | medium | solid
+blue | circle | 0 | large | solid
+green | square | 1 | small | solid
+green | triangle | 1 | small | dotted
+blue | triangle | 0 | small | solid
+blue | circle | 1 | medium | striped
+red | triangle | 1 | small | solid
+yellow | square | 1 | small | striped
+blue | circle | 0 | large | striped
+green | triangle | 1 | large | dotted
+yellow | circle | 0 | medium | striped","Return the line numbers (1-based) of the entries matching all of the following attributes: color=blue, shape=circle, marker=0.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+red | square | 1 | small | dotted
+red | triangle | 1 | large | striped
+green | square | 1 | medium | solid
+blue | circle | 0 | large | solid
+blue | square | 0 | medium | dotted
+blue | circle | 0 | medium | dotted
+blue | circle | 1 | medium | solid
+red | triangle | 1 | small | dotted
+yellow | circle | 0 | medium | solid
+yellow | square | 1 | medium | solid
+green | circle | 0 | small | striped
+red | triangle | 1 | large | striped
+red | square | 1 | small | striped
+blue | triangle | 0 | medium | solid
+blue | circle | 0 | large | solid
+green | square | 1 | small | solid
+green | triangle | 1 | small | dotted
+blue | triangle | 0 | small | solid
+blue | circle | 1 | medium | striped
+red | triangle | 1 | small | solid
+yellow | square | 1 | small | striped
+blue | circle | 0 | large | striped
+green | triangle | 1 | large | dotted
+yellow | circle | 0 | medium | striped",4,"[4, 6, 15, 22]","{""color"": ""blue"", ""marker"": ""0"", ""shape"": ""circle""}",24,3,4,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape"", ""marker""]","[""size"", ""pattern""]",3,3,2,0,0,12

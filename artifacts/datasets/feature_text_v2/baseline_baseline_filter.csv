@@ -1,0 +1,921 @@
+seed,difficulty,regime,regime_level,response_mode,count_instruction,filter_instruction,text_input,count_prompt,filter_prompt,gold_count,gold_lines,target_definition,num_records,target_feature_count,target_count,active_fields,target_fields,irrelevant_noise_fields,same_color_wrong_shape_count,same_shape_wrong_color_count,same_core_wrong_marker_count,same_core_wrong_size_count,same_core_wrong_pattern_count,unrelated_count
+1100,baseline,baseline,baseline,filter,"Count the entries matching all of the following attributes: color=blue, shape=triangle.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=blue, shape=triangle.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","green | square | 1
+green | triangle | 0
+blue | triangle | 0
+red | square | 1
+green | square | 0
+blue | circle | 0
+red | square | 0
+green | square | 1","Count the entries matching all of the following attributes: color=blue, shape=triangle.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+green | square | 1
+green | triangle | 0
+blue | triangle | 0
+red | square | 1
+green | square | 0
+blue | circle | 0
+red | square | 0
+green | square | 1","Return the line numbers (1-based) of the entries matching all of the following attributes: color=blue, shape=triangle.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+green | square | 1
+green | triangle | 0
+blue | triangle | 0
+red | square | 1
+green | square | 0
+blue | circle | 0
+red | square | 0
+green | square | 1",1,[3],"{""color"": ""blue"", ""shape"": ""triangle""}",8,2,1,"[""color"", ""shape"", ""marker""]","[""color"", ""shape""]","[""marker""]",1,1,0,0,0,5
+1101,baseline,baseline,baseline,filter,"Count the entries matching all of the following attributes: color=yellow, shape=square.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=yellow, shape=square.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","blue | square | 0
+yellow | triangle | 1
+red | triangle | 1
+yellow | square | 0
+green | circle | 1
+green | circle | 1
+yellow | square | 1
+green | circle | 1","Count the entries matching all of the following attributes: color=yellow, shape=square.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+blue | square | 0
+yellow | triangle | 1
+red | triangle | 1
+yellow | square | 0
+green | circle | 1
+green | circle | 1
+yellow | square | 1
+green | circle | 1","Return the line numbers (1-based) of the entries matching all of the following attributes: color=yellow, shape=square.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+blue | square | 0
+yellow | triangle | 1
+red | triangle | 1
+yellow | square | 0
+green | circle | 1
+green | circle | 1
+yellow | square | 1
+green | circle | 1",2,"[4, 7]","{""color"": ""yellow"", ""shape"": ""square""}",8,2,2,"[""color"", ""shape"", ""marker""]","[""color"", ""shape""]","[""marker""]",1,1,0,0,0,4
+1102,baseline,baseline,baseline,filter,"Count the entries matching all of the following attributes: color=blue, shape=triangle.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=blue, shape=triangle.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","blue | triangle | 1
+green | square | 1
+red | square | 0
+green | circle | 0
+green | circle | 1
+blue | square | 0
+yellow | triangle | 0
+blue | triangle | 0","Count the entries matching all of the following attributes: color=blue, shape=triangle.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+blue | triangle | 1
+green | square | 1
+red | square | 0
+green | circle | 0
+green | circle | 1
+blue | square | 0
+yellow | triangle | 0
+blue | triangle | 0","Return the line numbers (1-based) of the entries matching all of the following attributes: color=blue, shape=triangle.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+blue | triangle | 1
+green | square | 1
+red | square | 0
+green | circle | 0
+green | circle | 1
+blue | square | 0
+yellow | triangle | 0
+blue | triangle | 0",2,"[1, 8]","{""color"": ""blue"", ""shape"": ""triangle""}",8,2,2,"[""color"", ""shape"", ""marker""]","[""color"", ""shape""]","[""marker""]",1,1,0,0,0,4
+1103,baseline,baseline,baseline,filter,"Count the entries matching all of the following attributes: color=yellow, shape=triangle.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=yellow, shape=triangle.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","yellow | triangle | 1
+yellow | triangle | 0
+yellow | circle | 1
+green | circle | 0
+red | circle | 1
+blue | triangle | 1
+blue | circle | 0
+green | circle | 0","Count the entries matching all of the following attributes: color=yellow, shape=triangle.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+yellow | triangle | 1
+yellow | triangle | 0
+yellow | circle | 1
+green | circle | 0
+red | circle | 1
+blue | triangle | 1
+blue | circle | 0
+green | circle | 0","Return the line numbers (1-based) of the entries matching all of the following attributes: color=yellow, shape=triangle.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+yellow | triangle | 1
+yellow | triangle | 0
+yellow | circle | 1
+green | circle | 0
+red | circle | 1
+blue | triangle | 1
+blue | circle | 0
+green | circle | 0",2,"[1, 2]","{""color"": ""yellow"", ""shape"": ""triangle""}",8,2,2,"[""color"", ""shape"", ""marker""]","[""color"", ""shape""]","[""marker""]",1,1,0,0,0,4
+1104,baseline,baseline,baseline,filter,"Count the entries matching all of the following attributes: color=green, shape=square.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=green, shape=square.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","red | triangle | 1
+green | square | 0
+blue | square | 0
+green | circle | 0
+blue | circle | 0
+yellow | circle | 1
+green | square | 1
+blue | triangle | 1","Count the entries matching all of the following attributes: color=green, shape=square.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+red | triangle | 1
+green | square | 0
+blue | square | 0
+green | circle | 0
+blue | circle | 0
+yellow | circle | 1
+green | square | 1
+blue | triangle | 1","Return the line numbers (1-based) of the entries matching all of the following attributes: color=green, shape=square.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+red | triangle | 1
+green | square | 0
+blue | square | 0
+green | circle | 0
+blue | circle | 0
+yellow | circle | 1
+green | square | 1
+blue | triangle | 1",2,"[2, 7]","{""color"": ""green"", ""shape"": ""square""}",8,2,2,"[""color"", ""shape"", ""marker""]","[""color"", ""shape""]","[""marker""]",1,1,0,0,0,4
+1105,baseline,baseline,baseline,filter,"Count the entries matching all of the following attributes: color=red, shape=square.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=red, shape=square.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","blue | square | 0
+red | triangle | 1
+blue | circle | 0
+blue | circle | 0
+red | square | 0
+green | circle | 0
+blue | triangle | 0
+green | circle | 1","Count the entries matching all of the following attributes: color=red, shape=square.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+blue | square | 0
+red | triangle | 1
+blue | circle | 0
+blue | circle | 0
+red | square | 0
+green | circle | 0
+blue | triangle | 0
+green | circle | 1","Return the line numbers (1-based) of the entries matching all of the following attributes: color=red, shape=square.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+blue | square | 0
+red | triangle | 1
+blue | circle | 0
+blue | circle | 0
+red | square | 0
+green | circle | 0
+blue | triangle | 0
+green | circle | 1",1,[5],"{""color"": ""red"", ""shape"": ""square""}",8,2,1,"[""color"", ""shape"", ""marker""]","[""color"", ""shape""]","[""marker""]",1,1,0,0,0,5
+1106,baseline,baseline,baseline,filter,"Count the entries matching all of the following attributes: color=yellow, shape=square.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=yellow, shape=square.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","yellow | square | 0
+blue | triangle | 1
+yellow | circle | 0
+blue | circle | 1
+yellow | square | 0
+red | circle | 1
+green | circle | 0
+red | square | 1","Count the entries matching all of the following attributes: color=yellow, shape=square.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+yellow | square | 0
+blue | triangle | 1
+yellow | circle | 0
+blue | circle | 1
+yellow | square | 0
+red | circle | 1
+green | circle | 0
+red | square | 1","Return the line numbers (1-based) of the entries matching all of the following attributes: color=yellow, shape=square.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+yellow | square | 0
+blue | triangle | 1
+yellow | circle | 0
+blue | circle | 1
+yellow | square | 0
+red | circle | 1
+green | circle | 0
+red | square | 1",2,"[1, 5]","{""color"": ""yellow"", ""shape"": ""square""}",8,2,2,"[""color"", ""shape"", ""marker""]","[""color"", ""shape""]","[""marker""]",1,1,0,0,0,4
+1107,baseline,baseline,baseline,filter,"Count the entries matching all of the following attributes: color=yellow, shape=square.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=yellow, shape=square.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","green | circle | 0
+green | square | 1
+yellow | triangle | 1
+yellow | square | 0
+blue | triangle | 1
+green | circle | 0
+blue | circle | 1
+red | circle | 0","Count the entries matching all of the following attributes: color=yellow, shape=square.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+green | circle | 0
+green | square | 1
+yellow | triangle | 1
+yellow | square | 0
+blue | triangle | 1
+green | circle | 0
+blue | circle | 1
+red | circle | 0","Return the line numbers (1-based) of the entries matching all of the following attributes: color=yellow, shape=square.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+green | circle | 0
+green | square | 1
+yellow | triangle | 1
+yellow | square | 0
+blue | triangle | 1
+green | circle | 0
+blue | circle | 1
+red | circle | 0",1,[4],"{""color"": ""yellow"", ""shape"": ""square""}",8,2,1,"[""color"", ""shape"", ""marker""]","[""color"", ""shape""]","[""marker""]",1,1,0,0,0,5
+1108,baseline,baseline,baseline,filter,"Count the entries matching all of the following attributes: color=green, shape=square.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=green, shape=square.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","green | circle | 0
+blue | triangle | 0
+red | triangle | 1
+red | triangle | 0
+green | square | 0
+red | triangle | 0
+blue | circle | 1
+red | square | 1","Count the entries matching all of the following attributes: color=green, shape=square.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+green | circle | 0
+blue | triangle | 0
+red | triangle | 1
+red | triangle | 0
+green | square | 0
+red | triangle | 0
+blue | circle | 1
+red | square | 1","Return the line numbers (1-based) of the entries matching all of the following attributes: color=green, shape=square.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+green | circle | 0
+blue | triangle | 0
+red | triangle | 1
+red | triangle | 0
+green | square | 0
+red | triangle | 0
+blue | circle | 1
+red | square | 1",1,[5],"{""color"": ""green"", ""shape"": ""square""}",8,2,1,"[""color"", ""shape"", ""marker""]","[""color"", ""shape""]","[""marker""]",1,1,0,0,0,5
+1109,baseline,baseline,baseline,filter,"Count the entries matching all of the following attributes: color=red, shape=square.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=red, shape=square.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","yellow | square | 1
+green | circle | 1
+red | square | 0
+green | triangle | 1
+red | square | 0
+green | triangle | 0
+blue | triangle | 0
+red | triangle | 1","Count the entries matching all of the following attributes: color=red, shape=square.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+yellow | square | 1
+green | circle | 1
+red | square | 0
+green | triangle | 1
+red | square | 0
+green | triangle | 0
+blue | triangle | 0
+red | triangle | 1","Return the line numbers (1-based) of the entries matching all of the following attributes: color=red, shape=square.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+yellow | square | 1
+green | circle | 1
+red | square | 0
+green | triangle | 1
+red | square | 0
+green | triangle | 0
+blue | triangle | 0
+red | triangle | 1",2,"[3, 5]","{""color"": ""red"", ""shape"": ""square""}",8,2,2,"[""color"", ""shape"", ""marker""]","[""color"", ""shape""]","[""marker""]",1,1,0,0,0,4
+1110,baseline,baseline,baseline,filter,"Count the entries matching all of the following attributes: color=blue, shape=triangle.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=blue, shape=triangle.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","blue | triangle | 0
+yellow | triangle | 1
+yellow | circle | 0
+red | square | 1
+yellow | circle | 0
+blue | triangle | 1
+blue | square | 1
+red | circle | 0","Count the entries matching all of the following attributes: color=blue, shape=triangle.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+blue | triangle | 0
+yellow | triangle | 1
+yellow | circle | 0
+red | square | 1
+yellow | circle | 0
+blue | triangle | 1
+blue | square | 1
+red | circle | 0","Return the line numbers (1-based) of the entries matching all of the following attributes: color=blue, shape=triangle.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+blue | triangle | 0
+yellow | triangle | 1
+yellow | circle | 0
+red | square | 1
+yellow | circle | 0
+blue | triangle | 1
+blue | square | 1
+red | circle | 0",2,"[1, 6]","{""color"": ""blue"", ""shape"": ""triangle""}",8,2,2,"[""color"", ""shape"", ""marker""]","[""color"", ""shape""]","[""marker""]",1,1,0,0,0,4
+1111,baseline,baseline,baseline,filter,"Count the entries matching all of the following attributes: color=blue, shape=square.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=blue, shape=square.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","yellow | circle | 1
+green | circle | 1
+red | square | 0
+blue | square | 0
+blue | circle | 1
+green | triangle | 1
+red | triangle | 1
+green | circle | 0","Count the entries matching all of the following attributes: color=blue, shape=square.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+yellow | circle | 1
+green | circle | 1
+red | square | 0
+blue | square | 0
+blue | circle | 1
+green | triangle | 1
+red | triangle | 1
+green | circle | 0","Return the line numbers (1-based) of the entries matching all of the following attributes: color=blue, shape=square.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+yellow | circle | 1
+green | circle | 1
+red | square | 0
+blue | square | 0
+blue | circle | 1
+green | triangle | 1
+red | triangle | 1
+green | circle | 0",1,[4],"{""color"": ""blue"", ""shape"": ""square""}",8,2,1,"[""color"", ""shape"", ""marker""]","[""color"", ""shape""]","[""marker""]",1,1,0,0,0,5
+1112,baseline,baseline,baseline,filter,"Count the entries matching all of the following attributes: color=red, shape=square.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=red, shape=square.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","green | square | 1
+yellow | triangle | 0
+blue | circle | 0
+blue | triangle | 1
+red | square | 0
+red | circle | 0
+red | square | 1
+blue | circle | 1","Count the entries matching all of the following attributes: color=red, shape=square.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+green | square | 1
+yellow | triangle | 0
+blue | circle | 0
+blue | triangle | 1
+red | square | 0
+red | circle | 0
+red | square | 1
+blue | circle | 1","Return the line numbers (1-based) of the entries matching all of the following attributes: color=red, shape=square.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+green | square | 1
+yellow | triangle | 0
+blue | circle | 0
+blue | triangle | 1
+red | square | 0
+red | circle | 0
+red | square | 1
+blue | circle | 1",2,"[5, 7]","{""color"": ""red"", ""shape"": ""square""}",8,2,2,"[""color"", ""shape"", ""marker""]","[""color"", ""shape""]","[""marker""]",1,1,0,0,0,4
+1113,baseline,baseline,baseline,filter,"Count the entries matching all of the following attributes: color=red, shape=circle.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=red, shape=circle.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","yellow | circle | 0
+green | square | 0
+red | circle | 0
+blue | triangle | 1
+green | square | 1
+yellow | triangle | 1
+yellow | triangle | 0
+red | square | 0","Count the entries matching all of the following attributes: color=red, shape=circle.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+yellow | circle | 0
+green | square | 0
+red | circle | 0
+blue | triangle | 1
+green | square | 1
+yellow | triangle | 1
+yellow | triangle | 0
+red | square | 0","Return the line numbers (1-based) of the entries matching all of the following attributes: color=red, shape=circle.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+yellow | circle | 0
+green | square | 0
+red | circle | 0
+blue | triangle | 1
+green | square | 1
+yellow | triangle | 1
+yellow | triangle | 0
+red | square | 0",1,[3],"{""color"": ""red"", ""shape"": ""circle""}",8,2,1,"[""color"", ""shape"", ""marker""]","[""color"", ""shape""]","[""marker""]",1,1,0,0,0,5
+1114,baseline,baseline,baseline,filter,"Count the entries matching all of the following attributes: color=yellow, shape=triangle.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=yellow, shape=triangle.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","yellow | triangle | 1
+yellow | triangle | 0
+green | square | 0
+red | circle | 1
+blue | triangle | 1
+yellow | square | 1
+blue | square | 0
+blue | circle | 1","Count the entries matching all of the following attributes: color=yellow, shape=triangle.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+yellow | triangle | 1
+yellow | triangle | 0
+green | square | 0
+red | circle | 1
+blue | triangle | 1
+yellow | square | 1
+blue | square | 0
+blue | circle | 1","Return the line numbers (1-based) of the entries matching all of the following attributes: color=yellow, shape=triangle.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+yellow | triangle | 1
+yellow | triangle | 0
+green | square | 0
+red | circle | 1
+blue | triangle | 1
+yellow | square | 1
+blue | square | 0
+blue | circle | 1",2,"[1, 2]","{""color"": ""yellow"", ""shape"": ""triangle""}",8,2,2,"[""color"", ""shape"", ""marker""]","[""color"", ""shape""]","[""marker""]",1,1,0,0,0,4
+1115,baseline,baseline,baseline,filter,"Count the entries matching all of the following attributes: color=green, shape=circle.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=green, shape=circle.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","green | square | 0
+yellow | triangle | 1
+green | circle | 0
+red | square | 0
+green | circle | 0
+blue | triangle | 0
+yellow | circle | 1
+yellow | square | 1","Count the entries matching all of the following attributes: color=green, shape=circle.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+green | square | 0
+yellow | triangle | 1
+green | circle | 0
+red | square | 0
+green | circle | 0
+blue | triangle | 0
+yellow | circle | 1
+yellow | square | 1","Return the line numbers (1-based) of the entries matching all of the following attributes: color=green, shape=circle.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+green | square | 0
+yellow | triangle | 1
+green | circle | 0
+red | square | 0
+green | circle | 0
+blue | triangle | 0
+yellow | circle | 1
+yellow | square | 1",2,"[3, 5]","{""color"": ""green"", ""shape"": ""circle""}",8,2,2,"[""color"", ""shape"", ""marker""]","[""color"", ""shape""]","[""marker""]",1,1,0,0,0,4
+1116,baseline,baseline,baseline,filter,"Count the entries matching all of the following attributes: color=green, shape=triangle.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=green, shape=triangle.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","red | circle | 1
+green | triangle | 0
+green | square | 0
+blue | triangle | 0
+yellow | square | 0
+yellow | square | 0
+green | triangle | 0
+blue | circle | 0","Count the entries matching all of the following attributes: color=green, shape=triangle.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+red | circle | 1
+green | triangle | 0
+green | square | 0
+blue | triangle | 0
+yellow | square | 0
+yellow | square | 0
+green | triangle | 0
+blue | circle | 0","Return the line numbers (1-based) of the entries matching all of the following attributes: color=green, shape=triangle.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+red | circle | 1
+green | triangle | 0
+green | square | 0
+blue | triangle | 0
+yellow | square | 0
+yellow | square | 0
+green | triangle | 0
+blue | circle | 0",2,"[2, 7]","{""color"": ""green"", ""shape"": ""triangle""}",8,2,2,"[""color"", ""shape"", ""marker""]","[""color"", ""shape""]","[""marker""]",1,1,0,0,0,4
+1117,baseline,baseline,baseline,filter,"Count the entries matching all of the following attributes: color=red, shape=triangle.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=red, shape=triangle.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","red | square | 1
+green | square | 0
+yellow | triangle | 0
+blue | square | 0
+red | triangle | 1
+green | square | 1
+yellow | circle | 1
+red | triangle | 1","Count the entries matching all of the following attributes: color=red, shape=triangle.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+red | square | 1
+green | square | 0
+yellow | triangle | 0
+blue | square | 0
+red | triangle | 1
+green | square | 1
+yellow | circle | 1
+red | triangle | 1","Return the line numbers (1-based) of the entries matching all of the following attributes: color=red, shape=triangle.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+red | square | 1
+green | square | 0
+yellow | triangle | 0
+blue | square | 0
+red | triangle | 1
+green | square | 1
+yellow | circle | 1
+red | triangle | 1",2,"[5, 8]","{""color"": ""red"", ""shape"": ""triangle""}",8,2,2,"[""color"", ""shape"", ""marker""]","[""color"", ""shape""]","[""marker""]",1,1,0,0,0,4
+1118,baseline,baseline,baseline,filter,"Count the entries matching all of the following attributes: color=red, shape=circle.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=red, shape=circle.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","red | circle | 0
+yellow | triangle | 1
+red | square | 0
+yellow | square | 1
+green | circle | 1
+green | triangle | 1
+yellow | triangle | 0
+yellow | triangle | 1","Count the entries matching all of the following attributes: color=red, shape=circle.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+red | circle | 0
+yellow | triangle | 1
+red | square | 0
+yellow | square | 1
+green | circle | 1
+green | triangle | 1
+yellow | triangle | 0
+yellow | triangle | 1","Return the line numbers (1-based) of the entries matching all of the following attributes: color=red, shape=circle.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+red | circle | 0
+yellow | triangle | 1
+red | square | 0
+yellow | square | 1
+green | circle | 1
+green | triangle | 1
+yellow | triangle | 0
+yellow | triangle | 1",1,[1],"{""color"": ""red"", ""shape"": ""circle""}",8,2,1,"[""color"", ""shape"", ""marker""]","[""color"", ""shape""]","[""marker""]",1,1,0,0,0,5
+1119,baseline,baseline,baseline,filter,"Count the entries matching all of the following attributes: color=red, shape=square.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=red, shape=square.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object","blue | circle | 0
+green | circle | 0
+red | circle | 0
+red | square | 0
+yellow | square | 1
+green | triangle | 0
+blue | circle | 1
+blue | circle | 1","Count the entries matching all of the following attributes: color=red, shape=square.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Return only the JSON object
+
+blue | circle | 0
+green | circle | 0
+red | circle | 0
+red | square | 0
+yellow | square | 1
+green | triangle | 0
+blue | circle | 1
+blue | circle | 1","Return the line numbers (1-based) of the entries matching all of the following attributes: color=red, shape=square.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Return only the JSON object
+
+blue | circle | 0
+green | circle | 0
+red | circle | 0
+red | square | 0
+yellow | square | 1
+green | triangle | 0
+blue | circle | 1
+blue | circle | 1",1,[4],"{""color"": ""red"", ""shape"": ""square""}",8,2,1,"[""color"", ""shape"", ""marker""]","[""color"", ""shape""]","[""marker""]",1,1,0,0,0,5
