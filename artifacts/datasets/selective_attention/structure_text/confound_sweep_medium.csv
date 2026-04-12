@@ -1,0 +1,1601 @@
+seed,regime,regime_level,structure_type,count_instruction,filter_instruction,text_input,count_prompt,filter_prompt,gold_count,gold_lines,target_definition,structure_depth,binding_distance,serialization_style,num_records,target_count,confound_count,unrelated_count,line_length_noise
+4100,confound_sweep,medium,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G3 aux=right | leader(entity=gamma, color=green, shape=triangle, size=large) ; follower(entity=delta, marker=0, pattern=dotted)
+2. G1 aux=right | leader(entity=alpha, color=green, shape=square, size=medium) ; follower(entity=alpha, marker=0, pattern=solid)
+3. G2 aux=left | leader(entity=alpha, color=red, shape=square, size=small) ; follower(entity=beta, marker=0, pattern=striped)
+4. G4 flag=on | leader(entity=delta, color=red, shape=circle, size=small) ; follower(entity=beta, marker=0, pattern=dotted)
+5. G4 aux=right | leader(entity=alpha, color=green, shape=triangle, size=medium) ; follower(entity=beta, marker=1, pattern=dotted)
+6. G3 flag=on | leader(entity=alpha, color=yellow, shape=triangle, size=medium) ; follower(entity=delta, marker=0, pattern=dotted)
+7. G4 aux=left | leader(entity=gamma, color=green, shape=circle, size=small) ; follower(entity=gamma, marker=0, pattern=solid)
+8. G2 aux=right | leader(entity=gamma, color=green, shape=square, size=large) ; follower(entity=beta, marker=1, pattern=striped)
+9. G4 aux=left | leader(entity=delta, color=yellow, shape=square, size=large) ; follower(entity=gamma, marker=1, pattern=dotted)
+10. G4 flag=on | leader(entity=delta, color=green, shape=triangle, size=large) ; follower(entity=delta, marker=0, pattern=dotted)
+11. G1 aux=left | leader(entity=alpha, color=green, shape=triangle, size=large) ; follower(entity=beta, marker=0, pattern=dotted)
+12. G2 aux=left | leader(entity=gamma, color=green, shape=circle, size=medium) ; follower(entity=beta, marker=0, pattern=solid)
+13. G2 flag=off | leader(entity=alpha, color=blue, shape=circle, size=small) ; follower(entity=delta, marker=1, pattern=dotted)
+14. G3 flag=on | leader(entity=beta, color=yellow, shape=triangle, size=medium) ; follower(entity=gamma, marker=0, pattern=dotted)
+15. G3 aux=right | leader(entity=delta, color=green, shape=triangle, size=large) ; follower(entity=alpha, marker=1, pattern=dotted)
+16. G4 flag=on | leader(entity=beta, color=red, shape=square, size=large) ; follower(entity=alpha, marker=0, pattern=striped)
+17. G1 flag=on | leader(entity=delta, color=green, shape=circle, size=medium) ; follower(entity=beta, marker=0, pattern=striped)
+18. G4 flag=off | leader(entity=gamma, color=blue, shape=square, size=medium) ; follower(entity=beta, marker=1, pattern=dotted)","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G3 aux=right | leader(entity=gamma, color=green, shape=triangle, size=large) ; follower(entity=delta, marker=0, pattern=dotted)
+2. G1 aux=right | leader(entity=alpha, color=green, shape=square, size=medium) ; follower(entity=alpha, marker=0, pattern=solid)
+3. G2 aux=left | leader(entity=alpha, color=red, shape=square, size=small) ; follower(entity=beta, marker=0, pattern=striped)
+4. G4 flag=on | leader(entity=delta, color=red, shape=circle, size=small) ; follower(entity=beta, marker=0, pattern=dotted)
+5. G4 aux=right | leader(entity=alpha, color=green, shape=triangle, size=medium) ; follower(entity=beta, marker=1, pattern=dotted)
+6. G3 flag=on | leader(entity=alpha, color=yellow, shape=triangle, size=medium) ; follower(entity=delta, marker=0, pattern=dotted)
+7. G4 aux=left | leader(entity=gamma, color=green, shape=circle, size=small) ; follower(entity=gamma, marker=0, pattern=solid)
+8. G2 aux=right | leader(entity=gamma, color=green, shape=square, size=large) ; follower(entity=beta, marker=1, pattern=striped)
+9. G4 aux=left | leader(entity=delta, color=yellow, shape=square, size=large) ; follower(entity=gamma, marker=1, pattern=dotted)
+10. G4 flag=on | leader(entity=delta, color=green, shape=triangle, size=large) ; follower(entity=delta, marker=0, pattern=dotted)
+11. G1 aux=left | leader(entity=alpha, color=green, shape=triangle, size=large) ; follower(entity=beta, marker=0, pattern=dotted)
+12. G2 aux=left | leader(entity=gamma, color=green, shape=circle, size=medium) ; follower(entity=beta, marker=0, pattern=solid)
+13. G2 flag=off | leader(entity=alpha, color=blue, shape=circle, size=small) ; follower(entity=delta, marker=1, pattern=dotted)
+14. G3 flag=on | leader(entity=beta, color=yellow, shape=triangle, size=medium) ; follower(entity=gamma, marker=0, pattern=dotted)
+15. G3 aux=right | leader(entity=delta, color=green, shape=triangle, size=large) ; follower(entity=alpha, marker=1, pattern=dotted)
+16. G4 flag=on | leader(entity=beta, color=red, shape=square, size=large) ; follower(entity=alpha, marker=0, pattern=striped)
+17. G1 flag=on | leader(entity=delta, color=green, shape=circle, size=medium) ; follower(entity=beta, marker=0, pattern=striped)
+18. G4 flag=off | leader(entity=gamma, color=blue, shape=square, size=medium) ; follower(entity=beta, marker=1, pattern=dotted)","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G3 aux=right | leader(entity=gamma, color=green, shape=triangle, size=large) ; follower(entity=delta, marker=0, pattern=dotted)
+2. G1 aux=right | leader(entity=alpha, color=green, shape=square, size=medium) ; follower(entity=alpha, marker=0, pattern=solid)
+3. G2 aux=left | leader(entity=alpha, color=red, shape=square, size=small) ; follower(entity=beta, marker=0, pattern=striped)
+4. G4 flag=on | leader(entity=delta, color=red, shape=circle, size=small) ; follower(entity=beta, marker=0, pattern=dotted)
+5. G4 aux=right | leader(entity=alpha, color=green, shape=triangle, size=medium) ; follower(entity=beta, marker=1, pattern=dotted)
+6. G3 flag=on | leader(entity=alpha, color=yellow, shape=triangle, size=medium) ; follower(entity=delta, marker=0, pattern=dotted)
+7. G4 aux=left | leader(entity=gamma, color=green, shape=circle, size=small) ; follower(entity=gamma, marker=0, pattern=solid)
+8. G2 aux=right | leader(entity=gamma, color=green, shape=square, size=large) ; follower(entity=beta, marker=1, pattern=striped)
+9. G4 aux=left | leader(entity=delta, color=yellow, shape=square, size=large) ; follower(entity=gamma, marker=1, pattern=dotted)
+10. G4 flag=on | leader(entity=delta, color=green, shape=triangle, size=large) ; follower(entity=delta, marker=0, pattern=dotted)
+11. G1 aux=left | leader(entity=alpha, color=green, shape=triangle, size=large) ; follower(entity=beta, marker=0, pattern=dotted)
+12. G2 aux=left | leader(entity=gamma, color=green, shape=circle, size=medium) ; follower(entity=beta, marker=0, pattern=solid)
+13. G2 flag=off | leader(entity=alpha, color=blue, shape=circle, size=small) ; follower(entity=delta, marker=1, pattern=dotted)
+14. G3 flag=on | leader(entity=beta, color=yellow, shape=triangle, size=medium) ; follower(entity=gamma, marker=0, pattern=dotted)
+15. G3 aux=right | leader(entity=delta, color=green, shape=triangle, size=large) ; follower(entity=alpha, marker=1, pattern=dotted)
+16. G4 flag=on | leader(entity=beta, color=red, shape=square, size=large) ; follower(entity=alpha, marker=0, pattern=striped)
+17. G1 flag=on | leader(entity=delta, color=green, shape=circle, size=medium) ; follower(entity=beta, marker=0, pattern=striped)
+18. G4 flag=off | leader(entity=gamma, color=blue, shape=square, size=medium) ; follower(entity=beta, marker=1, pattern=dotted)",3,"[1, 10, 11]","{""follower_marker"": ""0"", ""leader_color"": ""green"", ""leader_shape"": ""triangle"", ""local_pattern"": ""dotted"", ""scope_size"": ""large""}",2,medium,tagged,18,3,6,9,1
+4101,confound_sweep,medium,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=circle, follower.marker=1) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=circle, follower.marker=1) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G3 flag=off | leader(entity=beta, color=blue, shape=circle, size=small) ; follower(entity=beta, marker=1, pattern=solid)
+2. G4 aux=left | leader(entity=alpha, color=yellow, shape=triangle, size=small) ; follower(entity=delta, marker=0, pattern=solid)
+3. G2 flag=on | leader(entity=beta, color=yellow, shape=circle, size=small) ; follower(entity=alpha, marker=1, pattern=solid)
+4. G2 aux=right | leader(entity=alpha, color=blue, shape=circle, size=medium) ; follower(entity=alpha, marker=0, pattern=solid)
+5. G2 flag=on | leader(entity=gamma, color=green, shape=triangle, size=medium) ; follower(entity=gamma, marker=1, pattern=striped)
+6. G1 aux=right | leader(entity=gamma, color=green, shape=circle, size=small) ; follower(entity=alpha, marker=0, pattern=dotted)
+7. G4 flag=off | leader(entity=alpha, color=blue, shape=triangle, size=large) ; follower(entity=beta, marker=1, pattern=dotted)
+8. G1 flag=off | leader(entity=beta, color=green, shape=triangle, size=small) ; follower(entity=delta, marker=1, pattern=solid)
+9. G4 flag=off | leader(entity=beta, color=green, shape=triangle, size=small) ; follower(entity=gamma, marker=1, pattern=dotted)
+10. G1 flag=on | leader(entity=beta, color=yellow, shape=circle, size=small) ; follower(entity=delta, marker=0, pattern=striped)
+11. G2 flag=off | leader(entity=gamma, color=green, shape=circle, size=medium) ; follower(entity=gamma, marker=1, pattern=solid)
+12. G1 aux=right | leader(entity=delta, color=blue, shape=triangle, size=large) ; follower(entity=alpha, marker=1, pattern=dotted)
+13. G4 flag=off | leader(entity=alpha, color=green, shape=triangle, size=medium) ; follower(entity=alpha, marker=1, pattern=striped)
+14. G1 aux=left | leader(entity=alpha, color=blue, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=solid)
+15. G2 aux=left | leader(entity=delta, color=red, shape=triangle, size=large) ; follower(entity=alpha, marker=1, pattern=solid)
+16. G4 aux=right | leader(entity=gamma, color=red, shape=square, size=small) ; follower(entity=gamma, marker=0, pattern=dotted)
+17. G2 aux=left | leader(entity=beta, color=blue, shape=circle, size=small) ; follower(entity=alpha, marker=1, pattern=solid)
+18. G2 aux=right | leader(entity=delta, color=blue, shape=circle, size=large) ; follower(entity=gamma, marker=0, pattern=solid)","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=circle, follower.marker=1) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G3 flag=off | leader(entity=beta, color=blue, shape=circle, size=small) ; follower(entity=beta, marker=1, pattern=solid)
+2. G4 aux=left | leader(entity=alpha, color=yellow, shape=triangle, size=small) ; follower(entity=delta, marker=0, pattern=solid)
+3. G2 flag=on | leader(entity=beta, color=yellow, shape=circle, size=small) ; follower(entity=alpha, marker=1, pattern=solid)
+4. G2 aux=right | leader(entity=alpha, color=blue, shape=circle, size=medium) ; follower(entity=alpha, marker=0, pattern=solid)
+5. G2 flag=on | leader(entity=gamma, color=green, shape=triangle, size=medium) ; follower(entity=gamma, marker=1, pattern=striped)
+6. G1 aux=right | leader(entity=gamma, color=green, shape=circle, size=small) ; follower(entity=alpha, marker=0, pattern=dotted)
+7. G4 flag=off | leader(entity=alpha, color=blue, shape=triangle, size=large) ; follower(entity=beta, marker=1, pattern=dotted)
+8. G1 flag=off | leader(entity=beta, color=green, shape=triangle, size=small) ; follower(entity=delta, marker=1, pattern=solid)
+9. G4 flag=off | leader(entity=beta, color=green, shape=triangle, size=small) ; follower(entity=gamma, marker=1, pattern=dotted)
+10. G1 flag=on | leader(entity=beta, color=yellow, shape=circle, size=small) ; follower(entity=delta, marker=0, pattern=striped)
+11. G2 flag=off | leader(entity=gamma, color=green, shape=circle, size=medium) ; follower(entity=gamma, marker=1, pattern=solid)
+12. G1 aux=right | leader(entity=delta, color=blue, shape=triangle, size=large) ; follower(entity=alpha, marker=1, pattern=dotted)
+13. G4 flag=off | leader(entity=alpha, color=green, shape=triangle, size=medium) ; follower(entity=alpha, marker=1, pattern=striped)
+14. G1 aux=left | leader(entity=alpha, color=blue, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=solid)
+15. G2 aux=left | leader(entity=delta, color=red, shape=triangle, size=large) ; follower(entity=alpha, marker=1, pattern=solid)
+16. G4 aux=right | leader(entity=gamma, color=red, shape=square, size=small) ; follower(entity=gamma, marker=0, pattern=dotted)
+17. G2 aux=left | leader(entity=beta, color=blue, shape=circle, size=small) ; follower(entity=alpha, marker=1, pattern=solid)
+18. G2 aux=right | leader(entity=delta, color=blue, shape=circle, size=large) ; follower(entity=gamma, marker=0, pattern=solid)","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=circle, follower.marker=1) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G3 flag=off | leader(entity=beta, color=blue, shape=circle, size=small) ; follower(entity=beta, marker=1, pattern=solid)
+2. G4 aux=left | leader(entity=alpha, color=yellow, shape=triangle, size=small) ; follower(entity=delta, marker=0, pattern=solid)
+3. G2 flag=on | leader(entity=beta, color=yellow, shape=circle, size=small) ; follower(entity=alpha, marker=1, pattern=solid)
+4. G2 aux=right | leader(entity=alpha, color=blue, shape=circle, size=medium) ; follower(entity=alpha, marker=0, pattern=solid)
+5. G2 flag=on | leader(entity=gamma, color=green, shape=triangle, size=medium) ; follower(entity=gamma, marker=1, pattern=striped)
+6. G1 aux=right | leader(entity=gamma, color=green, shape=circle, size=small) ; follower(entity=alpha, marker=0, pattern=dotted)
+7. G4 flag=off | leader(entity=alpha, color=blue, shape=triangle, size=large) ; follower(entity=beta, marker=1, pattern=dotted)
+8. G1 flag=off | leader(entity=beta, color=green, shape=triangle, size=small) ; follower(entity=delta, marker=1, pattern=solid)
+9. G4 flag=off | leader(entity=beta, color=green, shape=triangle, size=small) ; follower(entity=gamma, marker=1, pattern=dotted)
+10. G1 flag=on | leader(entity=beta, color=yellow, shape=circle, size=small) ; follower(entity=delta, marker=0, pattern=striped)
+11. G2 flag=off | leader(entity=gamma, color=green, shape=circle, size=medium) ; follower(entity=gamma, marker=1, pattern=solid)
+12. G1 aux=right | leader(entity=delta, color=blue, shape=triangle, size=large) ; follower(entity=alpha, marker=1, pattern=dotted)
+13. G4 flag=off | leader(entity=alpha, color=green, shape=triangle, size=medium) ; follower(entity=alpha, marker=1, pattern=striped)
+14. G1 aux=left | leader(entity=alpha, color=blue, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=solid)
+15. G2 aux=left | leader(entity=delta, color=red, shape=triangle, size=large) ; follower(entity=alpha, marker=1, pattern=solid)
+16. G4 aux=right | leader(entity=gamma, color=red, shape=square, size=small) ; follower(entity=gamma, marker=0, pattern=dotted)
+17. G2 aux=left | leader(entity=beta, color=blue, shape=circle, size=small) ; follower(entity=alpha, marker=1, pattern=solid)
+18. G2 aux=right | leader(entity=delta, color=blue, shape=circle, size=large) ; follower(entity=gamma, marker=0, pattern=solid)",3,"[1, 14, 17]","{""follower_marker"": ""1"", ""leader_color"": ""blue"", ""leader_shape"": ""circle"", ""local_pattern"": ""solid"", ""scope_size"": ""small""}",2,medium,tagged,18,3,6,9,1
+4102,confound_sweep,medium,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=square, follower.marker=1) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=square, follower.marker=1) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G4 aux=right | leader(entity=delta, color=blue, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+2. G3 aux=left | leader(entity=beta, color=green, shape=square, size=large) ; follower(entity=alpha, marker=1, pattern=solid)
+3. G2 flag=off | leader(entity=beta, color=blue, shape=circle, size=small) ; follower(entity=alpha, marker=0, pattern=solid)
+4. G1 aux=right | leader(entity=beta, color=blue, shape=square, size=medium) ; follower(entity=delta, marker=0, pattern=solid)
+5. G1 flag=off | leader(entity=gamma, color=blue, shape=circle, size=medium) ; follower(entity=beta, marker=0, pattern=striped)
+6. G3 aux=right | leader(entity=beta, color=blue, shape=circle, size=large) ; follower(entity=alpha, marker=1, pattern=striped)
+7. G1 flag=off | leader(entity=delta, color=red, shape=square, size=small) ; follower(entity=beta, marker=1, pattern=solid)
+8. G4 flag=off | leader(entity=beta, color=green, shape=triangle, size=large) ; follower(entity=alpha, marker=1, pattern=dotted)
+9. G4 flag=off | leader(entity=beta, color=green, shape=square, size=medium) ; follower(entity=beta, marker=1, pattern=solid)
+10. G2 aux=right | leader(entity=alpha, color=blue, shape=square, size=medium) ; follower(entity=beta, marker=1, pattern=solid)
+11. G2 flag=off | leader(entity=delta, color=blue, shape=square, size=medium) ; follower(entity=delta, marker=1, pattern=solid)
+12. G1 flag=on | leader(entity=gamma, color=yellow, shape=circle, size=medium) ; follower(entity=alpha, marker=0, pattern=striped)
+13. G2 flag=on | leader(entity=beta, color=yellow, shape=square, size=small) ; follower(entity=alpha, marker=0, pattern=striped)
+14. G2 aux=left | leader(entity=beta, color=green, shape=square, size=small) ; follower(entity=gamma, marker=1, pattern=solid)
+15. G2 flag=on | leader(entity=alpha, color=blue, shape=square, size=medium) ; follower(entity=gamma, marker=1, pattern=solid)
+16. G1 aux=left | leader(entity=gamma, color=yellow, shape=triangle, size=small) ; follower(entity=gamma, marker=0, pattern=solid)
+17. G4 flag=off | leader(entity=gamma, color=yellow, shape=square, size=medium) ; follower(entity=delta, marker=0, pattern=solid)
+18. G3 aux=left | leader(entity=gamma, color=green, shape=square, size=small) ; follower(entity=delta, marker=1, pattern=solid)","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=square, follower.marker=1) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G4 aux=right | leader(entity=delta, color=blue, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+2. G3 aux=left | leader(entity=beta, color=green, shape=square, size=large) ; follower(entity=alpha, marker=1, pattern=solid)
+3. G2 flag=off | leader(entity=beta, color=blue, shape=circle, size=small) ; follower(entity=alpha, marker=0, pattern=solid)
+4. G1 aux=right | leader(entity=beta, color=blue, shape=square, size=medium) ; follower(entity=delta, marker=0, pattern=solid)
+5. G1 flag=off | leader(entity=gamma, color=blue, shape=circle, size=medium) ; follower(entity=beta, marker=0, pattern=striped)
+6. G3 aux=right | leader(entity=beta, color=blue, shape=circle, size=large) ; follower(entity=alpha, marker=1, pattern=striped)
+7. G1 flag=off | leader(entity=delta, color=red, shape=square, size=small) ; follower(entity=beta, marker=1, pattern=solid)
+8. G4 flag=off | leader(entity=beta, color=green, shape=triangle, size=large) ; follower(entity=alpha, marker=1, pattern=dotted)
+9. G4 flag=off | leader(entity=beta, color=green, shape=square, size=medium) ; follower(entity=beta, marker=1, pattern=solid)
+10. G2 aux=right | leader(entity=alpha, color=blue, shape=square, size=medium) ; follower(entity=beta, marker=1, pattern=solid)
+11. G2 flag=off | leader(entity=delta, color=blue, shape=square, size=medium) ; follower(entity=delta, marker=1, pattern=solid)
+12. G1 flag=on | leader(entity=gamma, color=yellow, shape=circle, size=medium) ; follower(entity=alpha, marker=0, pattern=striped)
+13. G2 flag=on | leader(entity=beta, color=yellow, shape=square, size=small) ; follower(entity=alpha, marker=0, pattern=striped)
+14. G2 aux=left | leader(entity=beta, color=green, shape=square, size=small) ; follower(entity=gamma, marker=1, pattern=solid)
+15. G2 flag=on | leader(entity=alpha, color=blue, shape=square, size=medium) ; follower(entity=gamma, marker=1, pattern=solid)
+16. G1 aux=left | leader(entity=gamma, color=yellow, shape=triangle, size=small) ; follower(entity=gamma, marker=0, pattern=solid)
+17. G4 flag=off | leader(entity=gamma, color=yellow, shape=square, size=medium) ; follower(entity=delta, marker=0, pattern=solid)
+18. G3 aux=left | leader(entity=gamma, color=green, shape=square, size=small) ; follower(entity=delta, marker=1, pattern=solid)","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=square, follower.marker=1) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G4 aux=right | leader(entity=delta, color=blue, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+2. G3 aux=left | leader(entity=beta, color=green, shape=square, size=large) ; follower(entity=alpha, marker=1, pattern=solid)
+3. G2 flag=off | leader(entity=beta, color=blue, shape=circle, size=small) ; follower(entity=alpha, marker=0, pattern=solid)
+4. G1 aux=right | leader(entity=beta, color=blue, shape=square, size=medium) ; follower(entity=delta, marker=0, pattern=solid)
+5. G1 flag=off | leader(entity=gamma, color=blue, shape=circle, size=medium) ; follower(entity=beta, marker=0, pattern=striped)
+6. G3 aux=right | leader(entity=beta, color=blue, shape=circle, size=large) ; follower(entity=alpha, marker=1, pattern=striped)
+7. G1 flag=off | leader(entity=delta, color=red, shape=square, size=small) ; follower(entity=beta, marker=1, pattern=solid)
+8. G4 flag=off | leader(entity=beta, color=green, shape=triangle, size=large) ; follower(entity=alpha, marker=1, pattern=dotted)
+9. G4 flag=off | leader(entity=beta, color=green, shape=square, size=medium) ; follower(entity=beta, marker=1, pattern=solid)
+10. G2 aux=right | leader(entity=alpha, color=blue, shape=square, size=medium) ; follower(entity=beta, marker=1, pattern=solid)
+11. G2 flag=off | leader(entity=delta, color=blue, shape=square, size=medium) ; follower(entity=delta, marker=1, pattern=solid)
+12. G1 flag=on | leader(entity=gamma, color=yellow, shape=circle, size=medium) ; follower(entity=alpha, marker=0, pattern=striped)
+13. G2 flag=on | leader(entity=beta, color=yellow, shape=square, size=small) ; follower(entity=alpha, marker=0, pattern=striped)
+14. G2 aux=left | leader(entity=beta, color=green, shape=square, size=small) ; follower(entity=gamma, marker=1, pattern=solid)
+15. G2 flag=on | leader(entity=alpha, color=blue, shape=square, size=medium) ; follower(entity=gamma, marker=1, pattern=solid)
+16. G1 aux=left | leader(entity=gamma, color=yellow, shape=triangle, size=small) ; follower(entity=gamma, marker=0, pattern=solid)
+17. G4 flag=off | leader(entity=gamma, color=yellow, shape=square, size=medium) ; follower(entity=delta, marker=0, pattern=solid)
+18. G3 aux=left | leader(entity=gamma, color=green, shape=square, size=small) ; follower(entity=delta, marker=1, pattern=solid)",3,"[10, 11, 15]","{""follower_marker"": ""1"", ""leader_color"": ""blue"", ""leader_shape"": ""square"", ""local_pattern"": ""solid"", ""scope_size"": ""medium""}",2,medium,tagged,18,3,6,9,1
+4103,confound_sweep,medium,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=yellow, leader.shape=circle, follower.marker=0) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=yellow, leader.shape=circle, follower.marker=0) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G3 flag=off | leader(entity=beta, color=yellow, shape=circle, size=medium) ; follower(entity=beta, marker=0, pattern=solid)
+2. G3 flag=on | leader(entity=delta, color=green, shape=circle, size=medium) ; follower(entity=gamma, marker=1, pattern=striped)
+3. G1 flag=on | leader(entity=gamma, color=yellow, shape=square, size=medium) ; follower(entity=delta, marker=0, pattern=striped)
+4. G4 flag=off | leader(entity=alpha, color=blue, shape=triangle, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+5. G2 flag=off | leader(entity=beta, color=yellow, shape=triangle, size=small) ; follower(entity=gamma, marker=0, pattern=striped)
+6. G3 aux=left | leader(entity=alpha, color=yellow, shape=triangle, size=medium) ; follower(entity=beta, marker=1, pattern=dotted)
+7. G1 aux=right | leader(entity=gamma, color=blue, shape=circle, size=medium) ; follower(entity=delta, marker=0, pattern=solid)
+8. G2 aux=right | leader(entity=gamma, color=yellow, shape=circle, size=medium) ; follower(entity=beta, marker=0, pattern=solid)
+9. G4 flag=off | leader(entity=gamma, color=red, shape=square, size=large) ; follower(entity=alpha, marker=0, pattern=solid)
+10. G2 aux=right | leader(entity=beta, color=blue, shape=circle, size=small) ; follower(entity=gamma, marker=0, pattern=solid)
+11. G3 flag=on | leader(entity=beta, color=red, shape=circle, size=medium) ; follower(entity=alpha, marker=0, pattern=solid)
+12. G4 aux=right | leader(entity=gamma, color=yellow, shape=circle, size=medium) ; follower(entity=gamma, marker=1, pattern=solid)
+13. G2 aux=right | leader(entity=delta, color=yellow, shape=circle, size=medium) ; follower(entity=delta, marker=0, pattern=solid)
+14. G3 aux=left | leader(entity=delta, color=blue, shape=circle, size=small) ; follower(entity=alpha, marker=0, pattern=solid)
+15. G4 aux=left | leader(entity=alpha, color=red, shape=triangle, size=large) ; follower(entity=gamma, marker=0, pattern=dotted)
+16. G1 flag=on | leader(entity=alpha, color=yellow, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=solid)
+17. G2 aux=right | leader(entity=gamma, color=green, shape=circle, size=small) ; follower(entity=delta, marker=1, pattern=solid)
+18. G3 flag=on | leader(entity=gamma, color=green, shape=circle, size=large) ; follower(entity=beta, marker=1, pattern=striped)","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=yellow, leader.shape=circle, follower.marker=0) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G3 flag=off | leader(entity=beta, color=yellow, shape=circle, size=medium) ; follower(entity=beta, marker=0, pattern=solid)
+2. G3 flag=on | leader(entity=delta, color=green, shape=circle, size=medium) ; follower(entity=gamma, marker=1, pattern=striped)
+3. G1 flag=on | leader(entity=gamma, color=yellow, shape=square, size=medium) ; follower(entity=delta, marker=0, pattern=striped)
+4. G4 flag=off | leader(entity=alpha, color=blue, shape=triangle, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+5. G2 flag=off | leader(entity=beta, color=yellow, shape=triangle, size=small) ; follower(entity=gamma, marker=0, pattern=striped)
+6. G3 aux=left | leader(entity=alpha, color=yellow, shape=triangle, size=medium) ; follower(entity=beta, marker=1, pattern=dotted)
+7. G1 aux=right | leader(entity=gamma, color=blue, shape=circle, size=medium) ; follower(entity=delta, marker=0, pattern=solid)
+8. G2 aux=right | leader(entity=gamma, color=yellow, shape=circle, size=medium) ; follower(entity=beta, marker=0, pattern=solid)
+9. G4 flag=off | leader(entity=gamma, color=red, shape=square, size=large) ; follower(entity=alpha, marker=0, pattern=solid)
+10. G2 aux=right | leader(entity=beta, color=blue, shape=circle, size=small) ; follower(entity=gamma, marker=0, pattern=solid)
+11. G3 flag=on | leader(entity=beta, color=red, shape=circle, size=medium) ; follower(entity=alpha, marker=0, pattern=solid)
+12. G4 aux=right | leader(entity=gamma, color=yellow, shape=circle, size=medium) ; follower(entity=gamma, marker=1, pattern=solid)
+13. G2 aux=right | leader(entity=delta, color=yellow, shape=circle, size=medium) ; follower(entity=delta, marker=0, pattern=solid)
+14. G3 aux=left | leader(entity=delta, color=blue, shape=circle, size=small) ; follower(entity=alpha, marker=0, pattern=solid)
+15. G4 aux=left | leader(entity=alpha, color=red, shape=triangle, size=large) ; follower(entity=gamma, marker=0, pattern=dotted)
+16. G1 flag=on | leader(entity=alpha, color=yellow, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=solid)
+17. G2 aux=right | leader(entity=gamma, color=green, shape=circle, size=small) ; follower(entity=delta, marker=1, pattern=solid)
+18. G3 flag=on | leader(entity=gamma, color=green, shape=circle, size=large) ; follower(entity=beta, marker=1, pattern=striped)","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=yellow, leader.shape=circle, follower.marker=0) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G3 flag=off | leader(entity=beta, color=yellow, shape=circle, size=medium) ; follower(entity=beta, marker=0, pattern=solid)
+2. G3 flag=on | leader(entity=delta, color=green, shape=circle, size=medium) ; follower(entity=gamma, marker=1, pattern=striped)
+3. G1 flag=on | leader(entity=gamma, color=yellow, shape=square, size=medium) ; follower(entity=delta, marker=0, pattern=striped)
+4. G4 flag=off | leader(entity=alpha, color=blue, shape=triangle, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+5. G2 flag=off | leader(entity=beta, color=yellow, shape=triangle, size=small) ; follower(entity=gamma, marker=0, pattern=striped)
+6. G3 aux=left | leader(entity=alpha, color=yellow, shape=triangle, size=medium) ; follower(entity=beta, marker=1, pattern=dotted)
+7. G1 aux=right | leader(entity=gamma, color=blue, shape=circle, size=medium) ; follower(entity=delta, marker=0, pattern=solid)
+8. G2 aux=right | leader(entity=gamma, color=yellow, shape=circle, size=medium) ; follower(entity=beta, marker=0, pattern=solid)
+9. G4 flag=off | leader(entity=gamma, color=red, shape=square, size=large) ; follower(entity=alpha, marker=0, pattern=solid)
+10. G2 aux=right | leader(entity=beta, color=blue, shape=circle, size=small) ; follower(entity=gamma, marker=0, pattern=solid)
+11. G3 flag=on | leader(entity=beta, color=red, shape=circle, size=medium) ; follower(entity=alpha, marker=0, pattern=solid)
+12. G4 aux=right | leader(entity=gamma, color=yellow, shape=circle, size=medium) ; follower(entity=gamma, marker=1, pattern=solid)
+13. G2 aux=right | leader(entity=delta, color=yellow, shape=circle, size=medium) ; follower(entity=delta, marker=0, pattern=solid)
+14. G3 aux=left | leader(entity=delta, color=blue, shape=circle, size=small) ; follower(entity=alpha, marker=0, pattern=solid)
+15. G4 aux=left | leader(entity=alpha, color=red, shape=triangle, size=large) ; follower(entity=gamma, marker=0, pattern=dotted)
+16. G1 flag=on | leader(entity=alpha, color=yellow, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=solid)
+17. G2 aux=right | leader(entity=gamma, color=green, shape=circle, size=small) ; follower(entity=delta, marker=1, pattern=solid)
+18. G3 flag=on | leader(entity=gamma, color=green, shape=circle, size=large) ; follower(entity=beta, marker=1, pattern=striped)",3,"[1, 8, 13]","{""follower_marker"": ""0"", ""leader_color"": ""yellow"", ""leader_shape"": ""circle"", ""local_pattern"": ""solid"", ""scope_size"": ""medium""}",2,medium,tagged,18,3,6,9,1
+4104,confound_sweep,medium,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=square, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=square, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G2 flag=on | leader(entity=delta, color=blue, shape=triangle, size=medium) ; follower(entity=alpha, marker=1, pattern=solid)
+2. G3 aux=left | leader(entity=beta, color=red, shape=square, size=large) ; follower(entity=delta, marker=0, pattern=dotted)
+3. G3 flag=off | leader(entity=beta, color=red, shape=circle, size=large) ; follower(entity=delta, marker=1, pattern=dotted)
+4. G3 aux=right | leader(entity=alpha, color=blue, shape=square, size=large) ; follower(entity=delta, marker=1, pattern=dotted)
+5. G4 aux=left | leader(entity=alpha, color=red, shape=triangle, size=large) ; follower(entity=beta, marker=0, pattern=striped)
+6. G2 flag=on | leader(entity=gamma, color=red, shape=square, size=large) ; follower(entity=gamma, marker=1, pattern=dotted)
+7. G3 flag=on | leader(entity=delta, color=red, shape=square, size=medium) ; follower(entity=beta, marker=1, pattern=solid)
+8. G1 flag=on | leader(entity=gamma, color=red, shape=square, size=large) ; follower(entity=alpha, marker=0, pattern=dotted)
+9. G2 aux=right | leader(entity=gamma, color=green, shape=square, size=small) ; follower(entity=alpha, marker=0, pattern=striped)
+10. G4 flag=off | leader(entity=alpha, color=blue, shape=circle, size=small) ; follower(entity=beta, marker=1, pattern=solid)
+11. G1 aux=right | leader(entity=beta, color=red, shape=square, size=large) ; follower(entity=beta, marker=0, pattern=dotted)
+12. G4 aux=left | leader(entity=beta, color=yellow, shape=square, size=large) ; follower(entity=gamma, marker=1, pattern=dotted)
+13. G4 flag=on | leader(entity=alpha, color=red, shape=circle, size=small) ; follower(entity=delta, marker=0, pattern=solid)
+14. G1 flag=on | leader(entity=alpha, color=red, shape=square, size=small) ; follower(entity=alpha, marker=1, pattern=dotted)
+15. G1 flag=off | leader(entity=gamma, color=green, shape=square, size=medium) ; follower(entity=delta, marker=1, pattern=solid)
+16. G3 flag=on | leader(entity=beta, color=yellow, shape=square, size=medium) ; follower(entity=delta, marker=0, pattern=dotted)
+17. G4 flag=off | leader(entity=beta, color=red, shape=circle, size=medium) ; follower(entity=alpha, marker=0, pattern=solid)
+18. G2 aux=left | leader(entity=beta, color=red, shape=square, size=large) ; follower(entity=delta, marker=1, pattern=dotted)","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=square, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G2 flag=on | leader(entity=delta, color=blue, shape=triangle, size=medium) ; follower(entity=alpha, marker=1, pattern=solid)
+2. G3 aux=left | leader(entity=beta, color=red, shape=square, size=large) ; follower(entity=delta, marker=0, pattern=dotted)
+3. G3 flag=off | leader(entity=beta, color=red, shape=circle, size=large) ; follower(entity=delta, marker=1, pattern=dotted)
+4. G3 aux=right | leader(entity=alpha, color=blue, shape=square, size=large) ; follower(entity=delta, marker=1, pattern=dotted)
+5. G4 aux=left | leader(entity=alpha, color=red, shape=triangle, size=large) ; follower(entity=beta, marker=0, pattern=striped)
+6. G2 flag=on | leader(entity=gamma, color=red, shape=square, size=large) ; follower(entity=gamma, marker=1, pattern=dotted)
+7. G3 flag=on | leader(entity=delta, color=red, shape=square, size=medium) ; follower(entity=beta, marker=1, pattern=solid)
+8. G1 flag=on | leader(entity=gamma, color=red, shape=square, size=large) ; follower(entity=alpha, marker=0, pattern=dotted)
+9. G2 aux=right | leader(entity=gamma, color=green, shape=square, size=small) ; follower(entity=alpha, marker=0, pattern=striped)
+10. G4 flag=off | leader(entity=alpha, color=blue, shape=circle, size=small) ; follower(entity=beta, marker=1, pattern=solid)
+11. G1 aux=right | leader(entity=beta, color=red, shape=square, size=large) ; follower(entity=beta, marker=0, pattern=dotted)
+12. G4 aux=left | leader(entity=beta, color=yellow, shape=square, size=large) ; follower(entity=gamma, marker=1, pattern=dotted)
+13. G4 flag=on | leader(entity=alpha, color=red, shape=circle, size=small) ; follower(entity=delta, marker=0, pattern=solid)
+14. G1 flag=on | leader(entity=alpha, color=red, shape=square, size=small) ; follower(entity=alpha, marker=1, pattern=dotted)
+15. G1 flag=off | leader(entity=gamma, color=green, shape=square, size=medium) ; follower(entity=delta, marker=1, pattern=solid)
+16. G3 flag=on | leader(entity=beta, color=yellow, shape=square, size=medium) ; follower(entity=delta, marker=0, pattern=dotted)
+17. G4 flag=off | leader(entity=beta, color=red, shape=circle, size=medium) ; follower(entity=alpha, marker=0, pattern=solid)
+18. G2 aux=left | leader(entity=beta, color=red, shape=square, size=large) ; follower(entity=delta, marker=1, pattern=dotted)","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=square, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G2 flag=on | leader(entity=delta, color=blue, shape=triangle, size=medium) ; follower(entity=alpha, marker=1, pattern=solid)
+2. G3 aux=left | leader(entity=beta, color=red, shape=square, size=large) ; follower(entity=delta, marker=0, pattern=dotted)
+3. G3 flag=off | leader(entity=beta, color=red, shape=circle, size=large) ; follower(entity=delta, marker=1, pattern=dotted)
+4. G3 aux=right | leader(entity=alpha, color=blue, shape=square, size=large) ; follower(entity=delta, marker=1, pattern=dotted)
+5. G4 aux=left | leader(entity=alpha, color=red, shape=triangle, size=large) ; follower(entity=beta, marker=0, pattern=striped)
+6. G2 flag=on | leader(entity=gamma, color=red, shape=square, size=large) ; follower(entity=gamma, marker=1, pattern=dotted)
+7. G3 flag=on | leader(entity=delta, color=red, shape=square, size=medium) ; follower(entity=beta, marker=1, pattern=solid)
+8. G1 flag=on | leader(entity=gamma, color=red, shape=square, size=large) ; follower(entity=alpha, marker=0, pattern=dotted)
+9. G2 aux=right | leader(entity=gamma, color=green, shape=square, size=small) ; follower(entity=alpha, marker=0, pattern=striped)
+10. G4 flag=off | leader(entity=alpha, color=blue, shape=circle, size=small) ; follower(entity=beta, marker=1, pattern=solid)
+11. G1 aux=right | leader(entity=beta, color=red, shape=square, size=large) ; follower(entity=beta, marker=0, pattern=dotted)
+12. G4 aux=left | leader(entity=beta, color=yellow, shape=square, size=large) ; follower(entity=gamma, marker=1, pattern=dotted)
+13. G4 flag=on | leader(entity=alpha, color=red, shape=circle, size=small) ; follower(entity=delta, marker=0, pattern=solid)
+14. G1 flag=on | leader(entity=alpha, color=red, shape=square, size=small) ; follower(entity=alpha, marker=1, pattern=dotted)
+15. G1 flag=off | leader(entity=gamma, color=green, shape=square, size=medium) ; follower(entity=delta, marker=1, pattern=solid)
+16. G3 flag=on | leader(entity=beta, color=yellow, shape=square, size=medium) ; follower(entity=delta, marker=0, pattern=dotted)
+17. G4 flag=off | leader(entity=beta, color=red, shape=circle, size=medium) ; follower(entity=alpha, marker=0, pattern=solid)
+18. G2 aux=left | leader(entity=beta, color=red, shape=square, size=large) ; follower(entity=delta, marker=1, pattern=dotted)",3,"[2, 8, 11]","{""follower_marker"": ""0"", ""leader_color"": ""red"", ""leader_shape"": ""square"", ""local_pattern"": ""dotted"", ""scope_size"": ""large""}",2,medium,tagged,18,3,6,9,1
+4105,confound_sweep,medium,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=circle, follower.marker=1) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=circle, follower.marker=1) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G4 flag=on | leader(entity=beta, color=yellow, shape=circle, size=large) ; follower(entity=gamma, marker=1, pattern=dotted)
+2. G1 aux=right | leader(entity=delta, color=blue, shape=circle, size=large) ; follower(entity=gamma, marker=1, pattern=dotted)
+3. G3 aux=right | leader(entity=delta, color=red, shape=square, size=medium) ; follower(entity=gamma, marker=0, pattern=dotted)
+4. G1 aux=right | leader(entity=beta, color=blue, shape=circle, size=large) ; follower(entity=alpha, marker=0, pattern=striped)
+5. G4 aux=left | leader(entity=beta, color=yellow, shape=circle, size=small) ; follower(entity=alpha, marker=1, pattern=striped)
+6. G3 flag=off | leader(entity=alpha, color=red, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+7. G2 flag=off | leader(entity=delta, color=red, shape=square, size=small) ; follower(entity=delta, marker=1, pattern=dotted)
+8. G3 aux=left | leader(entity=gamma, color=red, shape=circle, size=small) ; follower(entity=beta, marker=1, pattern=striped)
+9. G1 aux=left | leader(entity=beta, color=red, shape=square, size=medium) ; follower(entity=alpha, marker=1, pattern=dotted)
+10. G4 flag=off | leader(entity=gamma, color=red, shape=triangle, size=medium) ; follower(entity=alpha, marker=1, pattern=dotted)
+11. G4 aux=right | leader(entity=delta, color=red, shape=circle, size=small) ; follower(entity=beta, marker=1, pattern=striped)
+12. G1 flag=on | leader(entity=delta, color=green, shape=triangle, size=large) ; follower(entity=beta, marker=0, pattern=striped)
+13. G4 aux=right | leader(entity=gamma, color=red, shape=circle, size=small) ; follower(entity=gamma, marker=0, pattern=dotted)
+14. G1 flag=on | leader(entity=delta, color=blue, shape=circle, size=large) ; follower(entity=delta, marker=1, pattern=striped)
+15. G2 flag=on | leader(entity=delta, color=red, shape=triangle, size=large) ; follower(entity=beta, marker=1, pattern=striped)
+16. G2 aux=left | leader(entity=delta, color=red, shape=triangle, size=large) ; follower(entity=alpha, marker=1, pattern=solid)
+17. G2 flag=off | leader(entity=gamma, color=red, shape=square, size=medium) ; follower(entity=beta, marker=1, pattern=dotted)
+18. G3 aux=left | leader(entity=beta, color=red, shape=square, size=large) ; follower(entity=gamma, marker=1, pattern=dotted)","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=circle, follower.marker=1) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G4 flag=on | leader(entity=beta, color=yellow, shape=circle, size=large) ; follower(entity=gamma, marker=1, pattern=dotted)
+2. G1 aux=right | leader(entity=delta, color=blue, shape=circle, size=large) ; follower(entity=gamma, marker=1, pattern=dotted)
+3. G3 aux=right | leader(entity=delta, color=red, shape=square, size=medium) ; follower(entity=gamma, marker=0, pattern=dotted)
+4. G1 aux=right | leader(entity=beta, color=blue, shape=circle, size=large) ; follower(entity=alpha, marker=0, pattern=striped)
+5. G4 aux=left | leader(entity=beta, color=yellow, shape=circle, size=small) ; follower(entity=alpha, marker=1, pattern=striped)
+6. G3 flag=off | leader(entity=alpha, color=red, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+7. G2 flag=off | leader(entity=delta, color=red, shape=square, size=small) ; follower(entity=delta, marker=1, pattern=dotted)
+8. G3 aux=left | leader(entity=gamma, color=red, shape=circle, size=small) ; follower(entity=beta, marker=1, pattern=striped)
+9. G1 aux=left | leader(entity=beta, color=red, shape=square, size=medium) ; follower(entity=alpha, marker=1, pattern=dotted)
+10. G4 flag=off | leader(entity=gamma, color=red, shape=triangle, size=medium) ; follower(entity=alpha, marker=1, pattern=dotted)
+11. G4 aux=right | leader(entity=delta, color=red, shape=circle, size=small) ; follower(entity=beta, marker=1, pattern=striped)
+12. G1 flag=on | leader(entity=delta, color=green, shape=triangle, size=large) ; follower(entity=beta, marker=0, pattern=striped)
+13. G4 aux=right | leader(entity=gamma, color=red, shape=circle, size=small) ; follower(entity=gamma, marker=0, pattern=dotted)
+14. G1 flag=on | leader(entity=delta, color=blue, shape=circle, size=large) ; follower(entity=delta, marker=1, pattern=striped)
+15. G2 flag=on | leader(entity=delta, color=red, shape=triangle, size=large) ; follower(entity=beta, marker=1, pattern=striped)
+16. G2 aux=left | leader(entity=delta, color=red, shape=triangle, size=large) ; follower(entity=alpha, marker=1, pattern=solid)
+17. G2 flag=off | leader(entity=gamma, color=red, shape=square, size=medium) ; follower(entity=beta, marker=1, pattern=dotted)
+18. G3 aux=left | leader(entity=beta, color=red, shape=square, size=large) ; follower(entity=gamma, marker=1, pattern=dotted)","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=circle, follower.marker=1) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G4 flag=on | leader(entity=beta, color=yellow, shape=circle, size=large) ; follower(entity=gamma, marker=1, pattern=dotted)
+2. G1 aux=right | leader(entity=delta, color=blue, shape=circle, size=large) ; follower(entity=gamma, marker=1, pattern=dotted)
+3. G3 aux=right | leader(entity=delta, color=red, shape=square, size=medium) ; follower(entity=gamma, marker=0, pattern=dotted)
+4. G1 aux=right | leader(entity=beta, color=blue, shape=circle, size=large) ; follower(entity=alpha, marker=0, pattern=striped)
+5. G4 aux=left | leader(entity=beta, color=yellow, shape=circle, size=small) ; follower(entity=alpha, marker=1, pattern=striped)
+6. G3 flag=off | leader(entity=alpha, color=red, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+7. G2 flag=off | leader(entity=delta, color=red, shape=square, size=small) ; follower(entity=delta, marker=1, pattern=dotted)
+8. G3 aux=left | leader(entity=gamma, color=red, shape=circle, size=small) ; follower(entity=beta, marker=1, pattern=striped)
+9. G1 aux=left | leader(entity=beta, color=red, shape=square, size=medium) ; follower(entity=alpha, marker=1, pattern=dotted)
+10. G4 flag=off | leader(entity=gamma, color=red, shape=triangle, size=medium) ; follower(entity=alpha, marker=1, pattern=dotted)
+11. G4 aux=right | leader(entity=delta, color=red, shape=circle, size=small) ; follower(entity=beta, marker=1, pattern=striped)
+12. G1 flag=on | leader(entity=delta, color=green, shape=triangle, size=large) ; follower(entity=beta, marker=0, pattern=striped)
+13. G4 aux=right | leader(entity=gamma, color=red, shape=circle, size=small) ; follower(entity=gamma, marker=0, pattern=dotted)
+14. G1 flag=on | leader(entity=delta, color=blue, shape=circle, size=large) ; follower(entity=delta, marker=1, pattern=striped)
+15. G2 flag=on | leader(entity=delta, color=red, shape=triangle, size=large) ; follower(entity=beta, marker=1, pattern=striped)
+16. G2 aux=left | leader(entity=delta, color=red, shape=triangle, size=large) ; follower(entity=alpha, marker=1, pattern=solid)
+17. G2 flag=off | leader(entity=gamma, color=red, shape=square, size=medium) ; follower(entity=beta, marker=1, pattern=dotted)
+18. G3 aux=left | leader(entity=beta, color=red, shape=square, size=large) ; follower(entity=gamma, marker=1, pattern=dotted)",3,"[6, 8, 11]","{""follower_marker"": ""1"", ""leader_color"": ""red"", ""leader_shape"": ""circle"", ""local_pattern"": ""striped"", ""scope_size"": ""small""}",2,medium,tagged,18,3,6,9,1
+4106,confound_sweep,medium,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=triangle, follower.marker=1) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=triangle, follower.marker=1) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G2 aux=left | leader(entity=delta, color=yellow, shape=circle, size=medium) ; follower(entity=alpha, marker=0, pattern=solid)
+2. G3 flag=on | leader(entity=beta, color=blue, shape=square, size=small) ; follower(entity=alpha, marker=0, pattern=solid)
+3. G3 aux=right | leader(entity=delta, color=green, shape=square, size=large) ; follower(entity=beta, marker=1, pattern=dotted)
+4. G3 aux=left | leader(entity=beta, color=green, shape=triangle, size=large) ; follower(entity=delta, marker=0, pattern=striped)
+5. G4 flag=off | leader(entity=delta, color=green, shape=triangle, size=small) ; follower(entity=alpha, marker=1, pattern=striped)
+6. G4 aux=right | leader(entity=gamma, color=green, shape=triangle, size=small) ; follower(entity=beta, marker=1, pattern=striped)
+7. G3 aux=right | leader(entity=delta, color=red, shape=triangle, size=medium) ; follower(entity=delta, marker=0, pattern=dotted)
+8. G3 flag=on | leader(entity=delta, color=yellow, shape=triangle, size=large) ; follower(entity=gamma, marker=1, pattern=striped)
+9. G2 aux=right | leader(entity=alpha, color=yellow, shape=square, size=medium) ; follower(entity=delta, marker=1, pattern=solid)
+10. G1 aux=right | leader(entity=delta, color=green, shape=triangle, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+11. G1 flag=on | leader(entity=alpha, color=green, shape=square, size=medium) ; follower(entity=delta, marker=1, pattern=dotted)
+12. G2 flag=on | leader(entity=alpha, color=green, shape=triangle, size=small) ; follower(entity=gamma, marker=1, pattern=solid)
+13. G2 aux=left | leader(entity=beta, color=blue, shape=triangle, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+14. G4 flag=on | leader(entity=gamma, color=green, shape=triangle, size=large) ; follower(entity=alpha, marker=0, pattern=striped)
+15. G4 flag=on | leader(entity=beta, color=green, shape=triangle, size=large) ; follower(entity=alpha, marker=0, pattern=dotted)
+16. G2 aux=left | leader(entity=gamma, color=yellow, shape=square, size=medium) ; follower(entity=delta, marker=1, pattern=solid)
+17. G4 aux=right | leader(entity=gamma, color=red, shape=circle, size=medium) ; follower(entity=beta, marker=0, pattern=solid)
+18. G1 flag=off | leader(entity=gamma, color=red, shape=circle, size=large) ; follower(entity=alpha, marker=0, pattern=solid)","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=triangle, follower.marker=1) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G2 aux=left | leader(entity=delta, color=yellow, shape=circle, size=medium) ; follower(entity=alpha, marker=0, pattern=solid)
+2. G3 flag=on | leader(entity=beta, color=blue, shape=square, size=small) ; follower(entity=alpha, marker=0, pattern=solid)
+3. G3 aux=right | leader(entity=delta, color=green, shape=square, size=large) ; follower(entity=beta, marker=1, pattern=dotted)
+4. G3 aux=left | leader(entity=beta, color=green, shape=triangle, size=large) ; follower(entity=delta, marker=0, pattern=striped)
+5. G4 flag=off | leader(entity=delta, color=green, shape=triangle, size=small) ; follower(entity=alpha, marker=1, pattern=striped)
+6. G4 aux=right | leader(entity=gamma, color=green, shape=triangle, size=small) ; follower(entity=beta, marker=1, pattern=striped)
+7. G3 aux=right | leader(entity=delta, color=red, shape=triangle, size=medium) ; follower(entity=delta, marker=0, pattern=dotted)
+8. G3 flag=on | leader(entity=delta, color=yellow, shape=triangle, size=large) ; follower(entity=gamma, marker=1, pattern=striped)
+9. G2 aux=right | leader(entity=alpha, color=yellow, shape=square, size=medium) ; follower(entity=delta, marker=1, pattern=solid)
+10. G1 aux=right | leader(entity=delta, color=green, shape=triangle, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+11. G1 flag=on | leader(entity=alpha, color=green, shape=square, size=medium) ; follower(entity=delta, marker=1, pattern=dotted)
+12. G2 flag=on | leader(entity=alpha, color=green, shape=triangle, size=small) ; follower(entity=gamma, marker=1, pattern=solid)
+13. G2 aux=left | leader(entity=beta, color=blue, shape=triangle, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+14. G4 flag=on | leader(entity=gamma, color=green, shape=triangle, size=large) ; follower(entity=alpha, marker=0, pattern=striped)
+15. G4 flag=on | leader(entity=beta, color=green, shape=triangle, size=large) ; follower(entity=alpha, marker=0, pattern=dotted)
+16. G2 aux=left | leader(entity=gamma, color=yellow, shape=square, size=medium) ; follower(entity=delta, marker=1, pattern=solid)
+17. G4 aux=right | leader(entity=gamma, color=red, shape=circle, size=medium) ; follower(entity=beta, marker=0, pattern=solid)
+18. G1 flag=off | leader(entity=gamma, color=red, shape=circle, size=large) ; follower(entity=alpha, marker=0, pattern=solid)","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=triangle, follower.marker=1) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G2 aux=left | leader(entity=delta, color=yellow, shape=circle, size=medium) ; follower(entity=alpha, marker=0, pattern=solid)
+2. G3 flag=on | leader(entity=beta, color=blue, shape=square, size=small) ; follower(entity=alpha, marker=0, pattern=solid)
+3. G3 aux=right | leader(entity=delta, color=green, shape=square, size=large) ; follower(entity=beta, marker=1, pattern=dotted)
+4. G3 aux=left | leader(entity=beta, color=green, shape=triangle, size=large) ; follower(entity=delta, marker=0, pattern=striped)
+5. G4 flag=off | leader(entity=delta, color=green, shape=triangle, size=small) ; follower(entity=alpha, marker=1, pattern=striped)
+6. G4 aux=right | leader(entity=gamma, color=green, shape=triangle, size=small) ; follower(entity=beta, marker=1, pattern=striped)
+7. G3 aux=right | leader(entity=delta, color=red, shape=triangle, size=medium) ; follower(entity=delta, marker=0, pattern=dotted)
+8. G3 flag=on | leader(entity=delta, color=yellow, shape=triangle, size=large) ; follower(entity=gamma, marker=1, pattern=striped)
+9. G2 aux=right | leader(entity=alpha, color=yellow, shape=square, size=medium) ; follower(entity=delta, marker=1, pattern=solid)
+10. G1 aux=right | leader(entity=delta, color=green, shape=triangle, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+11. G1 flag=on | leader(entity=alpha, color=green, shape=square, size=medium) ; follower(entity=delta, marker=1, pattern=dotted)
+12. G2 flag=on | leader(entity=alpha, color=green, shape=triangle, size=small) ; follower(entity=gamma, marker=1, pattern=solid)
+13. G2 aux=left | leader(entity=beta, color=blue, shape=triangle, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+14. G4 flag=on | leader(entity=gamma, color=green, shape=triangle, size=large) ; follower(entity=alpha, marker=0, pattern=striped)
+15. G4 flag=on | leader(entity=beta, color=green, shape=triangle, size=large) ; follower(entity=alpha, marker=0, pattern=dotted)
+16. G2 aux=left | leader(entity=gamma, color=yellow, shape=square, size=medium) ; follower(entity=delta, marker=1, pattern=solid)
+17. G4 aux=right | leader(entity=gamma, color=red, shape=circle, size=medium) ; follower(entity=beta, marker=0, pattern=solid)
+18. G1 flag=off | leader(entity=gamma, color=red, shape=circle, size=large) ; follower(entity=alpha, marker=0, pattern=solid)",3,"[5, 6, 10]","{""follower_marker"": ""1"", ""leader_color"": ""green"", ""leader_shape"": ""triangle"", ""local_pattern"": ""striped"", ""scope_size"": ""small""}",2,medium,tagged,18,3,6,9,1
+4107,confound_sweep,medium,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G3 flag=off | leader(entity=beta, color=yellow, shape=circle, size=small) ; follower(entity=gamma, marker=0, pattern=dotted)
+2. G3 aux=right | leader(entity=delta, color=blue, shape=square, size=small) ; follower(entity=gamma, marker=1, pattern=solid)
+3. G2 flag=on | leader(entity=delta, color=blue, shape=triangle, size=small) ; follower(entity=alpha, marker=0, pattern=dotted)
+4. G3 flag=off | leader(entity=alpha, color=green, shape=triangle, size=small) ; follower(entity=alpha, marker=0, pattern=dotted)
+5. G3 flag=off | leader(entity=gamma, color=yellow, shape=circle, size=medium) ; follower(entity=gamma, marker=1, pattern=solid)
+6. G2 aux=left | leader(entity=delta, color=blue, shape=circle, size=medium) ; follower(entity=gamma, marker=0, pattern=solid)
+7. G3 flag=on | leader(entity=gamma, color=red, shape=square, size=medium) ; follower(entity=alpha, marker=1, pattern=dotted)
+8. G1 flag=on | leader(entity=delta, color=red, shape=triangle, size=large) ; follower(entity=beta, marker=0, pattern=dotted)
+9. G2 aux=right | leader(entity=alpha, color=blue, shape=circle, size=small) ; follower(entity=gamma, marker=0, pattern=dotted)
+10. G1 flag=off | leader(entity=beta, color=red, shape=square, size=small) ; follower(entity=beta, marker=1, pattern=solid)
+11. G3 flag=on | leader(entity=gamma, color=green, shape=triangle, size=medium) ; follower(entity=beta, marker=1, pattern=dotted)
+12. G3 aux=right | leader(entity=delta, color=blue, shape=square, size=medium) ; follower(entity=gamma, marker=0, pattern=striped)
+13. G2 aux=right | leader(entity=delta, color=green, shape=square, size=medium) ; follower(entity=alpha, marker=0, pattern=solid)
+14. G2 aux=left | leader(entity=alpha, color=red, shape=square, size=large) ; follower(entity=gamma, marker=1, pattern=striped)
+15. G4 flag=off | leader(entity=delta, color=green, shape=triangle, size=small) ; follower(entity=alpha, marker=0, pattern=dotted)
+16. G1 aux=left | leader(entity=delta, color=yellow, shape=triangle, size=medium) ; follower(entity=gamma, marker=0, pattern=dotted)
+17. G1 flag=on | leader(entity=beta, color=green, shape=triangle, size=small) ; follower(entity=gamma, marker=0, pattern=dotted)
+18. G3 aux=left | leader(entity=delta, color=green, shape=square, size=small) ; follower(entity=gamma, marker=0, pattern=solid)","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G3 flag=off | leader(entity=beta, color=yellow, shape=circle, size=small) ; follower(entity=gamma, marker=0, pattern=dotted)
+2. G3 aux=right | leader(entity=delta, color=blue, shape=square, size=small) ; follower(entity=gamma, marker=1, pattern=solid)
+3. G2 flag=on | leader(entity=delta, color=blue, shape=triangle, size=small) ; follower(entity=alpha, marker=0, pattern=dotted)
+4. G3 flag=off | leader(entity=alpha, color=green, shape=triangle, size=small) ; follower(entity=alpha, marker=0, pattern=dotted)
+5. G3 flag=off | leader(entity=gamma, color=yellow, shape=circle, size=medium) ; follower(entity=gamma, marker=1, pattern=solid)
+6. G2 aux=left | leader(entity=delta, color=blue, shape=circle, size=medium) ; follower(entity=gamma, marker=0, pattern=solid)
+7. G3 flag=on | leader(entity=gamma, color=red, shape=square, size=medium) ; follower(entity=alpha, marker=1, pattern=dotted)
+8. G1 flag=on | leader(entity=delta, color=red, shape=triangle, size=large) ; follower(entity=beta, marker=0, pattern=dotted)
+9. G2 aux=right | leader(entity=alpha, color=blue, shape=circle, size=small) ; follower(entity=gamma, marker=0, pattern=dotted)
+10. G1 flag=off | leader(entity=beta, color=red, shape=square, size=small) ; follower(entity=beta, marker=1, pattern=solid)
+11. G3 flag=on | leader(entity=gamma, color=green, shape=triangle, size=medium) ; follower(entity=beta, marker=1, pattern=dotted)
+12. G3 aux=right | leader(entity=delta, color=blue, shape=square, size=medium) ; follower(entity=gamma, marker=0, pattern=striped)
+13. G2 aux=right | leader(entity=delta, color=green, shape=square, size=medium) ; follower(entity=alpha, marker=0, pattern=solid)
+14. G2 aux=left | leader(entity=alpha, color=red, shape=square, size=large) ; follower(entity=gamma, marker=1, pattern=striped)
+15. G4 flag=off | leader(entity=delta, color=green, shape=triangle, size=small) ; follower(entity=alpha, marker=0, pattern=dotted)
+16. G1 aux=left | leader(entity=delta, color=yellow, shape=triangle, size=medium) ; follower(entity=gamma, marker=0, pattern=dotted)
+17. G1 flag=on | leader(entity=beta, color=green, shape=triangle, size=small) ; follower(entity=gamma, marker=0, pattern=dotted)
+18. G3 aux=left | leader(entity=delta, color=green, shape=square, size=small) ; follower(entity=gamma, marker=0, pattern=solid)","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G3 flag=off | leader(entity=beta, color=yellow, shape=circle, size=small) ; follower(entity=gamma, marker=0, pattern=dotted)
+2. G3 aux=right | leader(entity=delta, color=blue, shape=square, size=small) ; follower(entity=gamma, marker=1, pattern=solid)
+3. G2 flag=on | leader(entity=delta, color=blue, shape=triangle, size=small) ; follower(entity=alpha, marker=0, pattern=dotted)
+4. G3 flag=off | leader(entity=alpha, color=green, shape=triangle, size=small) ; follower(entity=alpha, marker=0, pattern=dotted)
+5. G3 flag=off | leader(entity=gamma, color=yellow, shape=circle, size=medium) ; follower(entity=gamma, marker=1, pattern=solid)
+6. G2 aux=left | leader(entity=delta, color=blue, shape=circle, size=medium) ; follower(entity=gamma, marker=0, pattern=solid)
+7. G3 flag=on | leader(entity=gamma, color=red, shape=square, size=medium) ; follower(entity=alpha, marker=1, pattern=dotted)
+8. G1 flag=on | leader(entity=delta, color=red, shape=triangle, size=large) ; follower(entity=beta, marker=0, pattern=dotted)
+9. G2 aux=right | leader(entity=alpha, color=blue, shape=circle, size=small) ; follower(entity=gamma, marker=0, pattern=dotted)
+10. G1 flag=off | leader(entity=beta, color=red, shape=square, size=small) ; follower(entity=beta, marker=1, pattern=solid)
+11. G3 flag=on | leader(entity=gamma, color=green, shape=triangle, size=medium) ; follower(entity=beta, marker=1, pattern=dotted)
+12. G3 aux=right | leader(entity=delta, color=blue, shape=square, size=medium) ; follower(entity=gamma, marker=0, pattern=striped)
+13. G2 aux=right | leader(entity=delta, color=green, shape=square, size=medium) ; follower(entity=alpha, marker=0, pattern=solid)
+14. G2 aux=left | leader(entity=alpha, color=red, shape=square, size=large) ; follower(entity=gamma, marker=1, pattern=striped)
+15. G4 flag=off | leader(entity=delta, color=green, shape=triangle, size=small) ; follower(entity=alpha, marker=0, pattern=dotted)
+16. G1 aux=left | leader(entity=delta, color=yellow, shape=triangle, size=medium) ; follower(entity=gamma, marker=0, pattern=dotted)
+17. G1 flag=on | leader(entity=beta, color=green, shape=triangle, size=small) ; follower(entity=gamma, marker=0, pattern=dotted)
+18. G3 aux=left | leader(entity=delta, color=green, shape=square, size=small) ; follower(entity=gamma, marker=0, pattern=solid)",3,"[4, 15, 17]","{""follower_marker"": ""0"", ""leader_color"": ""green"", ""leader_shape"": ""triangle"", ""local_pattern"": ""dotted"", ""scope_size"": ""small""}",2,medium,tagged,18,3,6,9,1
+4108,confound_sweep,medium,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=yellow, leader.shape=circle, follower.marker=1) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=yellow, leader.shape=circle, follower.marker=1) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G4 aux=right | leader(entity=alpha, color=red, shape=circle, size=large) ; follower(entity=delta, marker=0, pattern=striped)
+2. G3 flag=off | leader(entity=delta, color=yellow, shape=square, size=small) ; follower(entity=delta, marker=1, pattern=striped)
+3. G4 aux=right | leader(entity=gamma, color=yellow, shape=circle, size=small) ; follower(entity=gamma, marker=0, pattern=solid)
+4. G1 flag=on | leader(entity=gamma, color=yellow, shape=circle, size=large) ; follower(entity=delta, marker=0, pattern=solid)
+5. G3 aux=left | leader(entity=gamma, color=blue, shape=circle, size=large) ; follower(entity=beta, marker=1, pattern=solid)
+6. G3 flag=off | leader(entity=alpha, color=green, shape=circle, size=large) ; follower(entity=delta, marker=1, pattern=dotted)
+7. G2 aux=right | leader(entity=alpha, color=yellow, shape=circle, size=small) ; follower(entity=beta, marker=1, pattern=solid)
+8. G4 aux=right | leader(entity=alpha, color=yellow, shape=square, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+9. G3 flag=on | leader(entity=beta, color=green, shape=square, size=small) ; follower(entity=beta, marker=1, pattern=dotted)
+10. G1 aux=left | leader(entity=alpha, color=yellow, shape=circle, size=small) ; follower(entity=delta, marker=0, pattern=solid)
+11. G4 flag=on | leader(entity=alpha, color=blue, shape=square, size=large) ; follower(entity=gamma, marker=0, pattern=striped)
+12. G3 flag=off | leader(entity=beta, color=red, shape=triangle, size=medium) ; follower(entity=gamma, marker=1, pattern=dotted)
+13. G4 flag=off | leader(entity=alpha, color=yellow, shape=triangle, size=large) ; follower(entity=delta, marker=1, pattern=striped)
+14. G2 flag=on | leader(entity=beta, color=green, shape=square, size=small) ; follower(entity=delta, marker=0, pattern=solid)
+15. G2 flag=on | leader(entity=gamma, color=green, shape=triangle, size=large) ; follower(entity=gamma, marker=1, pattern=solid)
+16. G4 flag=on | leader(entity=gamma, color=yellow, shape=circle, size=small) ; follower(entity=beta, marker=1, pattern=solid)
+17. G3 aux=right | leader(entity=alpha, color=green, shape=square, size=small) ; follower(entity=alpha, marker=0, pattern=striped)
+18. G1 aux=left | leader(entity=beta, color=yellow, shape=circle, size=small) ; follower(entity=beta, marker=1, pattern=solid)","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=yellow, leader.shape=circle, follower.marker=1) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G4 aux=right | leader(entity=alpha, color=red, shape=circle, size=large) ; follower(entity=delta, marker=0, pattern=striped)
+2. G3 flag=off | leader(entity=delta, color=yellow, shape=square, size=small) ; follower(entity=delta, marker=1, pattern=striped)
+3. G4 aux=right | leader(entity=gamma, color=yellow, shape=circle, size=small) ; follower(entity=gamma, marker=0, pattern=solid)
+4. G1 flag=on | leader(entity=gamma, color=yellow, shape=circle, size=large) ; follower(entity=delta, marker=0, pattern=solid)
+5. G3 aux=left | leader(entity=gamma, color=blue, shape=circle, size=large) ; follower(entity=beta, marker=1, pattern=solid)
+6. G3 flag=off | leader(entity=alpha, color=green, shape=circle, size=large) ; follower(entity=delta, marker=1, pattern=dotted)
+7. G2 aux=right | leader(entity=alpha, color=yellow, shape=circle, size=small) ; follower(entity=beta, marker=1, pattern=solid)
+8. G4 aux=right | leader(entity=alpha, color=yellow, shape=square, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+9. G3 flag=on | leader(entity=beta, color=green, shape=square, size=small) ; follower(entity=beta, marker=1, pattern=dotted)
+10. G1 aux=left | leader(entity=alpha, color=yellow, shape=circle, size=small) ; follower(entity=delta, marker=0, pattern=solid)
+11. G4 flag=on | leader(entity=alpha, color=blue, shape=square, size=large) ; follower(entity=gamma, marker=0, pattern=striped)
+12. G3 flag=off | leader(entity=beta, color=red, shape=triangle, size=medium) ; follower(entity=gamma, marker=1, pattern=dotted)
+13. G4 flag=off | leader(entity=alpha, color=yellow, shape=triangle, size=large) ; follower(entity=delta, marker=1, pattern=striped)
+14. G2 flag=on | leader(entity=beta, color=green, shape=square, size=small) ; follower(entity=delta, marker=0, pattern=solid)
+15. G2 flag=on | leader(entity=gamma, color=green, shape=triangle, size=large) ; follower(entity=gamma, marker=1, pattern=solid)
+16. G4 flag=on | leader(entity=gamma, color=yellow, shape=circle, size=small) ; follower(entity=beta, marker=1, pattern=solid)
+17. G3 aux=right | leader(entity=alpha, color=green, shape=square, size=small) ; follower(entity=alpha, marker=0, pattern=striped)
+18. G1 aux=left | leader(entity=beta, color=yellow, shape=circle, size=small) ; follower(entity=beta, marker=1, pattern=solid)","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=yellow, leader.shape=circle, follower.marker=1) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G4 aux=right | leader(entity=alpha, color=red, shape=circle, size=large) ; follower(entity=delta, marker=0, pattern=striped)
+2. G3 flag=off | leader(entity=delta, color=yellow, shape=square, size=small) ; follower(entity=delta, marker=1, pattern=striped)
+3. G4 aux=right | leader(entity=gamma, color=yellow, shape=circle, size=small) ; follower(entity=gamma, marker=0, pattern=solid)
+4. G1 flag=on | leader(entity=gamma, color=yellow, shape=circle, size=large) ; follower(entity=delta, marker=0, pattern=solid)
+5. G3 aux=left | leader(entity=gamma, color=blue, shape=circle, size=large) ; follower(entity=beta, marker=1, pattern=solid)
+6. G3 flag=off | leader(entity=alpha, color=green, shape=circle, size=large) ; follower(entity=delta, marker=1, pattern=dotted)
+7. G2 aux=right | leader(entity=alpha, color=yellow, shape=circle, size=small) ; follower(entity=beta, marker=1, pattern=solid)
+8. G4 aux=right | leader(entity=alpha, color=yellow, shape=square, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+9. G3 flag=on | leader(entity=beta, color=green, shape=square, size=small) ; follower(entity=beta, marker=1, pattern=dotted)
+10. G1 aux=left | leader(entity=alpha, color=yellow, shape=circle, size=small) ; follower(entity=delta, marker=0, pattern=solid)
+11. G4 flag=on | leader(entity=alpha, color=blue, shape=square, size=large) ; follower(entity=gamma, marker=0, pattern=striped)
+12. G3 flag=off | leader(entity=beta, color=red, shape=triangle, size=medium) ; follower(entity=gamma, marker=1, pattern=dotted)
+13. G4 flag=off | leader(entity=alpha, color=yellow, shape=triangle, size=large) ; follower(entity=delta, marker=1, pattern=striped)
+14. G2 flag=on | leader(entity=beta, color=green, shape=square, size=small) ; follower(entity=delta, marker=0, pattern=solid)
+15. G2 flag=on | leader(entity=gamma, color=green, shape=triangle, size=large) ; follower(entity=gamma, marker=1, pattern=solid)
+16. G4 flag=on | leader(entity=gamma, color=yellow, shape=circle, size=small) ; follower(entity=beta, marker=1, pattern=solid)
+17. G3 aux=right | leader(entity=alpha, color=green, shape=square, size=small) ; follower(entity=alpha, marker=0, pattern=striped)
+18. G1 aux=left | leader(entity=beta, color=yellow, shape=circle, size=small) ; follower(entity=beta, marker=1, pattern=solid)",3,"[7, 16, 18]","{""follower_marker"": ""1"", ""leader_color"": ""yellow"", ""leader_shape"": ""circle"", ""local_pattern"": ""solid"", ""scope_size"": ""small""}",2,medium,tagged,18,3,6,9,1
+4109,confound_sweep,medium,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=circle, follower.marker=1) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=circle, follower.marker=1) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G2 aux=right | leader(entity=gamma, color=green, shape=circle, size=small) ; follower(entity=alpha, marker=1, pattern=striped)
+2. G3 aux=right | leader(entity=gamma, color=red, shape=triangle, size=small) ; follower(entity=delta, marker=0, pattern=striped)
+3. G3 aux=left | leader(entity=gamma, color=red, shape=square, size=large) ; follower(entity=delta, marker=0, pattern=dotted)
+4. G4 aux=left | leader(entity=alpha, color=green, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+5. G4 aux=right | leader(entity=delta, color=blue, shape=circle, size=small) ; follower(entity=delta, marker=1, pattern=solid)
+6. G2 flag=on | leader(entity=gamma, color=red, shape=triangle, size=small) ; follower(entity=delta, marker=1, pattern=striped)
+7. G4 flag=off | leader(entity=beta, color=yellow, shape=circle, size=small) ; follower(entity=beta, marker=0, pattern=dotted)
+8. G4 aux=right | leader(entity=beta, color=green, shape=triangle, size=medium) ; follower(entity=gamma, marker=1, pattern=solid)
+9. G2 aux=right | leader(entity=beta, color=green, shape=circle, size=large) ; follower(entity=delta, marker=0, pattern=dotted)
+10. G4 aux=left | leader(entity=beta, color=green, shape=circle, size=large) ; follower(entity=beta, marker=0, pattern=striped)
+11. G3 aux=left | leader(entity=gamma, color=red, shape=circle, size=small) ; follower(entity=alpha, marker=1, pattern=striped)
+12. G3 flag=off | leader(entity=gamma, color=green, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+13. G3 flag=on | leader(entity=alpha, color=green, shape=circle, size=large) ; follower(entity=delta, marker=0, pattern=striped)
+14. G2 aux=left | leader(entity=gamma, color=yellow, shape=circle, size=large) ; follower(entity=beta, marker=1, pattern=striped)
+15. G2 flag=off | leader(entity=gamma, color=blue, shape=circle, size=medium) ; follower(entity=beta, marker=1, pattern=striped)
+16. G4 aux=right | leader(entity=delta, color=blue, shape=circle, size=small) ; follower(entity=delta, marker=1, pattern=striped)
+17. G4 flag=on | leader(entity=alpha, color=red, shape=circle, size=medium) ; follower(entity=alpha, marker=0, pattern=solid)
+18. G1 aux=right | leader(entity=delta, color=red, shape=circle, size=small) ; follower(entity=beta, marker=1, pattern=striped)","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=circle, follower.marker=1) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G2 aux=right | leader(entity=gamma, color=green, shape=circle, size=small) ; follower(entity=alpha, marker=1, pattern=striped)
+2. G3 aux=right | leader(entity=gamma, color=red, shape=triangle, size=small) ; follower(entity=delta, marker=0, pattern=striped)
+3. G3 aux=left | leader(entity=gamma, color=red, shape=square, size=large) ; follower(entity=delta, marker=0, pattern=dotted)
+4. G4 aux=left | leader(entity=alpha, color=green, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+5. G4 aux=right | leader(entity=delta, color=blue, shape=circle, size=small) ; follower(entity=delta, marker=1, pattern=solid)
+6. G2 flag=on | leader(entity=gamma, color=red, shape=triangle, size=small) ; follower(entity=delta, marker=1, pattern=striped)
+7. G4 flag=off | leader(entity=beta, color=yellow, shape=circle, size=small) ; follower(entity=beta, marker=0, pattern=dotted)
+8. G4 aux=right | leader(entity=beta, color=green, shape=triangle, size=medium) ; follower(entity=gamma, marker=1, pattern=solid)
+9. G2 aux=right | leader(entity=beta, color=green, shape=circle, size=large) ; follower(entity=delta, marker=0, pattern=dotted)
+10. G4 aux=left | leader(entity=beta, color=green, shape=circle, size=large) ; follower(entity=beta, marker=0, pattern=striped)
+11. G3 aux=left | leader(entity=gamma, color=red, shape=circle, size=small) ; follower(entity=alpha, marker=1, pattern=striped)
+12. G3 flag=off | leader(entity=gamma, color=green, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+13. G3 flag=on | leader(entity=alpha, color=green, shape=circle, size=large) ; follower(entity=delta, marker=0, pattern=striped)
+14. G2 aux=left | leader(entity=gamma, color=yellow, shape=circle, size=large) ; follower(entity=beta, marker=1, pattern=striped)
+15. G2 flag=off | leader(entity=gamma, color=blue, shape=circle, size=medium) ; follower(entity=beta, marker=1, pattern=striped)
+16. G4 aux=right | leader(entity=delta, color=blue, shape=circle, size=small) ; follower(entity=delta, marker=1, pattern=striped)
+17. G4 flag=on | leader(entity=alpha, color=red, shape=circle, size=medium) ; follower(entity=alpha, marker=0, pattern=solid)
+18. G1 aux=right | leader(entity=delta, color=red, shape=circle, size=small) ; follower(entity=beta, marker=1, pattern=striped)","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=circle, follower.marker=1) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G2 aux=right | leader(entity=gamma, color=green, shape=circle, size=small) ; follower(entity=alpha, marker=1, pattern=striped)
+2. G3 aux=right | leader(entity=gamma, color=red, shape=triangle, size=small) ; follower(entity=delta, marker=0, pattern=striped)
+3. G3 aux=left | leader(entity=gamma, color=red, shape=square, size=large) ; follower(entity=delta, marker=0, pattern=dotted)
+4. G4 aux=left | leader(entity=alpha, color=green, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+5. G4 aux=right | leader(entity=delta, color=blue, shape=circle, size=small) ; follower(entity=delta, marker=1, pattern=solid)
+6. G2 flag=on | leader(entity=gamma, color=red, shape=triangle, size=small) ; follower(entity=delta, marker=1, pattern=striped)
+7. G4 flag=off | leader(entity=beta, color=yellow, shape=circle, size=small) ; follower(entity=beta, marker=0, pattern=dotted)
+8. G4 aux=right | leader(entity=beta, color=green, shape=triangle, size=medium) ; follower(entity=gamma, marker=1, pattern=solid)
+9. G2 aux=right | leader(entity=beta, color=green, shape=circle, size=large) ; follower(entity=delta, marker=0, pattern=dotted)
+10. G4 aux=left | leader(entity=beta, color=green, shape=circle, size=large) ; follower(entity=beta, marker=0, pattern=striped)
+11. G3 aux=left | leader(entity=gamma, color=red, shape=circle, size=small) ; follower(entity=alpha, marker=1, pattern=striped)
+12. G3 flag=off | leader(entity=gamma, color=green, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+13. G3 flag=on | leader(entity=alpha, color=green, shape=circle, size=large) ; follower(entity=delta, marker=0, pattern=striped)
+14. G2 aux=left | leader(entity=gamma, color=yellow, shape=circle, size=large) ; follower(entity=beta, marker=1, pattern=striped)
+15. G2 flag=off | leader(entity=gamma, color=blue, shape=circle, size=medium) ; follower(entity=beta, marker=1, pattern=striped)
+16. G4 aux=right | leader(entity=delta, color=blue, shape=circle, size=small) ; follower(entity=delta, marker=1, pattern=striped)
+17. G4 flag=on | leader(entity=alpha, color=red, shape=circle, size=medium) ; follower(entity=alpha, marker=0, pattern=solid)
+18. G1 aux=right | leader(entity=delta, color=red, shape=circle, size=small) ; follower(entity=beta, marker=1, pattern=striped)",3,"[1, 4, 12]","{""follower_marker"": ""1"", ""leader_color"": ""green"", ""leader_shape"": ""circle"", ""local_pattern"": ""striped"", ""scope_size"": ""small""}",2,medium,tagged,18,3,6,9,1
+4110,confound_sweep,medium,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=yellow, leader.shape=square, follower.marker=0) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=yellow, leader.shape=square, follower.marker=0) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G4 aux=right | leader(entity=gamma, color=yellow, shape=circle, size=small) ; follower(entity=beta, marker=0, pattern=dotted)
+2. G1 flag=on | leader(entity=beta, color=green, shape=circle, size=small) ; follower(entity=delta, marker=1, pattern=striped)
+3. G2 flag=on | leader(entity=beta, color=yellow, shape=square, size=large) ; follower(entity=delta, marker=1, pattern=striped)
+4. G4 flag=off | leader(entity=beta, color=yellow, shape=square, size=medium) ; follower(entity=delta, marker=1, pattern=striped)
+5. G1 aux=left | leader(entity=gamma, color=yellow, shape=square, size=medium) ; follower(entity=gamma, marker=1, pattern=striped)
+6. G4 aux=right | leader(entity=delta, color=blue, shape=triangle, size=large) ; follower(entity=beta, marker=0, pattern=striped)
+7. G1 aux=left | leader(entity=beta, color=red, shape=triangle, size=medium) ; follower(entity=delta, marker=1, pattern=striped)
+8. G4 aux=right | leader(entity=delta, color=yellow, shape=square, size=small) ; follower(entity=delta, marker=0, pattern=striped)
+9. G2 aux=right | leader(entity=gamma, color=blue, shape=square, size=large) ; follower(entity=gamma, marker=1, pattern=dotted)
+10. G1 flag=off | leader(entity=alpha, color=yellow, shape=square, size=small) ; follower(entity=gamma, marker=0, pattern=striped)
+11. G2 flag=off | leader(entity=alpha, color=yellow, shape=triangle, size=medium) ; follower(entity=delta, marker=0, pattern=dotted)
+12. G1 aux=left | leader(entity=alpha, color=yellow, shape=triangle, size=small) ; follower(entity=delta, marker=0, pattern=dotted)
+13. G2 aux=right | leader(entity=beta, color=red, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+14. G2 aux=right | leader(entity=gamma, color=green, shape=square, size=medium) ; follower(entity=gamma, marker=1, pattern=dotted)
+15. G3 aux=left | leader(entity=alpha, color=green, shape=square, size=small) ; follower(entity=beta, marker=0, pattern=striped)
+16. G3 flag=on | leader(entity=delta, color=yellow, shape=square, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+17. G2 flag=on | leader(entity=delta, color=red, shape=circle, size=small) ; follower(entity=delta, marker=1, pattern=striped)
+18. G2 flag=on | leader(entity=beta, color=yellow, shape=square, size=small) ; follower(entity=delta, marker=0, pattern=striped)","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=yellow, leader.shape=square, follower.marker=0) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G4 aux=right | leader(entity=gamma, color=yellow, shape=circle, size=small) ; follower(entity=beta, marker=0, pattern=dotted)
+2. G1 flag=on | leader(entity=beta, color=green, shape=circle, size=small) ; follower(entity=delta, marker=1, pattern=striped)
+3. G2 flag=on | leader(entity=beta, color=yellow, shape=square, size=large) ; follower(entity=delta, marker=1, pattern=striped)
+4. G4 flag=off | leader(entity=beta, color=yellow, shape=square, size=medium) ; follower(entity=delta, marker=1, pattern=striped)
+5. G1 aux=left | leader(entity=gamma, color=yellow, shape=square, size=medium) ; follower(entity=gamma, marker=1, pattern=striped)
+6. G4 aux=right | leader(entity=delta, color=blue, shape=triangle, size=large) ; follower(entity=beta, marker=0, pattern=striped)
+7. G1 aux=left | leader(entity=beta, color=red, shape=triangle, size=medium) ; follower(entity=delta, marker=1, pattern=striped)
+8. G4 aux=right | leader(entity=delta, color=yellow, shape=square, size=small) ; follower(entity=delta, marker=0, pattern=striped)
+9. G2 aux=right | leader(entity=gamma, color=blue, shape=square, size=large) ; follower(entity=gamma, marker=1, pattern=dotted)
+10. G1 flag=off | leader(entity=alpha, color=yellow, shape=square, size=small) ; follower(entity=gamma, marker=0, pattern=striped)
+11. G2 flag=off | leader(entity=alpha, color=yellow, shape=triangle, size=medium) ; follower(entity=delta, marker=0, pattern=dotted)
+12. G1 aux=left | leader(entity=alpha, color=yellow, shape=triangle, size=small) ; follower(entity=delta, marker=0, pattern=dotted)
+13. G2 aux=right | leader(entity=beta, color=red, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+14. G2 aux=right | leader(entity=gamma, color=green, shape=square, size=medium) ; follower(entity=gamma, marker=1, pattern=dotted)
+15. G3 aux=left | leader(entity=alpha, color=green, shape=square, size=small) ; follower(entity=beta, marker=0, pattern=striped)
+16. G3 flag=on | leader(entity=delta, color=yellow, shape=square, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+17. G2 flag=on | leader(entity=delta, color=red, shape=circle, size=small) ; follower(entity=delta, marker=1, pattern=striped)
+18. G2 flag=on | leader(entity=beta, color=yellow, shape=square, size=small) ; follower(entity=delta, marker=0, pattern=striped)","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=yellow, leader.shape=square, follower.marker=0) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G4 aux=right | leader(entity=gamma, color=yellow, shape=circle, size=small) ; follower(entity=beta, marker=0, pattern=dotted)
+2. G1 flag=on | leader(entity=beta, color=green, shape=circle, size=small) ; follower(entity=delta, marker=1, pattern=striped)
+3. G2 flag=on | leader(entity=beta, color=yellow, shape=square, size=large) ; follower(entity=delta, marker=1, pattern=striped)
+4. G4 flag=off | leader(entity=beta, color=yellow, shape=square, size=medium) ; follower(entity=delta, marker=1, pattern=striped)
+5. G1 aux=left | leader(entity=gamma, color=yellow, shape=square, size=medium) ; follower(entity=gamma, marker=1, pattern=striped)
+6. G4 aux=right | leader(entity=delta, color=blue, shape=triangle, size=large) ; follower(entity=beta, marker=0, pattern=striped)
+7. G1 aux=left | leader(entity=beta, color=red, shape=triangle, size=medium) ; follower(entity=delta, marker=1, pattern=striped)
+8. G4 aux=right | leader(entity=delta, color=yellow, shape=square, size=small) ; follower(entity=delta, marker=0, pattern=striped)
+9. G2 aux=right | leader(entity=gamma, color=blue, shape=square, size=large) ; follower(entity=gamma, marker=1, pattern=dotted)
+10. G1 flag=off | leader(entity=alpha, color=yellow, shape=square, size=small) ; follower(entity=gamma, marker=0, pattern=striped)
+11. G2 flag=off | leader(entity=alpha, color=yellow, shape=triangle, size=medium) ; follower(entity=delta, marker=0, pattern=dotted)
+12. G1 aux=left | leader(entity=alpha, color=yellow, shape=triangle, size=small) ; follower(entity=delta, marker=0, pattern=dotted)
+13. G2 aux=right | leader(entity=beta, color=red, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+14. G2 aux=right | leader(entity=gamma, color=green, shape=square, size=medium) ; follower(entity=gamma, marker=1, pattern=dotted)
+15. G3 aux=left | leader(entity=alpha, color=green, shape=square, size=small) ; follower(entity=beta, marker=0, pattern=striped)
+16. G3 flag=on | leader(entity=delta, color=yellow, shape=square, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+17. G2 flag=on | leader(entity=delta, color=red, shape=circle, size=small) ; follower(entity=delta, marker=1, pattern=striped)
+18. G2 flag=on | leader(entity=beta, color=yellow, shape=square, size=small) ; follower(entity=delta, marker=0, pattern=striped)",3,"[8, 10, 18]","{""follower_marker"": ""0"", ""leader_color"": ""yellow"", ""leader_shape"": ""square"", ""local_pattern"": ""striped"", ""scope_size"": ""small""}",2,medium,tagged,18,3,6,9,1
+4111,confound_sweep,medium,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=yellow, leader.shape=triangle, follower.marker=1) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=yellow, leader.shape=triangle, follower.marker=1) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G1 aux=left | leader(entity=gamma, color=yellow, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=solid)
+2. G4 aux=right | leader(entity=alpha, color=blue, shape=circle, size=large) ; follower(entity=alpha, marker=0, pattern=dotted)
+3. G1 flag=on | leader(entity=delta, color=red, shape=triangle, size=medium) ; follower(entity=alpha, marker=1, pattern=dotted)
+4. G3 aux=left | leader(entity=delta, color=yellow, shape=triangle, size=medium) ; follower(entity=beta, marker=0, pattern=solid)
+5. G2 flag=on | leader(entity=beta, color=yellow, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+6. G2 aux=right | leader(entity=beta, color=green, shape=square, size=small) ; follower(entity=gamma, marker=0, pattern=dotted)
+7. G3 flag=on | leader(entity=beta, color=yellow, shape=triangle, size=small) ; follower(entity=gamma, marker=1, pattern=dotted)
+8. G4 aux=left | leader(entity=beta, color=red, shape=triangle, size=small) ; follower(entity=alpha, marker=1, pattern=dotted)
+9. G3 aux=right | leader(entity=alpha, color=red, shape=triangle, size=medium) ; follower(entity=gamma, marker=1, pattern=dotted)
+10. G4 aux=right | leader(entity=alpha, color=blue, shape=triangle, size=medium) ; follower(entity=delta, marker=0, pattern=striped)
+11. G2 aux=left | leader(entity=delta, color=yellow, shape=triangle, size=small) ; follower(entity=beta, marker=1, pattern=dotted)
+12. G4 flag=on | leader(entity=delta, color=yellow, shape=circle, size=medium) ; follower(entity=gamma, marker=1, pattern=striped)
+13. G2 aux=right | leader(entity=gamma, color=blue, shape=triangle, size=large) ; follower(entity=beta, marker=0, pattern=dotted)
+14. G4 flag=off | leader(entity=delta, color=green, shape=triangle, size=small) ; follower(entity=delta, marker=1, pattern=dotted)
+15. G3 flag=on | leader(entity=beta, color=green, shape=triangle, size=small) ; follower(entity=alpha, marker=0, pattern=solid)
+16. G2 flag=off | leader(entity=delta, color=yellow, shape=triangle, size=small) ; follower(entity=gamma, marker=1, pattern=dotted)
+17. G1 aux=right | leader(entity=gamma, color=yellow, shape=triangle, size=large) ; follower(entity=beta, marker=0, pattern=dotted)
+18. G3 aux=right | leader(entity=beta, color=green, shape=square, size=large) ; follower(entity=delta, marker=1, pattern=dotted)","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=yellow, leader.shape=triangle, follower.marker=1) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G1 aux=left | leader(entity=gamma, color=yellow, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=solid)
+2. G4 aux=right | leader(entity=alpha, color=blue, shape=circle, size=large) ; follower(entity=alpha, marker=0, pattern=dotted)
+3. G1 flag=on | leader(entity=delta, color=red, shape=triangle, size=medium) ; follower(entity=alpha, marker=1, pattern=dotted)
+4. G3 aux=left | leader(entity=delta, color=yellow, shape=triangle, size=medium) ; follower(entity=beta, marker=0, pattern=solid)
+5. G2 flag=on | leader(entity=beta, color=yellow, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+6. G2 aux=right | leader(entity=beta, color=green, shape=square, size=small) ; follower(entity=gamma, marker=0, pattern=dotted)
+7. G3 flag=on | leader(entity=beta, color=yellow, shape=triangle, size=small) ; follower(entity=gamma, marker=1, pattern=dotted)
+8. G4 aux=left | leader(entity=beta, color=red, shape=triangle, size=small) ; follower(entity=alpha, marker=1, pattern=dotted)
+9. G3 aux=right | leader(entity=alpha, color=red, shape=triangle, size=medium) ; follower(entity=gamma, marker=1, pattern=dotted)
+10. G4 aux=right | leader(entity=alpha, color=blue, shape=triangle, size=medium) ; follower(entity=delta, marker=0, pattern=striped)
+11. G2 aux=left | leader(entity=delta, color=yellow, shape=triangle, size=small) ; follower(entity=beta, marker=1, pattern=dotted)
+12. G4 flag=on | leader(entity=delta, color=yellow, shape=circle, size=medium) ; follower(entity=gamma, marker=1, pattern=striped)
+13. G2 aux=right | leader(entity=gamma, color=blue, shape=triangle, size=large) ; follower(entity=beta, marker=0, pattern=dotted)
+14. G4 flag=off | leader(entity=delta, color=green, shape=triangle, size=small) ; follower(entity=delta, marker=1, pattern=dotted)
+15. G3 flag=on | leader(entity=beta, color=green, shape=triangle, size=small) ; follower(entity=alpha, marker=0, pattern=solid)
+16. G2 flag=off | leader(entity=delta, color=yellow, shape=triangle, size=small) ; follower(entity=gamma, marker=1, pattern=dotted)
+17. G1 aux=right | leader(entity=gamma, color=yellow, shape=triangle, size=large) ; follower(entity=beta, marker=0, pattern=dotted)
+18. G3 aux=right | leader(entity=beta, color=green, shape=square, size=large) ; follower(entity=delta, marker=1, pattern=dotted)","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=yellow, leader.shape=triangle, follower.marker=1) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G1 aux=left | leader(entity=gamma, color=yellow, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=solid)
+2. G4 aux=right | leader(entity=alpha, color=blue, shape=circle, size=large) ; follower(entity=alpha, marker=0, pattern=dotted)
+3. G1 flag=on | leader(entity=delta, color=red, shape=triangle, size=medium) ; follower(entity=alpha, marker=1, pattern=dotted)
+4. G3 aux=left | leader(entity=delta, color=yellow, shape=triangle, size=medium) ; follower(entity=beta, marker=0, pattern=solid)
+5. G2 flag=on | leader(entity=beta, color=yellow, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+6. G2 aux=right | leader(entity=beta, color=green, shape=square, size=small) ; follower(entity=gamma, marker=0, pattern=dotted)
+7. G3 flag=on | leader(entity=beta, color=yellow, shape=triangle, size=small) ; follower(entity=gamma, marker=1, pattern=dotted)
+8. G4 aux=left | leader(entity=beta, color=red, shape=triangle, size=small) ; follower(entity=alpha, marker=1, pattern=dotted)
+9. G3 aux=right | leader(entity=alpha, color=red, shape=triangle, size=medium) ; follower(entity=gamma, marker=1, pattern=dotted)
+10. G4 aux=right | leader(entity=alpha, color=blue, shape=triangle, size=medium) ; follower(entity=delta, marker=0, pattern=striped)
+11. G2 aux=left | leader(entity=delta, color=yellow, shape=triangle, size=small) ; follower(entity=beta, marker=1, pattern=dotted)
+12. G4 flag=on | leader(entity=delta, color=yellow, shape=circle, size=medium) ; follower(entity=gamma, marker=1, pattern=striped)
+13. G2 aux=right | leader(entity=gamma, color=blue, shape=triangle, size=large) ; follower(entity=beta, marker=0, pattern=dotted)
+14. G4 flag=off | leader(entity=delta, color=green, shape=triangle, size=small) ; follower(entity=delta, marker=1, pattern=dotted)
+15. G3 flag=on | leader(entity=beta, color=green, shape=triangle, size=small) ; follower(entity=alpha, marker=0, pattern=solid)
+16. G2 flag=off | leader(entity=delta, color=yellow, shape=triangle, size=small) ; follower(entity=gamma, marker=1, pattern=dotted)
+17. G1 aux=right | leader(entity=gamma, color=yellow, shape=triangle, size=large) ; follower(entity=beta, marker=0, pattern=dotted)
+18. G3 aux=right | leader(entity=beta, color=green, shape=square, size=large) ; follower(entity=delta, marker=1, pattern=dotted)",3,"[7, 11, 16]","{""follower_marker"": ""1"", ""leader_color"": ""yellow"", ""leader_shape"": ""triangle"", ""local_pattern"": ""dotted"", ""scope_size"": ""small""}",2,medium,tagged,18,3,6,9,1
+4112,confound_sweep,medium,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=circle, follower.marker=1) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=circle, follower.marker=1) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G4 flag=off | leader(entity=delta, color=blue, shape=square, size=large) ; follower(entity=delta, marker=1, pattern=striped)
+2. G2 aux=left | leader(entity=gamma, color=green, shape=circle, size=medium) ; follower(entity=beta, marker=1, pattern=dotted)
+3. G1 aux=left | leader(entity=beta, color=green, shape=circle, size=small) ; follower(entity=gamma, marker=0, pattern=dotted)
+4. G2 aux=right | leader(entity=gamma, color=yellow, shape=triangle, size=medium) ; follower(entity=delta, marker=0, pattern=dotted)
+5. G4 flag=off | leader(entity=alpha, color=green, shape=circle, size=medium) ; follower(entity=alpha, marker=1, pattern=dotted)
+6. G2 aux=left | leader(entity=alpha, color=green, shape=triangle, size=large) ; follower(entity=delta, marker=1, pattern=solid)
+7. G4 aux=left | leader(entity=gamma, color=blue, shape=circle, size=large) ; follower(entity=alpha, marker=0, pattern=dotted)
+8. G3 aux=right | leader(entity=gamma, color=blue, shape=square, size=large) ; follower(entity=beta, marker=1, pattern=striped)
+9. G4 aux=left | leader(entity=delta, color=green, shape=square, size=medium) ; follower(entity=gamma, marker=1, pattern=striped)
+10. G2 flag=off | leader(entity=beta, color=blue, shape=square, size=large) ; follower(entity=alpha, marker=0, pattern=striped)
+11. G2 aux=right | leader(entity=alpha, color=green, shape=circle, size=medium) ; follower(entity=gamma, marker=1, pattern=dotted)
+12. G4 flag=off | leader(entity=gamma, color=green, shape=circle, size=small) ; follower(entity=gamma, marker=0, pattern=dotted)
+13. G2 aux=left | leader(entity=gamma, color=green, shape=square, size=small) ; follower(entity=beta, marker=0, pattern=solid)
+14. G4 aux=left | leader(entity=alpha, color=green, shape=triangle, size=small) ; follower(entity=gamma, marker=0, pattern=dotted)
+15. G1 flag=on | leader(entity=alpha, color=blue, shape=circle, size=medium) ; follower(entity=delta, marker=1, pattern=dotted)
+16. G2 flag=on | leader(entity=delta, color=green, shape=square, size=medium) ; follower(entity=alpha, marker=1, pattern=striped)
+17. G3 aux=right | leader(entity=gamma, color=blue, shape=square, size=large) ; follower(entity=delta, marker=0, pattern=solid)
+18. G4 aux=right | leader(entity=gamma, color=red, shape=circle, size=large) ; follower(entity=gamma, marker=1, pattern=dotted)","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=circle, follower.marker=1) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G4 flag=off | leader(entity=delta, color=blue, shape=square, size=large) ; follower(entity=delta, marker=1, pattern=striped)
+2. G2 aux=left | leader(entity=gamma, color=green, shape=circle, size=medium) ; follower(entity=beta, marker=1, pattern=dotted)
+3. G1 aux=left | leader(entity=beta, color=green, shape=circle, size=small) ; follower(entity=gamma, marker=0, pattern=dotted)
+4. G2 aux=right | leader(entity=gamma, color=yellow, shape=triangle, size=medium) ; follower(entity=delta, marker=0, pattern=dotted)
+5. G4 flag=off | leader(entity=alpha, color=green, shape=circle, size=medium) ; follower(entity=alpha, marker=1, pattern=dotted)
+6. G2 aux=left | leader(entity=alpha, color=green, shape=triangle, size=large) ; follower(entity=delta, marker=1, pattern=solid)
+7. G4 aux=left | leader(entity=gamma, color=blue, shape=circle, size=large) ; follower(entity=alpha, marker=0, pattern=dotted)
+8. G3 aux=right | leader(entity=gamma, color=blue, shape=square, size=large) ; follower(entity=beta, marker=1, pattern=striped)
+9. G4 aux=left | leader(entity=delta, color=green, shape=square, size=medium) ; follower(entity=gamma, marker=1, pattern=striped)
+10. G2 flag=off | leader(entity=beta, color=blue, shape=square, size=large) ; follower(entity=alpha, marker=0, pattern=striped)
+11. G2 aux=right | leader(entity=alpha, color=green, shape=circle, size=medium) ; follower(entity=gamma, marker=1, pattern=dotted)
+12. G4 flag=off | leader(entity=gamma, color=green, shape=circle, size=small) ; follower(entity=gamma, marker=0, pattern=dotted)
+13. G2 aux=left | leader(entity=gamma, color=green, shape=square, size=small) ; follower(entity=beta, marker=0, pattern=solid)
+14. G4 aux=left | leader(entity=alpha, color=green, shape=triangle, size=small) ; follower(entity=gamma, marker=0, pattern=dotted)
+15. G1 flag=on | leader(entity=alpha, color=blue, shape=circle, size=medium) ; follower(entity=delta, marker=1, pattern=dotted)
+16. G2 flag=on | leader(entity=delta, color=green, shape=square, size=medium) ; follower(entity=alpha, marker=1, pattern=striped)
+17. G3 aux=right | leader(entity=gamma, color=blue, shape=square, size=large) ; follower(entity=delta, marker=0, pattern=solid)
+18. G4 aux=right | leader(entity=gamma, color=red, shape=circle, size=large) ; follower(entity=gamma, marker=1, pattern=dotted)","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=circle, follower.marker=1) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G4 flag=off | leader(entity=delta, color=blue, shape=square, size=large) ; follower(entity=delta, marker=1, pattern=striped)
+2. G2 aux=left | leader(entity=gamma, color=green, shape=circle, size=medium) ; follower(entity=beta, marker=1, pattern=dotted)
+3. G1 aux=left | leader(entity=beta, color=green, shape=circle, size=small) ; follower(entity=gamma, marker=0, pattern=dotted)
+4. G2 aux=right | leader(entity=gamma, color=yellow, shape=triangle, size=medium) ; follower(entity=delta, marker=0, pattern=dotted)
+5. G4 flag=off | leader(entity=alpha, color=green, shape=circle, size=medium) ; follower(entity=alpha, marker=1, pattern=dotted)
+6. G2 aux=left | leader(entity=alpha, color=green, shape=triangle, size=large) ; follower(entity=delta, marker=1, pattern=solid)
+7. G4 aux=left | leader(entity=gamma, color=blue, shape=circle, size=large) ; follower(entity=alpha, marker=0, pattern=dotted)
+8. G3 aux=right | leader(entity=gamma, color=blue, shape=square, size=large) ; follower(entity=beta, marker=1, pattern=striped)
+9. G4 aux=left | leader(entity=delta, color=green, shape=square, size=medium) ; follower(entity=gamma, marker=1, pattern=striped)
+10. G2 flag=off | leader(entity=beta, color=blue, shape=square, size=large) ; follower(entity=alpha, marker=0, pattern=striped)
+11. G2 aux=right | leader(entity=alpha, color=green, shape=circle, size=medium) ; follower(entity=gamma, marker=1, pattern=dotted)
+12. G4 flag=off | leader(entity=gamma, color=green, shape=circle, size=small) ; follower(entity=gamma, marker=0, pattern=dotted)
+13. G2 aux=left | leader(entity=gamma, color=green, shape=square, size=small) ; follower(entity=beta, marker=0, pattern=solid)
+14. G4 aux=left | leader(entity=alpha, color=green, shape=triangle, size=small) ; follower(entity=gamma, marker=0, pattern=dotted)
+15. G1 flag=on | leader(entity=alpha, color=blue, shape=circle, size=medium) ; follower(entity=delta, marker=1, pattern=dotted)
+16. G2 flag=on | leader(entity=delta, color=green, shape=square, size=medium) ; follower(entity=alpha, marker=1, pattern=striped)
+17. G3 aux=right | leader(entity=gamma, color=blue, shape=square, size=large) ; follower(entity=delta, marker=0, pattern=solid)
+18. G4 aux=right | leader(entity=gamma, color=red, shape=circle, size=large) ; follower(entity=gamma, marker=1, pattern=dotted)",3,"[2, 5, 11]","{""follower_marker"": ""1"", ""leader_color"": ""green"", ""leader_shape"": ""circle"", ""local_pattern"": ""dotted"", ""scope_size"": ""medium""}",2,medium,tagged,18,3,6,9,1
+4113,confound_sweep,medium,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=triangle, follower.marker=1) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=triangle, follower.marker=1) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G3 aux=right | leader(entity=alpha, color=yellow, shape=triangle, size=medium) ; follower(entity=beta, marker=1, pattern=solid)
+2. G3 aux=right | leader(entity=delta, color=red, shape=triangle, size=medium) ; follower(entity=gamma, marker=0, pattern=solid)
+3. G4 aux=left | leader(entity=alpha, color=red, shape=triangle, size=large) ; follower(entity=beta, marker=1, pattern=solid)
+4. G2 aux=right | leader(entity=alpha, color=red, shape=triangle, size=small) ; follower(entity=delta, marker=0, pattern=solid)
+5. G4 aux=right | leader(entity=gamma, color=red, shape=square, size=medium) ; follower(entity=beta, marker=0, pattern=solid)
+6. G2 aux=left | leader(entity=beta, color=blue, shape=triangle, size=medium) ; follower(entity=beta, marker=1, pattern=striped)
+7. G3 aux=right | leader(entity=gamma, color=yellow, shape=circle, size=large) ; follower(entity=gamma, marker=0, pattern=solid)
+8. G2 flag=off | leader(entity=delta, color=blue, shape=circle, size=small) ; follower(entity=alpha, marker=1, pattern=solid)
+9. G2 flag=off | leader(entity=delta, color=red, shape=triangle, size=large) ; follower(entity=beta, marker=1, pattern=solid)
+10. G2 aux=right | leader(entity=beta, color=yellow, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=solid)
+11. G2 flag=on | leader(entity=delta, color=blue, shape=circle, size=small) ; follower(entity=beta, marker=1, pattern=striped)
+12. G2 aux=left | leader(entity=gamma, color=red, shape=square, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+13. G3 flag=on | leader(entity=alpha, color=red, shape=triangle, size=large) ; follower(entity=alpha, marker=1, pattern=solid)
+14. G3 aux=right | leader(entity=gamma, color=red, shape=circle, size=large) ; follower(entity=gamma, marker=1, pattern=striped)
+15. G2 flag=on | leader(entity=beta, color=green, shape=square, size=medium) ; follower(entity=delta, marker=0, pattern=solid)
+16. G1 flag=on | leader(entity=alpha, color=red, shape=triangle, size=medium) ; follower(entity=gamma, marker=0, pattern=dotted)
+17. G1 aux=left | leader(entity=beta, color=red, shape=triangle, size=large) ; follower(entity=gamma, marker=0, pattern=solid)
+18. G3 aux=right | leader(entity=beta, color=red, shape=circle, size=large) ; follower(entity=delta, marker=0, pattern=solid)","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=triangle, follower.marker=1) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G3 aux=right | leader(entity=alpha, color=yellow, shape=triangle, size=medium) ; follower(entity=beta, marker=1, pattern=solid)
+2. G3 aux=right | leader(entity=delta, color=red, shape=triangle, size=medium) ; follower(entity=gamma, marker=0, pattern=solid)
+3. G4 aux=left | leader(entity=alpha, color=red, shape=triangle, size=large) ; follower(entity=beta, marker=1, pattern=solid)
+4. G2 aux=right | leader(entity=alpha, color=red, shape=triangle, size=small) ; follower(entity=delta, marker=0, pattern=solid)
+5. G4 aux=right | leader(entity=gamma, color=red, shape=square, size=medium) ; follower(entity=beta, marker=0, pattern=solid)
+6. G2 aux=left | leader(entity=beta, color=blue, shape=triangle, size=medium) ; follower(entity=beta, marker=1, pattern=striped)
+7. G3 aux=right | leader(entity=gamma, color=yellow, shape=circle, size=large) ; follower(entity=gamma, marker=0, pattern=solid)
+8. G2 flag=off | leader(entity=delta, color=blue, shape=circle, size=small) ; follower(entity=alpha, marker=1, pattern=solid)
+9. G2 flag=off | leader(entity=delta, color=red, shape=triangle, size=large) ; follower(entity=beta, marker=1, pattern=solid)
+10. G2 aux=right | leader(entity=beta, color=yellow, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=solid)
+11. G2 flag=on | leader(entity=delta, color=blue, shape=circle, size=small) ; follower(entity=beta, marker=1, pattern=striped)
+12. G2 aux=left | leader(entity=gamma, color=red, shape=square, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+13. G3 flag=on | leader(entity=alpha, color=red, shape=triangle, size=large) ; follower(entity=alpha, marker=1, pattern=solid)
+14. G3 aux=right | leader(entity=gamma, color=red, shape=circle, size=large) ; follower(entity=gamma, marker=1, pattern=striped)
+15. G2 flag=on | leader(entity=beta, color=green, shape=square, size=medium) ; follower(entity=delta, marker=0, pattern=solid)
+16. G1 flag=on | leader(entity=alpha, color=red, shape=triangle, size=medium) ; follower(entity=gamma, marker=0, pattern=dotted)
+17. G1 aux=left | leader(entity=beta, color=red, shape=triangle, size=large) ; follower(entity=gamma, marker=0, pattern=solid)
+18. G3 aux=right | leader(entity=beta, color=red, shape=circle, size=large) ; follower(entity=delta, marker=0, pattern=solid)","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=triangle, follower.marker=1) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G3 aux=right | leader(entity=alpha, color=yellow, shape=triangle, size=medium) ; follower(entity=beta, marker=1, pattern=solid)
+2. G3 aux=right | leader(entity=delta, color=red, shape=triangle, size=medium) ; follower(entity=gamma, marker=0, pattern=solid)
+3. G4 aux=left | leader(entity=alpha, color=red, shape=triangle, size=large) ; follower(entity=beta, marker=1, pattern=solid)
+4. G2 aux=right | leader(entity=alpha, color=red, shape=triangle, size=small) ; follower(entity=delta, marker=0, pattern=solid)
+5. G4 aux=right | leader(entity=gamma, color=red, shape=square, size=medium) ; follower(entity=beta, marker=0, pattern=solid)
+6. G2 aux=left | leader(entity=beta, color=blue, shape=triangle, size=medium) ; follower(entity=beta, marker=1, pattern=striped)
+7. G3 aux=right | leader(entity=gamma, color=yellow, shape=circle, size=large) ; follower(entity=gamma, marker=0, pattern=solid)
+8. G2 flag=off | leader(entity=delta, color=blue, shape=circle, size=small) ; follower(entity=alpha, marker=1, pattern=solid)
+9. G2 flag=off | leader(entity=delta, color=red, shape=triangle, size=large) ; follower(entity=beta, marker=1, pattern=solid)
+10. G2 aux=right | leader(entity=beta, color=yellow, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=solid)
+11. G2 flag=on | leader(entity=delta, color=blue, shape=circle, size=small) ; follower(entity=beta, marker=1, pattern=striped)
+12. G2 aux=left | leader(entity=gamma, color=red, shape=square, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+13. G3 flag=on | leader(entity=alpha, color=red, shape=triangle, size=large) ; follower(entity=alpha, marker=1, pattern=solid)
+14. G3 aux=right | leader(entity=gamma, color=red, shape=circle, size=large) ; follower(entity=gamma, marker=1, pattern=striped)
+15. G2 flag=on | leader(entity=beta, color=green, shape=square, size=medium) ; follower(entity=delta, marker=0, pattern=solid)
+16. G1 flag=on | leader(entity=alpha, color=red, shape=triangle, size=medium) ; follower(entity=gamma, marker=0, pattern=dotted)
+17. G1 aux=left | leader(entity=beta, color=red, shape=triangle, size=large) ; follower(entity=gamma, marker=0, pattern=solid)
+18. G3 aux=right | leader(entity=beta, color=red, shape=circle, size=large) ; follower(entity=delta, marker=0, pattern=solid)",3,"[3, 9, 13]","{""follower_marker"": ""1"", ""leader_color"": ""red"", ""leader_shape"": ""triangle"", ""local_pattern"": ""solid"", ""scope_size"": ""large""}",2,medium,tagged,18,3,6,9,1
+4114,confound_sweep,medium,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G4 aux=left | leader(entity=beta, color=green, shape=circle, size=small) ; follower(entity=beta, marker=1, pattern=solid)
+2. G3 aux=left | leader(entity=beta, color=green, shape=triangle, size=small) ; follower(entity=beta, marker=0, pattern=solid)
+3. G4 flag=on | leader(entity=beta, color=yellow, shape=square, size=medium) ; follower(entity=delta, marker=0, pattern=solid)
+4. G3 aux=left | leader(entity=delta, color=red, shape=triangle, size=medium) ; follower(entity=gamma, marker=1, pattern=solid)
+5. G3 aux=right | leader(entity=alpha, color=blue, shape=triangle, size=small) ; follower(entity=beta, marker=0, pattern=solid)
+6. G4 aux=left | leader(entity=beta, color=yellow, shape=circle, size=medium) ; follower(entity=alpha, marker=0, pattern=dotted)
+7. G3 flag=on | leader(entity=alpha, color=blue, shape=square, size=small) ; follower(entity=beta, marker=1, pattern=solid)
+8. G1 aux=right | leader(entity=gamma, color=green, shape=circle, size=medium) ; follower(entity=beta, marker=0, pattern=solid)
+9. G2 aux=right | leader(entity=alpha, color=red, shape=square, size=large) ; follower(entity=delta, marker=0, pattern=striped)
+10. G1 aux=right | leader(entity=gamma, color=green, shape=circle, size=small) ; follower(entity=gamma, marker=0, pattern=dotted)
+11. G4 aux=right | leader(entity=delta, color=red, shape=triangle, size=small) ; follower(entity=delta, marker=0, pattern=solid)
+12. G1 flag=off | leader(entity=delta, color=blue, shape=circle, size=medium) ; follower(entity=alpha, marker=0, pattern=solid)
+13. G1 aux=right | leader(entity=beta, color=red, shape=triangle, size=medium) ; follower(entity=delta, marker=1, pattern=solid)
+14. G3 flag=off | leader(entity=beta, color=red, shape=triangle, size=medium) ; follower(entity=beta, marker=1, pattern=solid)
+15. G2 aux=right | leader(entity=beta, color=red, shape=triangle, size=small) ; follower(entity=gamma, marker=0, pattern=solid)
+16. G2 aux=right | leader(entity=beta, color=blue, shape=circle, size=medium) ; follower(entity=beta, marker=1, pattern=solid)
+17. G1 flag=on | leader(entity=beta, color=red, shape=triangle, size=small) ; follower(entity=alpha, marker=0, pattern=solid)
+18. G4 aux=right | leader(entity=alpha, color=blue, shape=circle, size=large) ; follower(entity=delta, marker=0, pattern=solid)","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G4 aux=left | leader(entity=beta, color=green, shape=circle, size=small) ; follower(entity=beta, marker=1, pattern=solid)
+2. G3 aux=left | leader(entity=beta, color=green, shape=triangle, size=small) ; follower(entity=beta, marker=0, pattern=solid)
+3. G4 flag=on | leader(entity=beta, color=yellow, shape=square, size=medium) ; follower(entity=delta, marker=0, pattern=solid)
+4. G3 aux=left | leader(entity=delta, color=red, shape=triangle, size=medium) ; follower(entity=gamma, marker=1, pattern=solid)
+5. G3 aux=right | leader(entity=alpha, color=blue, shape=triangle, size=small) ; follower(entity=beta, marker=0, pattern=solid)
+6. G4 aux=left | leader(entity=beta, color=yellow, shape=circle, size=medium) ; follower(entity=alpha, marker=0, pattern=dotted)
+7. G3 flag=on | leader(entity=alpha, color=blue, shape=square, size=small) ; follower(entity=beta, marker=1, pattern=solid)
+8. G1 aux=right | leader(entity=gamma, color=green, shape=circle, size=medium) ; follower(entity=beta, marker=0, pattern=solid)
+9. G2 aux=right | leader(entity=alpha, color=red, shape=square, size=large) ; follower(entity=delta, marker=0, pattern=striped)
+10. G1 aux=right | leader(entity=gamma, color=green, shape=circle, size=small) ; follower(entity=gamma, marker=0, pattern=dotted)
+11. G4 aux=right | leader(entity=delta, color=red, shape=triangle, size=small) ; follower(entity=delta, marker=0, pattern=solid)
+12. G1 flag=off | leader(entity=delta, color=blue, shape=circle, size=medium) ; follower(entity=alpha, marker=0, pattern=solid)
+13. G1 aux=right | leader(entity=beta, color=red, shape=triangle, size=medium) ; follower(entity=delta, marker=1, pattern=solid)
+14. G3 flag=off | leader(entity=beta, color=red, shape=triangle, size=medium) ; follower(entity=beta, marker=1, pattern=solid)
+15. G2 aux=right | leader(entity=beta, color=red, shape=triangle, size=small) ; follower(entity=gamma, marker=0, pattern=solid)
+16. G2 aux=right | leader(entity=beta, color=blue, shape=circle, size=medium) ; follower(entity=beta, marker=1, pattern=solid)
+17. G1 flag=on | leader(entity=beta, color=red, shape=triangle, size=small) ; follower(entity=alpha, marker=0, pattern=solid)
+18. G4 aux=right | leader(entity=alpha, color=blue, shape=circle, size=large) ; follower(entity=delta, marker=0, pattern=solid)","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G4 aux=left | leader(entity=beta, color=green, shape=circle, size=small) ; follower(entity=beta, marker=1, pattern=solid)
+2. G3 aux=left | leader(entity=beta, color=green, shape=triangle, size=small) ; follower(entity=beta, marker=0, pattern=solid)
+3. G4 flag=on | leader(entity=beta, color=yellow, shape=square, size=medium) ; follower(entity=delta, marker=0, pattern=solid)
+4. G3 aux=left | leader(entity=delta, color=red, shape=triangle, size=medium) ; follower(entity=gamma, marker=1, pattern=solid)
+5. G3 aux=right | leader(entity=alpha, color=blue, shape=triangle, size=small) ; follower(entity=beta, marker=0, pattern=solid)
+6. G4 aux=left | leader(entity=beta, color=yellow, shape=circle, size=medium) ; follower(entity=alpha, marker=0, pattern=dotted)
+7. G3 flag=on | leader(entity=alpha, color=blue, shape=square, size=small) ; follower(entity=beta, marker=1, pattern=solid)
+8. G1 aux=right | leader(entity=gamma, color=green, shape=circle, size=medium) ; follower(entity=beta, marker=0, pattern=solid)
+9. G2 aux=right | leader(entity=alpha, color=red, shape=square, size=large) ; follower(entity=delta, marker=0, pattern=striped)
+10. G1 aux=right | leader(entity=gamma, color=green, shape=circle, size=small) ; follower(entity=gamma, marker=0, pattern=dotted)
+11. G4 aux=right | leader(entity=delta, color=red, shape=triangle, size=small) ; follower(entity=delta, marker=0, pattern=solid)
+12. G1 flag=off | leader(entity=delta, color=blue, shape=circle, size=medium) ; follower(entity=alpha, marker=0, pattern=solid)
+13. G1 aux=right | leader(entity=beta, color=red, shape=triangle, size=medium) ; follower(entity=delta, marker=1, pattern=solid)
+14. G3 flag=off | leader(entity=beta, color=red, shape=triangle, size=medium) ; follower(entity=beta, marker=1, pattern=solid)
+15. G2 aux=right | leader(entity=beta, color=red, shape=triangle, size=small) ; follower(entity=gamma, marker=0, pattern=solid)
+16. G2 aux=right | leader(entity=beta, color=blue, shape=circle, size=medium) ; follower(entity=beta, marker=1, pattern=solid)
+17. G1 flag=on | leader(entity=beta, color=red, shape=triangle, size=small) ; follower(entity=alpha, marker=0, pattern=solid)
+18. G4 aux=right | leader(entity=alpha, color=blue, shape=circle, size=large) ; follower(entity=delta, marker=0, pattern=solid)",3,"[11, 15, 17]","{""follower_marker"": ""0"", ""leader_color"": ""red"", ""leader_shape"": ""triangle"", ""local_pattern"": ""solid"", ""scope_size"": ""small""}",2,medium,tagged,18,3,6,9,1
+4115,confound_sweep,medium,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G3 aux=right | leader(entity=alpha, color=yellow, shape=square, size=medium) ; follower(entity=beta, marker=0, pattern=dotted)
+2. G1 aux=left | leader(entity=alpha, color=green, shape=square, size=medium) ; follower(entity=beta, marker=0, pattern=solid)
+3. G1 aux=right | leader(entity=delta, color=red, shape=square, size=small) ; follower(entity=beta, marker=0, pattern=dotted)
+4. G2 aux=left | leader(entity=alpha, color=blue, shape=triangle, size=medium) ; follower(entity=gamma, marker=1, pattern=striped)
+5. G3 flag=on | leader(entity=delta, color=blue, shape=triangle, size=medium) ; follower(entity=gamma, marker=0, pattern=striped)
+6. G3 flag=on | leader(entity=alpha, color=blue, shape=triangle, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+7. G4 flag=off | leader(entity=alpha, color=blue, shape=square, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+8. G4 flag=on | leader(entity=gamma, color=red, shape=circle, size=medium) ; follower(entity=beta, marker=1, pattern=dotted)
+9. G3 aux=right | leader(entity=alpha, color=yellow, shape=triangle, size=medium) ; follower(entity=gamma, marker=1, pattern=solid)
+10. G3 flag=on | leader(entity=beta, color=blue, shape=triangle, size=medium) ; follower(entity=beta, marker=0, pattern=striped)
+11. G2 aux=right | leader(entity=delta, color=green, shape=triangle, size=medium) ; follower(entity=gamma, marker=0, pattern=striped)
+12. G3 aux=right | leader(entity=gamma, color=green, shape=square, size=small) ; follower(entity=beta, marker=1, pattern=striped)
+13. G1 flag=off | leader(entity=delta, color=green, shape=triangle, size=medium) ; follower(entity=gamma, marker=0, pattern=solid)
+14. G2 aux=right | leader(entity=beta, color=blue, shape=triangle, size=medium) ; follower(entity=beta, marker=0, pattern=striped)
+15. G1 flag=off | leader(entity=alpha, color=blue, shape=square, size=large) ; follower(entity=gamma, marker=0, pattern=dotted)
+16. G1 aux=left | leader(entity=gamma, color=blue, shape=circle, size=large) ; follower(entity=gamma, marker=1, pattern=dotted)
+17. G2 aux=right | leader(entity=beta, color=blue, shape=square, size=medium) ; follower(entity=delta, marker=0, pattern=solid)
+18. G2 aux=right | leader(entity=alpha, color=red, shape=triangle, size=small) ; follower(entity=delta, marker=0, pattern=striped)","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G3 aux=right | leader(entity=alpha, color=yellow, shape=square, size=medium) ; follower(entity=beta, marker=0, pattern=dotted)
+2. G1 aux=left | leader(entity=alpha, color=green, shape=square, size=medium) ; follower(entity=beta, marker=0, pattern=solid)
+3. G1 aux=right | leader(entity=delta, color=red, shape=square, size=small) ; follower(entity=beta, marker=0, pattern=dotted)
+4. G2 aux=left | leader(entity=alpha, color=blue, shape=triangle, size=medium) ; follower(entity=gamma, marker=1, pattern=striped)
+5. G3 flag=on | leader(entity=delta, color=blue, shape=triangle, size=medium) ; follower(entity=gamma, marker=0, pattern=striped)
+6. G3 flag=on | leader(entity=alpha, color=blue, shape=triangle, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+7. G4 flag=off | leader(entity=alpha, color=blue, shape=square, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+8. G4 flag=on | leader(entity=gamma, color=red, shape=circle, size=medium) ; follower(entity=beta, marker=1, pattern=dotted)
+9. G3 aux=right | leader(entity=alpha, color=yellow, shape=triangle, size=medium) ; follower(entity=gamma, marker=1, pattern=solid)
+10. G3 flag=on | leader(entity=beta, color=blue, shape=triangle, size=medium) ; follower(entity=beta, marker=0, pattern=striped)
+11. G2 aux=right | leader(entity=delta, color=green, shape=triangle, size=medium) ; follower(entity=gamma, marker=0, pattern=striped)
+12. G3 aux=right | leader(entity=gamma, color=green, shape=square, size=small) ; follower(entity=beta, marker=1, pattern=striped)
+13. G1 flag=off | leader(entity=delta, color=green, shape=triangle, size=medium) ; follower(entity=gamma, marker=0, pattern=solid)
+14. G2 aux=right | leader(entity=beta, color=blue, shape=triangle, size=medium) ; follower(entity=beta, marker=0, pattern=striped)
+15. G1 flag=off | leader(entity=alpha, color=blue, shape=square, size=large) ; follower(entity=gamma, marker=0, pattern=dotted)
+16. G1 aux=left | leader(entity=gamma, color=blue, shape=circle, size=large) ; follower(entity=gamma, marker=1, pattern=dotted)
+17. G2 aux=right | leader(entity=beta, color=blue, shape=square, size=medium) ; follower(entity=delta, marker=0, pattern=solid)
+18. G2 aux=right | leader(entity=alpha, color=red, shape=triangle, size=small) ; follower(entity=delta, marker=0, pattern=striped)","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G3 aux=right | leader(entity=alpha, color=yellow, shape=square, size=medium) ; follower(entity=beta, marker=0, pattern=dotted)
+2. G1 aux=left | leader(entity=alpha, color=green, shape=square, size=medium) ; follower(entity=beta, marker=0, pattern=solid)
+3. G1 aux=right | leader(entity=delta, color=red, shape=square, size=small) ; follower(entity=beta, marker=0, pattern=dotted)
+4. G2 aux=left | leader(entity=alpha, color=blue, shape=triangle, size=medium) ; follower(entity=gamma, marker=1, pattern=striped)
+5. G3 flag=on | leader(entity=delta, color=blue, shape=triangle, size=medium) ; follower(entity=gamma, marker=0, pattern=striped)
+6. G3 flag=on | leader(entity=alpha, color=blue, shape=triangle, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+7. G4 flag=off | leader(entity=alpha, color=blue, shape=square, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+8. G4 flag=on | leader(entity=gamma, color=red, shape=circle, size=medium) ; follower(entity=beta, marker=1, pattern=dotted)
+9. G3 aux=right | leader(entity=alpha, color=yellow, shape=triangle, size=medium) ; follower(entity=gamma, marker=1, pattern=solid)
+10. G3 flag=on | leader(entity=beta, color=blue, shape=triangle, size=medium) ; follower(entity=beta, marker=0, pattern=striped)
+11. G2 aux=right | leader(entity=delta, color=green, shape=triangle, size=medium) ; follower(entity=gamma, marker=0, pattern=striped)
+12. G3 aux=right | leader(entity=gamma, color=green, shape=square, size=small) ; follower(entity=beta, marker=1, pattern=striped)
+13. G1 flag=off | leader(entity=delta, color=green, shape=triangle, size=medium) ; follower(entity=gamma, marker=0, pattern=solid)
+14. G2 aux=right | leader(entity=beta, color=blue, shape=triangle, size=medium) ; follower(entity=beta, marker=0, pattern=striped)
+15. G1 flag=off | leader(entity=alpha, color=blue, shape=square, size=large) ; follower(entity=gamma, marker=0, pattern=dotted)
+16. G1 aux=left | leader(entity=gamma, color=blue, shape=circle, size=large) ; follower(entity=gamma, marker=1, pattern=dotted)
+17. G2 aux=right | leader(entity=beta, color=blue, shape=square, size=medium) ; follower(entity=delta, marker=0, pattern=solid)
+18. G2 aux=right | leader(entity=alpha, color=red, shape=triangle, size=small) ; follower(entity=delta, marker=0, pattern=striped)",3,"[5, 10, 14]","{""follower_marker"": ""0"", ""leader_color"": ""blue"", ""leader_shape"": ""triangle"", ""local_pattern"": ""striped"", ""scope_size"": ""medium""}",2,medium,tagged,18,3,6,9,1
+4116,confound_sweep,medium,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=circle, follower.marker=0) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=circle, follower.marker=0) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G2 aux=left | leader(entity=delta, color=yellow, shape=circle, size=medium) ; follower(entity=delta, marker=1, pattern=striped)
+2. G4 aux=right | leader(entity=gamma, color=red, shape=square, size=medium) ; follower(entity=gamma, marker=0, pattern=solid)
+3. G1 aux=right | leader(entity=gamma, color=yellow, shape=circle, size=small) ; follower(entity=beta, marker=0, pattern=striped)
+4. G1 flag=on | leader(entity=delta, color=green, shape=circle, size=medium) ; follower(entity=alpha, marker=0, pattern=dotted)
+5. G1 aux=right | leader(entity=alpha, color=blue, shape=circle, size=small) ; follower(entity=delta, marker=0, pattern=striped)
+6. G2 aux=left | leader(entity=alpha, color=blue, shape=triangle, size=large) ; follower(entity=gamma, marker=0, pattern=solid)
+7. G2 flag=on | leader(entity=alpha, color=blue, shape=circle, size=medium) ; follower(entity=beta, marker=1, pattern=striped)
+8. G2 flag=on | leader(entity=alpha, color=red, shape=triangle, size=small) ; follower(entity=gamma, marker=0, pattern=striped)
+9. G1 aux=left | leader(entity=alpha, color=red, shape=square, size=medium) ; follower(entity=alpha, marker=0, pattern=solid)
+10. G4 flag=off | leader(entity=gamma, color=red, shape=circle, size=large) ; follower(entity=delta, marker=0, pattern=striped)
+11. G4 aux=right | leader(entity=alpha, color=blue, shape=triangle, size=large) ; follower(entity=beta, marker=0, pattern=dotted)
+12. G3 aux=left | leader(entity=alpha, color=yellow, shape=circle, size=small) ; follower(entity=gamma, marker=0, pattern=striped)
+13. G4 aux=left | leader(entity=beta, color=blue, shape=circle, size=small) ; follower(entity=alpha, marker=0, pattern=striped)
+14. G4 flag=off | leader(entity=beta, color=blue, shape=circle, size=large) ; follower(entity=gamma, marker=1, pattern=striped)
+15. G1 flag=on | leader(entity=beta, color=yellow, shape=square, size=large) ; follower(entity=gamma, marker=1, pattern=striped)
+16. G3 aux=right | leader(entity=beta, color=red, shape=square, size=medium) ; follower(entity=delta, marker=0, pattern=solid)
+17. G2 aux=left | leader(entity=delta, color=blue, shape=circle, size=small) ; follower(entity=delta, marker=0, pattern=striped)
+18. G3 flag=on | leader(entity=gamma, color=green, shape=square, size=large) ; follower(entity=delta, marker=0, pattern=striped)","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=circle, follower.marker=0) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G2 aux=left | leader(entity=delta, color=yellow, shape=circle, size=medium) ; follower(entity=delta, marker=1, pattern=striped)
+2. G4 aux=right | leader(entity=gamma, color=red, shape=square, size=medium) ; follower(entity=gamma, marker=0, pattern=solid)
+3. G1 aux=right | leader(entity=gamma, color=yellow, shape=circle, size=small) ; follower(entity=beta, marker=0, pattern=striped)
+4. G1 flag=on | leader(entity=delta, color=green, shape=circle, size=medium) ; follower(entity=alpha, marker=0, pattern=dotted)
+5. G1 aux=right | leader(entity=alpha, color=blue, shape=circle, size=small) ; follower(entity=delta, marker=0, pattern=striped)
+6. G2 aux=left | leader(entity=alpha, color=blue, shape=triangle, size=large) ; follower(entity=gamma, marker=0, pattern=solid)
+7. G2 flag=on | leader(entity=alpha, color=blue, shape=circle, size=medium) ; follower(entity=beta, marker=1, pattern=striped)
+8. G2 flag=on | leader(entity=alpha, color=red, shape=triangle, size=small) ; follower(entity=gamma, marker=0, pattern=striped)
+9. G1 aux=left | leader(entity=alpha, color=red, shape=square, size=medium) ; follower(entity=alpha, marker=0, pattern=solid)
+10. G4 flag=off | leader(entity=gamma, color=red, shape=circle, size=large) ; follower(entity=delta, marker=0, pattern=striped)
+11. G4 aux=right | leader(entity=alpha, color=blue, shape=triangle, size=large) ; follower(entity=beta, marker=0, pattern=dotted)
+12. G3 aux=left | leader(entity=alpha, color=yellow, shape=circle, size=small) ; follower(entity=gamma, marker=0, pattern=striped)
+13. G4 aux=left | leader(entity=beta, color=blue, shape=circle, size=small) ; follower(entity=alpha, marker=0, pattern=striped)
+14. G4 flag=off | leader(entity=beta, color=blue, shape=circle, size=large) ; follower(entity=gamma, marker=1, pattern=striped)
+15. G1 flag=on | leader(entity=beta, color=yellow, shape=square, size=large) ; follower(entity=gamma, marker=1, pattern=striped)
+16. G3 aux=right | leader(entity=beta, color=red, shape=square, size=medium) ; follower(entity=delta, marker=0, pattern=solid)
+17. G2 aux=left | leader(entity=delta, color=blue, shape=circle, size=small) ; follower(entity=delta, marker=0, pattern=striped)
+18. G3 flag=on | leader(entity=gamma, color=green, shape=square, size=large) ; follower(entity=delta, marker=0, pattern=striped)","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=circle, follower.marker=0) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G2 aux=left | leader(entity=delta, color=yellow, shape=circle, size=medium) ; follower(entity=delta, marker=1, pattern=striped)
+2. G4 aux=right | leader(entity=gamma, color=red, shape=square, size=medium) ; follower(entity=gamma, marker=0, pattern=solid)
+3. G1 aux=right | leader(entity=gamma, color=yellow, shape=circle, size=small) ; follower(entity=beta, marker=0, pattern=striped)
+4. G1 flag=on | leader(entity=delta, color=green, shape=circle, size=medium) ; follower(entity=alpha, marker=0, pattern=dotted)
+5. G1 aux=right | leader(entity=alpha, color=blue, shape=circle, size=small) ; follower(entity=delta, marker=0, pattern=striped)
+6. G2 aux=left | leader(entity=alpha, color=blue, shape=triangle, size=large) ; follower(entity=gamma, marker=0, pattern=solid)
+7. G2 flag=on | leader(entity=alpha, color=blue, shape=circle, size=medium) ; follower(entity=beta, marker=1, pattern=striped)
+8. G2 flag=on | leader(entity=alpha, color=red, shape=triangle, size=small) ; follower(entity=gamma, marker=0, pattern=striped)
+9. G1 aux=left | leader(entity=alpha, color=red, shape=square, size=medium) ; follower(entity=alpha, marker=0, pattern=solid)
+10. G4 flag=off | leader(entity=gamma, color=red, shape=circle, size=large) ; follower(entity=delta, marker=0, pattern=striped)
+11. G4 aux=right | leader(entity=alpha, color=blue, shape=triangle, size=large) ; follower(entity=beta, marker=0, pattern=dotted)
+12. G3 aux=left | leader(entity=alpha, color=yellow, shape=circle, size=small) ; follower(entity=gamma, marker=0, pattern=striped)
+13. G4 aux=left | leader(entity=beta, color=blue, shape=circle, size=small) ; follower(entity=alpha, marker=0, pattern=striped)
+14. G4 flag=off | leader(entity=beta, color=blue, shape=circle, size=large) ; follower(entity=gamma, marker=1, pattern=striped)
+15. G1 flag=on | leader(entity=beta, color=yellow, shape=square, size=large) ; follower(entity=gamma, marker=1, pattern=striped)
+16. G3 aux=right | leader(entity=beta, color=red, shape=square, size=medium) ; follower(entity=delta, marker=0, pattern=solid)
+17. G2 aux=left | leader(entity=delta, color=blue, shape=circle, size=small) ; follower(entity=delta, marker=0, pattern=striped)
+18. G3 flag=on | leader(entity=gamma, color=green, shape=square, size=large) ; follower(entity=delta, marker=0, pattern=striped)",3,"[5, 13, 17]","{""follower_marker"": ""0"", ""leader_color"": ""blue"", ""leader_shape"": ""circle"", ""local_pattern"": ""striped"", ""scope_size"": ""small""}",2,medium,tagged,18,3,6,9,1
+4117,confound_sweep,medium,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G2 aux=right | leader(entity=beta, color=blue, shape=triangle, size=small) ; follower(entity=beta, marker=0, pattern=dotted)
+2. G2 flag=off | leader(entity=beta, color=blue, shape=square, size=small) ; follower(entity=delta, marker=0, pattern=striped)
+3. G4 aux=left | leader(entity=alpha, color=blue, shape=circle, size=medium) ; follower(entity=beta, marker=0, pattern=solid)
+4. G1 aux=left | leader(entity=beta, color=blue, shape=square, size=small) ; follower(entity=gamma, marker=0, pattern=striped)
+5. G4 flag=off | leader(entity=gamma, color=yellow, shape=square, size=medium) ; follower(entity=alpha, marker=0, pattern=solid)
+6. G4 flag=on | leader(entity=alpha, color=yellow, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+7. G1 flag=on | leader(entity=beta, color=green, shape=square, size=small) ; follower(entity=beta, marker=1, pattern=solid)
+8. G4 aux=left | leader(entity=gamma, color=blue, shape=triangle, size=large) ; follower(entity=beta, marker=0, pattern=striped)
+9. G4 flag=off | leader(entity=delta, color=yellow, shape=triangle, size=medium) ; follower(entity=gamma, marker=0, pattern=dotted)
+10. G4 flag=on | leader(entity=gamma, color=green, shape=square, size=small) ; follower(entity=delta, marker=1, pattern=striped)
+11. G4 aux=left | leader(entity=beta, color=blue, shape=circle, size=small) ; follower(entity=gamma, marker=0, pattern=solid)
+12. G3 aux=right | leader(entity=beta, color=blue, shape=triangle, size=large) ; follower(entity=gamma, marker=1, pattern=dotted)
+13. G1 flag=on | leader(entity=gamma, color=green, shape=circle, size=large) ; follower(entity=gamma, marker=1, pattern=solid)
+14. G4 aux=right | leader(entity=delta, color=blue, shape=triangle, size=small) ; follower(entity=alpha, marker=0, pattern=dotted)
+15. G1 aux=right | leader(entity=alpha, color=blue, shape=triangle, size=small) ; follower(entity=alpha, marker=0, pattern=dotted)
+16. G3 aux=left | leader(entity=delta, color=red, shape=square, size=small) ; follower(entity=gamma, marker=1, pattern=dotted)
+17. G2 flag=off | leader(entity=delta, color=yellow, shape=circle, size=small) ; follower(entity=delta, marker=0, pattern=solid)
+18. G4 aux=left | leader(entity=delta, color=red, shape=circle, size=medium) ; follower(entity=beta, marker=0, pattern=striped)","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G2 aux=right | leader(entity=beta, color=blue, shape=triangle, size=small) ; follower(entity=beta, marker=0, pattern=dotted)
+2. G2 flag=off | leader(entity=beta, color=blue, shape=square, size=small) ; follower(entity=delta, marker=0, pattern=striped)
+3. G4 aux=left | leader(entity=alpha, color=blue, shape=circle, size=medium) ; follower(entity=beta, marker=0, pattern=solid)
+4. G1 aux=left | leader(entity=beta, color=blue, shape=square, size=small) ; follower(entity=gamma, marker=0, pattern=striped)
+5. G4 flag=off | leader(entity=gamma, color=yellow, shape=square, size=medium) ; follower(entity=alpha, marker=0, pattern=solid)
+6. G4 flag=on | leader(entity=alpha, color=yellow, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+7. G1 flag=on | leader(entity=beta, color=green, shape=square, size=small) ; follower(entity=beta, marker=1, pattern=solid)
+8. G4 aux=left | leader(entity=gamma, color=blue, shape=triangle, size=large) ; follower(entity=beta, marker=0, pattern=striped)
+9. G4 flag=off | leader(entity=delta, color=yellow, shape=triangle, size=medium) ; follower(entity=gamma, marker=0, pattern=dotted)
+10. G4 flag=on | leader(entity=gamma, color=green, shape=square, size=small) ; follower(entity=delta, marker=1, pattern=striped)
+11. G4 aux=left | leader(entity=beta, color=blue, shape=circle, size=small) ; follower(entity=gamma, marker=0, pattern=solid)
+12. G3 aux=right | leader(entity=beta, color=blue, shape=triangle, size=large) ; follower(entity=gamma, marker=1, pattern=dotted)
+13. G1 flag=on | leader(entity=gamma, color=green, shape=circle, size=large) ; follower(entity=gamma, marker=1, pattern=solid)
+14. G4 aux=right | leader(entity=delta, color=blue, shape=triangle, size=small) ; follower(entity=alpha, marker=0, pattern=dotted)
+15. G1 aux=right | leader(entity=alpha, color=blue, shape=triangle, size=small) ; follower(entity=alpha, marker=0, pattern=dotted)
+16. G3 aux=left | leader(entity=delta, color=red, shape=square, size=small) ; follower(entity=gamma, marker=1, pattern=dotted)
+17. G2 flag=off | leader(entity=delta, color=yellow, shape=circle, size=small) ; follower(entity=delta, marker=0, pattern=solid)
+18. G4 aux=left | leader(entity=delta, color=red, shape=circle, size=medium) ; follower(entity=beta, marker=0, pattern=striped)","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G2 aux=right | leader(entity=beta, color=blue, shape=triangle, size=small) ; follower(entity=beta, marker=0, pattern=dotted)
+2. G2 flag=off | leader(entity=beta, color=blue, shape=square, size=small) ; follower(entity=delta, marker=0, pattern=striped)
+3. G4 aux=left | leader(entity=alpha, color=blue, shape=circle, size=medium) ; follower(entity=beta, marker=0, pattern=solid)
+4. G1 aux=left | leader(entity=beta, color=blue, shape=square, size=small) ; follower(entity=gamma, marker=0, pattern=striped)
+5. G4 flag=off | leader(entity=gamma, color=yellow, shape=square, size=medium) ; follower(entity=alpha, marker=0, pattern=solid)
+6. G4 flag=on | leader(entity=alpha, color=yellow, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=striped)
+7. G1 flag=on | leader(entity=beta, color=green, shape=square, size=small) ; follower(entity=beta, marker=1, pattern=solid)
+8. G4 aux=left | leader(entity=gamma, color=blue, shape=triangle, size=large) ; follower(entity=beta, marker=0, pattern=striped)
+9. G4 flag=off | leader(entity=delta, color=yellow, shape=triangle, size=medium) ; follower(entity=gamma, marker=0, pattern=dotted)
+10. G4 flag=on | leader(entity=gamma, color=green, shape=square, size=small) ; follower(entity=delta, marker=1, pattern=striped)
+11. G4 aux=left | leader(entity=beta, color=blue, shape=circle, size=small) ; follower(entity=gamma, marker=0, pattern=solid)
+12. G3 aux=right | leader(entity=beta, color=blue, shape=triangle, size=large) ; follower(entity=gamma, marker=1, pattern=dotted)
+13. G1 flag=on | leader(entity=gamma, color=green, shape=circle, size=large) ; follower(entity=gamma, marker=1, pattern=solid)
+14. G4 aux=right | leader(entity=delta, color=blue, shape=triangle, size=small) ; follower(entity=alpha, marker=0, pattern=dotted)
+15. G1 aux=right | leader(entity=alpha, color=blue, shape=triangle, size=small) ; follower(entity=alpha, marker=0, pattern=dotted)
+16. G3 aux=left | leader(entity=delta, color=red, shape=square, size=small) ; follower(entity=gamma, marker=1, pattern=dotted)
+17. G2 flag=off | leader(entity=delta, color=yellow, shape=circle, size=small) ; follower(entity=delta, marker=0, pattern=solid)
+18. G4 aux=left | leader(entity=delta, color=red, shape=circle, size=medium) ; follower(entity=beta, marker=0, pattern=striped)",3,"[1, 14, 15]","{""follower_marker"": ""0"", ""leader_color"": ""blue"", ""leader_shape"": ""triangle"", ""local_pattern"": ""dotted"", ""scope_size"": ""small""}",2,medium,tagged,18,3,6,9,1
+4118,confound_sweep,medium,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=square, follower.marker=0) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=square, follower.marker=0) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G1 flag=off | leader(entity=delta, color=green, shape=square, size=small) ; follower(entity=alpha, marker=0, pattern=striped)
+2. G1 flag=off | leader(entity=alpha, color=green, shape=triangle, size=large) ; follower(entity=gamma, marker=0, pattern=solid)
+3. G3 flag=off | leader(entity=gamma, color=green, shape=square, size=medium) ; follower(entity=beta, marker=0, pattern=dotted)
+4. G3 aux=left | leader(entity=gamma, color=blue, shape=circle, size=small) ; follower(entity=beta, marker=0, pattern=solid)
+5. G2 flag=on | leader(entity=gamma, color=green, shape=square, size=small) ; follower(entity=alpha, marker=1, pattern=striped)
+6. G2 aux=left | leader(entity=beta, color=red, shape=circle, size=small) ; follower(entity=delta, marker=0, pattern=dotted)
+7. G2 aux=left | leader(entity=beta, color=red, shape=circle, size=medium) ; follower(entity=delta, marker=0, pattern=solid)
+8. G1 flag=on | leader(entity=alpha, color=green, shape=circle, size=small) ; follower(entity=beta, marker=0, pattern=striped)
+9. G4 aux=left | leader(entity=delta, color=blue, shape=triangle, size=small) ; follower(entity=delta, marker=1, pattern=dotted)
+10. G1 aux=left | leader(entity=beta, color=green, shape=square, size=medium) ; follower(entity=alpha, marker=1, pattern=striped)
+11. G3 aux=right | leader(entity=delta, color=yellow, shape=square, size=small) ; follower(entity=gamma, marker=1, pattern=dotted)
+12. G4 flag=on | leader(entity=alpha, color=green, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=dotted)
+13. G4 flag=on | leader(entity=gamma, color=green, shape=circle, size=large) ; follower(entity=delta, marker=0, pattern=dotted)
+14. G2 flag=on | leader(entity=beta, color=blue, shape=circle, size=large) ; follower(entity=alpha, marker=1, pattern=solid)
+15. G2 flag=off | leader(entity=gamma, color=green, shape=square, size=small) ; follower(entity=gamma, marker=0, pattern=striped)
+16. G1 flag=off | leader(entity=beta, color=green, shape=square, size=small) ; follower(entity=delta, marker=0, pattern=striped)
+17. G2 flag=on | leader(entity=beta, color=green, shape=circle, size=small) ; follower(entity=alpha, marker=0, pattern=solid)
+18. G2 flag=off | leader(entity=delta, color=blue, shape=square, size=small) ; follower(entity=beta, marker=0, pattern=striped)","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=square, follower.marker=0) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G1 flag=off | leader(entity=delta, color=green, shape=square, size=small) ; follower(entity=alpha, marker=0, pattern=striped)
+2. G1 flag=off | leader(entity=alpha, color=green, shape=triangle, size=large) ; follower(entity=gamma, marker=0, pattern=solid)
+3. G3 flag=off | leader(entity=gamma, color=green, shape=square, size=medium) ; follower(entity=beta, marker=0, pattern=dotted)
+4. G3 aux=left | leader(entity=gamma, color=blue, shape=circle, size=small) ; follower(entity=beta, marker=0, pattern=solid)
+5. G2 flag=on | leader(entity=gamma, color=green, shape=square, size=small) ; follower(entity=alpha, marker=1, pattern=striped)
+6. G2 aux=left | leader(entity=beta, color=red, shape=circle, size=small) ; follower(entity=delta, marker=0, pattern=dotted)
+7. G2 aux=left | leader(entity=beta, color=red, shape=circle, size=medium) ; follower(entity=delta, marker=0, pattern=solid)
+8. G1 flag=on | leader(entity=alpha, color=green, shape=circle, size=small) ; follower(entity=beta, marker=0, pattern=striped)
+9. G4 aux=left | leader(entity=delta, color=blue, shape=triangle, size=small) ; follower(entity=delta, marker=1, pattern=dotted)
+10. G1 aux=left | leader(entity=beta, color=green, shape=square, size=medium) ; follower(entity=alpha, marker=1, pattern=striped)
+11. G3 aux=right | leader(entity=delta, color=yellow, shape=square, size=small) ; follower(entity=gamma, marker=1, pattern=dotted)
+12. G4 flag=on | leader(entity=alpha, color=green, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=dotted)
+13. G4 flag=on | leader(entity=gamma, color=green, shape=circle, size=large) ; follower(entity=delta, marker=0, pattern=dotted)
+14. G2 flag=on | leader(entity=beta, color=blue, shape=circle, size=large) ; follower(entity=alpha, marker=1, pattern=solid)
+15. G2 flag=off | leader(entity=gamma, color=green, shape=square, size=small) ; follower(entity=gamma, marker=0, pattern=striped)
+16. G1 flag=off | leader(entity=beta, color=green, shape=square, size=small) ; follower(entity=delta, marker=0, pattern=striped)
+17. G2 flag=on | leader(entity=beta, color=green, shape=circle, size=small) ; follower(entity=alpha, marker=0, pattern=solid)
+18. G2 flag=off | leader(entity=delta, color=blue, shape=square, size=small) ; follower(entity=beta, marker=0, pattern=striped)","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=square, follower.marker=0) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G1 flag=off | leader(entity=delta, color=green, shape=square, size=small) ; follower(entity=alpha, marker=0, pattern=striped)
+2. G1 flag=off | leader(entity=alpha, color=green, shape=triangle, size=large) ; follower(entity=gamma, marker=0, pattern=solid)
+3. G3 flag=off | leader(entity=gamma, color=green, shape=square, size=medium) ; follower(entity=beta, marker=0, pattern=dotted)
+4. G3 aux=left | leader(entity=gamma, color=blue, shape=circle, size=small) ; follower(entity=beta, marker=0, pattern=solid)
+5. G2 flag=on | leader(entity=gamma, color=green, shape=square, size=small) ; follower(entity=alpha, marker=1, pattern=striped)
+6. G2 aux=left | leader(entity=beta, color=red, shape=circle, size=small) ; follower(entity=delta, marker=0, pattern=dotted)
+7. G2 aux=left | leader(entity=beta, color=red, shape=circle, size=medium) ; follower(entity=delta, marker=0, pattern=solid)
+8. G1 flag=on | leader(entity=alpha, color=green, shape=circle, size=small) ; follower(entity=beta, marker=0, pattern=striped)
+9. G4 aux=left | leader(entity=delta, color=blue, shape=triangle, size=small) ; follower(entity=delta, marker=1, pattern=dotted)
+10. G1 aux=left | leader(entity=beta, color=green, shape=square, size=medium) ; follower(entity=alpha, marker=1, pattern=striped)
+11. G3 aux=right | leader(entity=delta, color=yellow, shape=square, size=small) ; follower(entity=gamma, marker=1, pattern=dotted)
+12. G4 flag=on | leader(entity=alpha, color=green, shape=circle, size=small) ; follower(entity=gamma, marker=1, pattern=dotted)
+13. G4 flag=on | leader(entity=gamma, color=green, shape=circle, size=large) ; follower(entity=delta, marker=0, pattern=dotted)
+14. G2 flag=on | leader(entity=beta, color=blue, shape=circle, size=large) ; follower(entity=alpha, marker=1, pattern=solid)
+15. G2 flag=off | leader(entity=gamma, color=green, shape=square, size=small) ; follower(entity=gamma, marker=0, pattern=striped)
+16. G1 flag=off | leader(entity=beta, color=green, shape=square, size=small) ; follower(entity=delta, marker=0, pattern=striped)
+17. G2 flag=on | leader(entity=beta, color=green, shape=circle, size=small) ; follower(entity=alpha, marker=0, pattern=solid)
+18. G2 flag=off | leader(entity=delta, color=blue, shape=square, size=small) ; follower(entity=beta, marker=0, pattern=striped)",3,"[1, 15, 16]","{""follower_marker"": ""0"", ""leader_color"": ""green"", ""leader_shape"": ""square"", ""local_pattern"": ""striped"", ""scope_size"": ""small""}",2,medium,tagged,18,3,6,9,1
+4119,confound_sweep,medium,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=square, follower.marker=1) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=square, follower.marker=1) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G2 flag=off | leader(entity=gamma, color=red, shape=triangle, size=medium) ; follower(entity=gamma, marker=1, pattern=solid)
+2. G1 aux=left | leader(entity=alpha, color=red, shape=square, size=large) ; follower(entity=alpha, marker=1, pattern=striped)
+3. G1 flag=off | leader(entity=beta, color=blue, shape=circle, size=medium) ; follower(entity=alpha, marker=1, pattern=striped)
+4. G4 aux=right | leader(entity=delta, color=red, shape=square, size=medium) ; follower(entity=delta, marker=0, pattern=solid)
+5. G3 flag=on | leader(entity=gamma, color=red, shape=square, size=large) ; follower(entity=delta, marker=1, pattern=striped)
+6. G3 aux=right | leader(entity=beta, color=green, shape=square, size=medium) ; follower(entity=gamma, marker=1, pattern=solid)
+7. G1 flag=off | leader(entity=delta, color=blue, shape=square, size=medium) ; follower(entity=delta, marker=1, pattern=striped)
+8. G2 aux=left | leader(entity=delta, color=red, shape=circle, size=large) ; follower(entity=gamma, marker=1, pattern=dotted)
+9. G2 aux=right | leader(entity=delta, color=red, shape=square, size=large) ; follower(entity=beta, marker=0, pattern=dotted)
+10. G1 aux=right | leader(entity=alpha, color=red, shape=triangle, size=medium) ; follower(entity=alpha, marker=1, pattern=solid)
+11. G2 flag=off | leader(entity=delta, color=blue, shape=square, size=small) ; follower(entity=delta, marker=1, pattern=dotted)
+12. G1 aux=right | leader(entity=delta, color=red, shape=square, size=medium) ; follower(entity=alpha, marker=0, pattern=striped)
+13. G2 aux=right | leader(entity=alpha, color=yellow, shape=circle, size=medium) ; follower(entity=gamma, marker=1, pattern=dotted)
+14. G3 flag=off | leader(entity=alpha, color=green, shape=square, size=large) ; follower(entity=alpha, marker=1, pattern=striped)
+15. G4 aux=right | leader(entity=gamma, color=red, shape=square, size=large) ; follower(entity=delta, marker=1, pattern=striped)
+16. G2 flag=off | leader(entity=beta, color=green, shape=circle, size=large) ; follower(entity=beta, marker=0, pattern=striped)
+17. G4 aux=right | leader(entity=alpha, color=green, shape=circle, size=small) ; follower(entity=beta, marker=1, pattern=dotted)
+18. G3 aux=right | leader(entity=alpha, color=blue, shape=square, size=large) ; follower(entity=alpha, marker=1, pattern=striped)","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=square, follower.marker=1) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G2 flag=off | leader(entity=gamma, color=red, shape=triangle, size=medium) ; follower(entity=gamma, marker=1, pattern=solid)
+2. G1 aux=left | leader(entity=alpha, color=red, shape=square, size=large) ; follower(entity=alpha, marker=1, pattern=striped)
+3. G1 flag=off | leader(entity=beta, color=blue, shape=circle, size=medium) ; follower(entity=alpha, marker=1, pattern=striped)
+4. G4 aux=right | leader(entity=delta, color=red, shape=square, size=medium) ; follower(entity=delta, marker=0, pattern=solid)
+5. G3 flag=on | leader(entity=gamma, color=red, shape=square, size=large) ; follower(entity=delta, marker=1, pattern=striped)
+6. G3 aux=right | leader(entity=beta, color=green, shape=square, size=medium) ; follower(entity=gamma, marker=1, pattern=solid)
+7. G1 flag=off | leader(entity=delta, color=blue, shape=square, size=medium) ; follower(entity=delta, marker=1, pattern=striped)
+8. G2 aux=left | leader(entity=delta, color=red, shape=circle, size=large) ; follower(entity=gamma, marker=1, pattern=dotted)
+9. G2 aux=right | leader(entity=delta, color=red, shape=square, size=large) ; follower(entity=beta, marker=0, pattern=dotted)
+10. G1 aux=right | leader(entity=alpha, color=red, shape=triangle, size=medium) ; follower(entity=alpha, marker=1, pattern=solid)
+11. G2 flag=off | leader(entity=delta, color=blue, shape=square, size=small) ; follower(entity=delta, marker=1, pattern=dotted)
+12. G1 aux=right | leader(entity=delta, color=red, shape=square, size=medium) ; follower(entity=alpha, marker=0, pattern=striped)
+13. G2 aux=right | leader(entity=alpha, color=yellow, shape=circle, size=medium) ; follower(entity=gamma, marker=1, pattern=dotted)
+14. G3 flag=off | leader(entity=alpha, color=green, shape=square, size=large) ; follower(entity=alpha, marker=1, pattern=striped)
+15. G4 aux=right | leader(entity=gamma, color=red, shape=square, size=large) ; follower(entity=delta, marker=1, pattern=striped)
+16. G2 flag=off | leader(entity=beta, color=green, shape=circle, size=large) ; follower(entity=beta, marker=0, pattern=striped)
+17. G4 aux=right | leader(entity=alpha, color=green, shape=circle, size=small) ; follower(entity=beta, marker=1, pattern=dotted)
+18. G3 aux=right | leader(entity=alpha, color=blue, shape=square, size=large) ; follower(entity=alpha, marker=1, pattern=striped)","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=square, follower.marker=1) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G2 flag=off | leader(entity=gamma, color=red, shape=triangle, size=medium) ; follower(entity=gamma, marker=1, pattern=solid)
+2. G1 aux=left | leader(entity=alpha, color=red, shape=square, size=large) ; follower(entity=alpha, marker=1, pattern=striped)
+3. G1 flag=off | leader(entity=beta, color=blue, shape=circle, size=medium) ; follower(entity=alpha, marker=1, pattern=striped)
+4. G4 aux=right | leader(entity=delta, color=red, shape=square, size=medium) ; follower(entity=delta, marker=0, pattern=solid)
+5. G3 flag=on | leader(entity=gamma, color=red, shape=square, size=large) ; follower(entity=delta, marker=1, pattern=striped)
+6. G3 aux=right | leader(entity=beta, color=green, shape=square, size=medium) ; follower(entity=gamma, marker=1, pattern=solid)
+7. G1 flag=off | leader(entity=delta, color=blue, shape=square, size=medium) ; follower(entity=delta, marker=1, pattern=striped)
+8. G2 aux=left | leader(entity=delta, color=red, shape=circle, size=large) ; follower(entity=gamma, marker=1, pattern=dotted)
+9. G2 aux=right | leader(entity=delta, color=red, shape=square, size=large) ; follower(entity=beta, marker=0, pattern=dotted)
+10. G1 aux=right | leader(entity=alpha, color=red, shape=triangle, size=medium) ; follower(entity=alpha, marker=1, pattern=solid)
+11. G2 flag=off | leader(entity=delta, color=blue, shape=square, size=small) ; follower(entity=delta, marker=1, pattern=dotted)
+12. G1 aux=right | leader(entity=delta, color=red, shape=square, size=medium) ; follower(entity=alpha, marker=0, pattern=striped)
+13. G2 aux=right | leader(entity=alpha, color=yellow, shape=circle, size=medium) ; follower(entity=gamma, marker=1, pattern=dotted)
+14. G3 flag=off | leader(entity=alpha, color=green, shape=square, size=large) ; follower(entity=alpha, marker=1, pattern=striped)
+15. G4 aux=right | leader(entity=gamma, color=red, shape=square, size=large) ; follower(entity=delta, marker=1, pattern=striped)
+16. G2 flag=off | leader(entity=beta, color=green, shape=circle, size=large) ; follower(entity=beta, marker=0, pattern=striped)
+17. G4 aux=right | leader(entity=alpha, color=green, shape=circle, size=small) ; follower(entity=beta, marker=1, pattern=dotted)
+18. G3 aux=right | leader(entity=alpha, color=blue, shape=square, size=large) ; follower(entity=alpha, marker=1, pattern=striped)",3,"[2, 5, 15]","{""follower_marker"": ""1"", ""leader_color"": ""red"", ""leader_shape"": ""square"", ""local_pattern"": ""striped"", ""scope_size"": ""large""}",2,medium,tagged,18,3,6,9,1
