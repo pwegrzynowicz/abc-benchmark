@@ -1,8 +1,9 @@
-seed,difficulty,regime,regime_level,response_mode,count_instruction,filter_instruction,text_input,count_prompt,filter_prompt,gold_count,gold_lines,target_definition,num_records,target_feature_count,target_count,active_fields,target_fields,irrelevant_noise_fields,same_color_wrong_shape_count,same_shape_wrong_color_count,same_core_wrong_marker_count,same_core_wrong_size_count,same_core_wrong_pattern_count,unrelated_count
-4100,n1,noise_width_sweep,n1,count,"Count the entries matching all of the following attributes: color=green, shape=triangle.
+seed,difficulty,regime,regime_level,count_instruction,filter_instruction,text_input,count_prompt,filter_prompt,gold_count,gold_lines,target_definition,num_records,target_feature_count,target_count,active_fields,target_fields,irrelevant_noise_fields,same_color_wrong_shape_count,same_shape_wrong_color_count,same_core_wrong_marker_count,same_core_wrong_size_count,same_core_wrong_pattern_count,unrelated_count
+4100,n1,noise_width_sweep,n1,"Count the entries matching all of the following attributes: color=green, shape=triangle.
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=green, shape=triangle.
 Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
 Rules:
@@ -32,6 +33,7 @@ green | triangle | 0 | large | dotted","Count the entries matching all of the fo
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object
 
 blue | square | 1 | large | striped
@@ -81,10 +83,11 @@ green | circle | 1 | medium | dotted
 blue | triangle | 0 | large | dotted
 yellow | circle | 0 | medium | striped
 green | triangle | 0 | large | dotted",3,"[12, 13, 20]","{""color"": ""green"", ""shape"": ""triangle""}",20,2,3,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape""]","[""marker"", ""size"", ""pattern""]",2,2,0,0,0,13
-4101,n1,noise_width_sweep,n1,count,"Count the entries matching all of the following attributes: color=blue, shape=circle.
+4101,n1,noise_width_sweep,n1,"Count the entries matching all of the following attributes: color=blue, shape=circle.
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=blue, shape=circle.
 Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
 Rules:
@@ -114,6 +117,7 @@ green | triangle | 0 | small | dotted","Count the entries matching all of the fo
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object
 
 green | triangle | 1 | medium | striped
@@ -163,10 +167,11 @@ red | triangle | 0 | large | solid
 blue | circle | 0 | large | striped
 red | square | 1 | large | dotted
 green | triangle | 0 | small | dotted",3,"[3, 13, 18]","{""color"": ""blue"", ""shape"": ""circle""}",20,2,3,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape""]","[""marker"", ""size"", ""pattern""]",2,2,0,0,0,13
-4102,n1,noise_width_sweep,n1,count,"Count the entries matching all of the following attributes: color=blue, shape=square.
+4102,n1,noise_width_sweep,n1,"Count the entries matching all of the following attributes: color=blue, shape=square.
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=blue, shape=square.
 Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
 Rules:
@@ -196,6 +201,7 @@ yellow | triangle | 0 | small | striped","Count the entries matching all of the 
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object
 
 red | triangle | 1 | small | striped
@@ -245,10 +251,11 @@ blue | triangle | 0 | small | solid
 yellow | circle | 0 | medium | solid
 green | circle | 0 | medium | striped
 yellow | triangle | 0 | small | striped",3,"[2, 8, 16]","{""color"": ""blue"", ""shape"": ""square""}",20,2,3,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape""]","[""marker"", ""size"", ""pattern""]",2,2,0,0,0,13
-4103,n1,noise_width_sweep,n1,count,"Count the entries matching all of the following attributes: color=yellow, shape=circle.
+4103,n1,noise_width_sweep,n1,"Count the entries matching all of the following attributes: color=yellow, shape=circle.
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=yellow, shape=circle.
 Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
 Rules:
@@ -278,6 +285,7 @@ green | square | 1 | small | solid","Count the entries matching all of the follo
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object
 
 blue | triangle | 1 | medium | striped
@@ -327,10 +335,11 @@ green | circle | 0 | medium | striped
 yellow | circle | 1 | large | striped
 red | circle | 1 | medium | striped
 green | square | 1 | small | solid",3,"[6, 10, 18]","{""color"": ""yellow"", ""shape"": ""circle""}",20,2,3,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape""]","[""marker"", ""size"", ""pattern""]",2,2,0,0,0,13
-4104,n1,noise_width_sweep,n1,count,"Count the entries matching all of the following attributes: color=red, shape=square.
+4104,n1,noise_width_sweep,n1,"Count the entries matching all of the following attributes: color=red, shape=square.
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=red, shape=square.
 Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
 Rules:
@@ -360,6 +369,7 @@ yellow | triangle | 0 | small | dotted","Count the entries matching all of the f
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object
 
 red | square | 0 | large | dotted
@@ -409,10 +419,11 @@ yellow | circle | 1 | small | dotted
 green | triangle | 0 | large | solid
 blue | square | 0 | large | solid
 yellow | triangle | 0 | small | dotted",3,"[1, 6, 8]","{""color"": ""red"", ""shape"": ""square""}",20,2,3,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape""]","[""marker"", ""size"", ""pattern""]",2,2,0,0,0,13
-4105,n1,noise_width_sweep,n1,count,"Count the entries matching all of the following attributes: color=red, shape=circle.
+4105,n1,noise_width_sweep,n1,"Count the entries matching all of the following attributes: color=red, shape=circle.
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=red, shape=circle.
 Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
 Rules:
@@ -442,6 +453,7 @@ red | triangle | 1 | large | dotted","Count the entries matching all of the foll
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object
 
 green | triangle | 0 | small | striped
@@ -491,10 +503,11 @@ green | square | 0 | small | dotted
 green | circle | 1 | medium | dotted
 yellow | triangle | 1 | large | solid
 red | triangle | 1 | large | dotted",3,"[6, 8, 14]","{""color"": ""red"", ""shape"": ""circle""}",20,2,3,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape""]","[""marker"", ""size"", ""pattern""]",2,2,0,0,0,13
-4106,n1,noise_width_sweep,n1,count,"Count the entries matching all of the following attributes: color=green, shape=triangle.
+4106,n1,noise_width_sweep,n1,"Count the entries matching all of the following attributes: color=green, shape=triangle.
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=green, shape=triangle.
 Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
 Rules:
@@ -524,6 +537,7 @@ red | circle | 1 | medium | solid","Count the entries matching all of the follow
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object
 
 red | square | 1 | small | striped
@@ -573,10 +587,11 @@ yellow | circle | 0 | small | dotted
 red | circle | 0 | small | dotted
 yellow | square | 0 | small | striped
 red | circle | 1 | medium | solid",3,"[3, 14, 16]","{""color"": ""green"", ""shape"": ""triangle""}",20,2,3,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape""]","[""marker"", ""size"", ""pattern""]",2,2,0,0,0,13
-4107,n1,noise_width_sweep,n1,count,"Count the entries matching all of the following attributes: color=green, shape=triangle.
+4107,n1,noise_width_sweep,n1,"Count the entries matching all of the following attributes: color=green, shape=triangle.
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=green, shape=triangle.
 Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
 Rules:
@@ -606,6 +621,7 @@ red | square | 1 | small | solid","Count the entries matching all of the followi
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object
 
 green | triangle | 0 | small | striped
@@ -655,10 +671,11 @@ green | square | 1 | medium | solid
 yellow | circle | 0 | large | striped
 yellow | circle | 1 | medium | solid
 red | square | 1 | small | solid",3,"[1, 7, 10]","{""color"": ""green"", ""shape"": ""triangle""}",20,2,3,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape""]","[""marker"", ""size"", ""pattern""]",2,2,0,0,0,13
-4108,n1,noise_width_sweep,n1,count,"Count the entries matching all of the following attributes: color=yellow, shape=circle.
+4108,n1,noise_width_sweep,n1,"Count the entries matching all of the following attributes: color=yellow, shape=circle.
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=yellow, shape=circle.
 Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
 Rules:
@@ -688,6 +705,7 @@ green | triangle | 0 | medium | dotted","Count the entries matching all of the f
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object
 
 yellow | circle | 1 | small | solid
@@ -737,10 +755,11 @@ red | triangle | 1 | medium | striped
 green | triangle | 1 | large | dotted
 blue | triangle | 1 | large | dotted
 green | triangle | 0 | medium | dotted",3,"[1, 5, 16]","{""color"": ""yellow"", ""shape"": ""circle""}",20,2,3,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape""]","[""marker"", ""size"", ""pattern""]",2,2,0,0,0,13
-4109,n1,noise_width_sweep,n1,count,"Count the entries matching all of the following attributes: color=green, shape=circle.
+4109,n1,noise_width_sweep,n1,"Count the entries matching all of the following attributes: color=green, shape=circle.
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=green, shape=circle.
 Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
 Rules:
@@ -770,6 +789,7 @@ green | circle | 0 | medium | dotted","Count the entries matching all of the fol
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object
 
 red | triangle | 0 | medium | dotted
@@ -819,10 +839,11 @@ yellow | triangle | 0 | medium | dotted
 red | circle | 0 | small | solid
 green | circle | 0 | large | striped
 green | circle | 0 | medium | dotted",3,"[10, 19, 20]","{""color"": ""green"", ""shape"": ""circle""}",20,2,3,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape""]","[""marker"", ""size"", ""pattern""]",2,2,0,0,0,13
-4110,n1,noise_width_sweep,n1,count,"Count the entries matching all of the following attributes: color=yellow, shape=square.
+4110,n1,noise_width_sweep,n1,"Count the entries matching all of the following attributes: color=yellow, shape=square.
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=yellow, shape=square.
 Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
 Rules:
@@ -852,6 +873,7 @@ blue | square | 1 | small | dotted","Count the entries matching all of the follo
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object
 
 red | circle | 1 | medium | striped
@@ -901,10 +923,11 @@ green | triangle | 1 | medium | dotted
 yellow | triangle | 0 | medium | dotted
 yellow | square | 0 | small | striped
 blue | square | 1 | small | dotted",3,"[8, 16, 19]","{""color"": ""yellow"", ""shape"": ""square""}",20,2,3,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape""]","[""marker"", ""size"", ""pattern""]",2,2,0,0,0,13
-4111,n1,noise_width_sweep,n1,count,"Count the entries matching all of the following attributes: color=yellow, shape=triangle.
+4111,n1,noise_width_sweep,n1,"Count the entries matching all of the following attributes: color=yellow, shape=triangle.
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=yellow, shape=triangle.
 Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
 Rules:
@@ -934,6 +957,7 @@ blue | square | 1 | large | striped","Count the entries matching all of the foll
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object
 
 red | circle | 0 | small | striped
@@ -983,10 +1007,11 @@ red | circle | 1 | small | striped
 red | circle | 0 | medium | striped
 blue | square | 1 | medium | solid
 blue | square | 1 | large | striped",3,"[8, 9, 11]","{""color"": ""yellow"", ""shape"": ""triangle""}",20,2,3,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape""]","[""marker"", ""size"", ""pattern""]",2,2,0,0,0,13
-4112,n1,noise_width_sweep,n1,count,"Count the entries matching all of the following attributes: color=green, shape=circle.
+4112,n1,noise_width_sweep,n1,"Count the entries matching all of the following attributes: color=green, shape=circle.
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=green, shape=circle.
 Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
 Rules:
@@ -1016,6 +1041,7 @@ green | circle | 0 | small | striped","Count the entries matching all of the fol
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object
 
 yellow | triangle | 0 | medium | dotted
@@ -1065,10 +1091,11 @@ blue | square | 0 | small | solid
 red | circle | 0 | small | dotted
 yellow | triangle | 1 | medium | striped
 green | circle | 0 | small | striped",3,"[10, 16, 20]","{""color"": ""green"", ""shape"": ""circle""}",20,2,3,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape""]","[""marker"", ""size"", ""pattern""]",2,2,0,0,0,13
-4113,n1,noise_width_sweep,n1,count,"Count the entries matching all of the following attributes: color=red, shape=triangle.
+4113,n1,noise_width_sweep,n1,"Count the entries matching all of the following attributes: color=red, shape=triangle.
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=red, shape=triangle.
 Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
 Rules:
@@ -1098,6 +1125,7 @@ blue | square | 0 | large | dotted","Count the entries matching all of the follo
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object
 
 red | triangle | 0 | small | striped
@@ -1147,10 +1175,11 @@ yellow | circle | 0 | medium | striped
 blue | square | 1 | large | striped
 blue | circle | 0 | medium | striped
 blue | square | 0 | large | dotted",3,"[1, 11, 14]","{""color"": ""red"", ""shape"": ""triangle""}",20,2,3,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape""]","[""marker"", ""size"", ""pattern""]",2,2,0,0,0,13
-4114,n1,noise_width_sweep,n1,count,"Count the entries matching all of the following attributes: color=red, shape=triangle.
+4114,n1,noise_width_sweep,n1,"Count the entries matching all of the following attributes: color=red, shape=triangle.
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=red, shape=triangle.
 Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
 Rules:
@@ -1180,6 +1209,7 @@ red | circle | 0 | medium | dotted","Count the entries matching all of the follo
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object
 
 blue | square | 0 | medium | solid
@@ -1229,10 +1259,11 @@ yellow | circle | 0 | small | striped
 blue | triangle | 0 | medium | dotted
 red | triangle | 0 | small | solid
 red | circle | 0 | medium | dotted",3,"[10, 14, 19]","{""color"": ""red"", ""shape"": ""triangle""}",20,2,3,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape""]","[""marker"", ""size"", ""pattern""]",2,2,0,0,0,13
-4115,n1,noise_width_sweep,n1,count,"Count the entries matching all of the following attributes: color=blue, shape=triangle.
+4115,n1,noise_width_sweep,n1,"Count the entries matching all of the following attributes: color=blue, shape=triangle.
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=blue, shape=triangle.
 Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
 Rules:
@@ -1262,6 +1293,7 @@ blue | triangle | 0 | medium | striped","Count the entries matching all of the f
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object
 
 blue | square | 0 | small | striped
@@ -1311,10 +1343,11 @@ green | square | 0 | small | dotted
 yellow | circle | 1 | large | dotted
 green | circle | 0 | small | striped
 blue | triangle | 0 | medium | striped",3,"[3, 12, 20]","{""color"": ""blue"", ""shape"": ""triangle""}",20,2,3,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape""]","[""marker"", ""size"", ""pattern""]",2,2,0,0,0,13
-4116,n1,noise_width_sweep,n1,count,"Count the entries matching all of the following attributes: color=blue, shape=circle.
+4116,n1,noise_width_sweep,n1,"Count the entries matching all of the following attributes: color=blue, shape=circle.
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=blue, shape=circle.
 Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
 Rules:
@@ -1344,6 +1377,7 @@ blue | circle | 0 | small | striped","Count the entries matching all of the foll
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object
 
 green | triangle | 0 | medium | dotted
@@ -1393,10 +1427,11 @@ green | triangle | 1 | small | dotted
 blue | triangle | 1 | medium | solid
 red | circle | 1 | medium | solid
 blue | circle | 0 | small | striped",3,"[12, 15, 20]","{""color"": ""blue"", ""shape"": ""circle""}",20,2,3,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape""]","[""marker"", ""size"", ""pattern""]",2,2,0,0,0,13
-4117,n1,noise_width_sweep,n1,count,"Count the entries matching all of the following attributes: color=blue, shape=triangle.
+4117,n1,noise_width_sweep,n1,"Count the entries matching all of the following attributes: color=blue, shape=triangle.
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=blue, shape=triangle.
 Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
 Rules:
@@ -1426,6 +1461,7 @@ yellow | triangle | 0 | medium | solid","Count the entries matching all of the f
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object
 
 green | circle | 1 | large | solid
@@ -1475,10 +1511,11 @@ green | circle | 1 | large | solid
 blue | triangle | 1 | large | dotted
 green | square | 0 | small | dotted
 yellow | triangle | 0 | medium | solid",3,"[5, 10, 18]","{""color"": ""blue"", ""shape"": ""triangle""}",20,2,3,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape""]","[""marker"", ""size"", ""pattern""]",2,2,0,0,0,13
-4118,n1,noise_width_sweep,n1,count,"Count the entries matching all of the following attributes: color=green, shape=square.
+4118,n1,noise_width_sweep,n1,"Count the entries matching all of the following attributes: color=green, shape=square.
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=green, shape=square.
 Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
 Rules:
@@ -1508,6 +1545,7 @@ yellow | triangle | 0 | small | striped","Count the entries matching all of the 
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object
 
 blue | circle | 1 | small | dotted
@@ -1557,10 +1595,11 @@ yellow | triangle | 0 | small | dotted
 green | square | 0 | medium | dotted
 blue | triangle | 0 | small | solid
 yellow | triangle | 0 | small | striped",3,"[14, 16, 18]","{""color"": ""green"", ""shape"": ""square""}",20,2,3,"[""color"", ""shape"", ""marker"", ""size"", ""pattern""]","[""color"", ""shape""]","[""marker"", ""size"", ""pattern""]",2,2,0,0,0,13
-4119,n1,noise_width_sweep,n1,count,"Count the entries matching all of the following attributes: color=red, shape=square.
+4119,n1,noise_width_sweep,n1,"Count the entries matching all of the following attributes: color=red, shape=square.
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object","Return the line numbers (1-based) of the entries matching all of the following attributes: color=red, shape=square.
 Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}. 
 Rules:
@@ -1590,6 +1629,7 @@ red | triangle | 0 | medium | dotted","Count the entries matching all of the fol
 Respond with a JSON object of the form {""count"": <integer>}.
 Rules:
 - ""count"" must be an integer
+- Do not include any extra keys
 - Return only the JSON object
 
 yellow | square | 0 | large | dotted

@@ -21,7 +21,6 @@ RegimeName = Literal[
     "confound_sweep",
     "combined",
 ]
-ResponseMode = Literal["count", "filter"]
 
 COLORS: tuple[ColorName, ...] = ("red", "blue", "green", "yellow")
 SHAPES: tuple[Shape, ...] = ("circle", "square", "triangle")
@@ -65,7 +64,6 @@ class FeatureTextFactors:
     regime: RegimeName
     regime_level: str
     difficulty: str
-    response_mode: ResponseMode
     num_records: int
     target_feature_count: int
     target_count: int
@@ -104,7 +102,6 @@ class TextSceneSpec:
     difficulty: str
     regime: RegimeName
     regime_level: str
-    response_mode: ResponseMode
 
     count_instruction: str
     filter_instruction: str
@@ -143,7 +140,6 @@ class FeatureTextSelectiveAttentionGeneratorV2:
         difficulty_name: str | None = None,
         regime: RegimeName = "combined",
         regime_level: str = "medium",
-        response_mode: ResponseMode = "count",
     ) -> TextSceneSpec:
         local_rng = random.Random(seed) if seed is not None else self.rng
 
@@ -152,14 +148,12 @@ class FeatureTextSelectiveAttentionGeneratorV2:
                 rng=local_rng,
                 regime=regime,
                 level=regime_level,
-                response_mode=response_mode,
             )
         elif difficulty_name is not None:
             factors = FeatureTextFactors(
                 regime=factors.regime,
                 regime_level=factors.regime_level,
                 difficulty=difficulty_name,
-                response_mode=factors.response_mode,
                 num_records=factors.num_records,
                 target_feature_count=factors.target_feature_count,
                 target_count=factors.target_count,
@@ -194,7 +188,6 @@ class FeatureTextSelectiveAttentionGeneratorV2:
                 difficulty=factors.difficulty,
                 regime=factors.regime,
                 regime_level=factors.regime_level,
-                response_mode=factors.response_mode,
                 count_instruction=count_instruction,
                 filter_instruction=filter_instruction,
                 text_input=text_input,
@@ -216,14 +209,12 @@ class FeatureTextSelectiveAttentionGeneratorV2:
         start_seed: int = 0,
         regime: RegimeName = "combined",
         regime_level: str = "medium",
-        response_mode: ResponseMode = "count",
     ) -> list[TextSceneSpec]:
         return [
             self.generate(
                 seed=start_seed + i,
                 regime=regime,
                 regime_level=regime_level,
-                response_mode=response_mode,
             )
             for i in range(count)
         ]
@@ -234,26 +225,24 @@ class FeatureTextSelectiveAttentionGeneratorV2:
         rng: random.Random,
         regime: RegimeName,
         level: str,
-        response_mode: ResponseMode,
     ) -> FeatureTextFactors:
         if regime == "baseline":
-            return self._sample_baseline_factors(rng, response_mode)
+            return self._sample_baseline_factors(rng)
         if regime == "set_size_sweep":
-            return self._sample_set_size_sweep_factors(rng, level, response_mode)
+            return self._sample_set_size_sweep_factors(rng, level)
         if regime == "rule_arity_sweep":
-            return self._sample_rule_arity_sweep_factors(rng, level, response_mode)
+            return self._sample_rule_arity_sweep_factors(rng, level)
         if regime == "noise_width_sweep":
-            return self._sample_noise_width_sweep_factors(rng, level, response_mode)
+            return self._sample_noise_width_sweep_factors(rng, level)
         if regime == "confound_sweep":
-            return self._sample_confound_sweep_factors(rng, level, response_mode)
+            return self._sample_confound_sweep_factors(rng, level)
         if regime == "combined":
-            return self._sample_combined_factors(rng, level, response_mode)
+            return self._sample_combined_factors(rng, level)
         raise ValueError(f"Unknown regime: {regime}")
 
     def _sample_baseline_factors(
         self,
         rng: random.Random,
-        response_mode: ResponseMode,
     ) -> FeatureTextFactors:
         num_records = 8
         target_count = rng.randint(1, 2)
@@ -261,7 +250,6 @@ class FeatureTextSelectiveAttentionGeneratorV2:
             regime="baseline",
             regime_level="baseline",
             difficulty="baseline",
-            response_mode=response_mode,
             num_records=num_records,
             target_feature_count=2,
             target_count=target_count,
@@ -280,7 +268,6 @@ class FeatureTextSelectiveAttentionGeneratorV2:
         self,
         rng: random.Random,
         level: str,
-        response_mode: ResponseMode,
     ) -> FeatureTextFactors:
         mapping = {
             "xs": 8,
@@ -298,7 +285,6 @@ class FeatureTextSelectiveAttentionGeneratorV2:
             regime="set_size_sweep",
             regime_level=level,
             difficulty=level,
-            response_mode=response_mode,
             num_records=num_records,
             target_feature_count=2,
             target_count=target_count,
@@ -317,7 +303,6 @@ class FeatureTextSelectiveAttentionGeneratorV2:
         self,
         rng: random.Random,
         level: str,
-        response_mode: ResponseMode,
     ) -> FeatureTextFactors:
         mapping = {
             "1f": ("color",),
@@ -354,7 +339,6 @@ class FeatureTextSelectiveAttentionGeneratorV2:
             regime="rule_arity_sweep",
             regime_level=level,
             difficulty=level,
-            response_mode=response_mode,
             num_records=num_records,
             target_feature_count=len(target_fields),
             target_count=target_count,
@@ -373,7 +357,6 @@ class FeatureTextSelectiveAttentionGeneratorV2:
         self,
         rng: random.Random,
         level: str,
-        response_mode: ResponseMode,
     ) -> FeatureTextFactors:
         mapping = {
             "n0": ("color", "shape", "marker"),
@@ -392,7 +375,6 @@ class FeatureTextSelectiveAttentionGeneratorV2:
             regime="noise_width_sweep",
             regime_level=level,
             difficulty=level,
-            response_mode=response_mode,
             num_records=num_records,
             target_feature_count=2,
             target_count=target_count,
@@ -411,7 +393,6 @@ class FeatureTextSelectiveAttentionGeneratorV2:
         self,
         rng: random.Random,
         level: str,
-        response_mode: ResponseMode,
     ) -> FeatureTextFactors:
         mapping = {
             "low": (1, 1, 1, 1, 0, 16),
@@ -429,7 +410,6 @@ class FeatureTextSelectiveAttentionGeneratorV2:
             regime="confound_sweep",
             regime_level=level,
             difficulty=level,
-            response_mode=response_mode,
             num_records=num_records,
             target_feature_count=4,
             target_count=target_count,
@@ -448,14 +428,12 @@ class FeatureTextSelectiveAttentionGeneratorV2:
         self,
         rng: random.Random,
         level: str,
-        response_mode: ResponseMode,
     ) -> FeatureTextFactors:
         if level == "easy":
             return FeatureTextFactors(
                 regime="combined",
                 regime_level="easy",
                 difficulty="easy",
-                response_mode=response_mode,
                 num_records=16,
                 target_feature_count=2,
                 target_count=3,
@@ -474,7 +452,6 @@ class FeatureTextSelectiveAttentionGeneratorV2:
                 regime="combined",
                 regime_level="medium",
                 difficulty="medium",
-                response_mode=response_mode,
                 num_records=24,
                 target_feature_count=3,
                 target_count=4,
@@ -493,7 +470,6 @@ class FeatureTextSelectiveAttentionGeneratorV2:
                 regime="combined",
                 regime_level="hard",
                 difficulty="hard",
-                response_mode=response_mode,
                 num_records=32,
                 target_feature_count=4,
                 target_count=5,
@@ -847,7 +823,6 @@ class FeatureTextSelectiveAttentionGeneratorV2:
         target_definition: dict[str, str],
     ) -> str:
         desc = self._field_description(target_fields, target_definition)
-        desc = self._field_description(target_fields, target_definition)
         return (
             f"Count the entries matching all of the following attributes: {desc}.\n"
             'Respond with a JSON object of the form {"count": <integer>}.\n'
@@ -875,13 +850,20 @@ class FeatureTextSelectiveAttentionGeneratorV2:
 
 
 def scene_to_dataset_row(scene: TextSceneSpec) -> dict:
+    """
+    Export a single wide row per scene.
+
+    Each scene supports both counting and filtering. The dataset row therefore
+    includes both prompts and both gold labels. Downstream code should create
+    count/filter eval views from the same base rows rather than filtering by a
+    response mode flag.
+    """
     factors = scene.factors
     return {
         "seed": scene.seed,
         "difficulty": scene.difficulty,
         "regime": scene.regime,
         "regime_level": scene.regime_level,
-        "response_mode": scene.response_mode,
         "count_instruction": scene.count_instruction,
         "filter_instruction": scene.filter_instruction,
         "text_input": scene.text_input,
@@ -903,3 +885,35 @@ def scene_to_dataset_row(scene: TextSceneSpec) -> dict:
         "same_core_wrong_pattern_count": factors.same_core_wrong_pattern_count,
         "unrelated_count": factors.unrelated_count,
     }
+
+
+def scene_to_count_dataset_row(scene: TextSceneSpec) -> dict:
+    """
+    Export a single-task count row for code that prefers long-format datasets.
+    """
+    row = scene_to_dataset_row(scene)
+    row["task_mode"] = "count"
+    row["task_prompt"] = scene.count_prompt
+    row["gold_answer"] = scene.gold_count
+    return row
+
+
+def scene_to_filter_dataset_row(scene: TextSceneSpec) -> dict:
+    """
+    Export a single-task filter row for code that prefers long-format datasets.
+    """
+    row = scene_to_dataset_row(scene)
+    row["task_mode"] = "filter"
+    row["task_prompt"] = scene.filter_prompt
+    row["gold_answer"] = json.dumps(scene.gold_lines)
+    return row
+
+
+def scene_to_task_rows(scene: TextSceneSpec) -> list[dict]:
+    """
+    Export both task-specific rows for the same underlying scene.
+    """
+    return [
+        scene_to_count_dataset_row(scene),
+        scene_to_filter_dataset_row(scene),
+    ]

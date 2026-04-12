@@ -1,7 +1,7 @@
 import pandas as pd
 from abc_benchmark.datasets.build_feature_dataset import build_feature_dataset
 
-out_dir = "artifacts/datasets/feature_visual"
+out_dir = "artifacts/datasets/selective_attention/feature_visual"
 
 dfs = [
     build_feature_dataset(out_dir, "easy", 20, 1000),
