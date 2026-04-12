@@ -1,3 +1,4 @@
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -7,48 +8,80 @@ import pandas as pd
 from abc_benchmark.datasets.build_feature_text_dataset_v2 import build_feature_text_dataset_v2
 
 
+SPECS: list[dict[str, object]] = [
+    {"regime": "baseline", "regime_level": "baseline", "count": 20, "start_seed": 1000},
+
+    {"regime": "set_size_sweep", "regime_level": "xs", "count": 20, "start_seed": 2000},
+    {"regime": "set_size_sweep", "regime_level": "s", "count": 20, "start_seed": 2100},
+    {"regime": "set_size_sweep", "regime_level": "m", "count": 20, "start_seed": 2200},
+    {"regime": "set_size_sweep", "regime_level": "l", "count": 20, "start_seed": 2300},
+
+    {"regime": "rule_arity_sweep", "regime_level": "1f", "count": 20, "start_seed": 3000},
+    {"regime": "rule_arity_sweep", "regime_level": "2f", "count": 20, "start_seed": 3100},
+    {"regime": "rule_arity_sweep", "regime_level": "3f", "count": 20, "start_seed": 3200},
+    {"regime": "rule_arity_sweep", "regime_level": "4f", "count": 20, "start_seed": 3300},
+
+    {"regime": "noise_width_sweep", "regime_level": "n0", "count": 20, "start_seed": 4000},
+    {"regime": "noise_width_sweep", "regime_level": "n1", "count": 20, "start_seed": 4100},
+    {"regime": "noise_width_sweep", "regime_level": "n2", "count": 20, "start_seed": 4200},
+
+    {"regime": "confound_sweep", "regime_level": "low", "count": 20, "start_seed": 5000},
+    {"regime": "confound_sweep", "regime_level": "medium", "count": 20, "start_seed": 5100},
+    {"regime": "confound_sweep", "regime_level": "high", "count": 20, "start_seed": 5200},
+    {"regime": "confound_sweep", "regime_level": "extreme", "count": 20, "start_seed": 5300},
+
+    {"regime": "position_sweep", "regime_level": "random", "count": 20, "start_seed": 5400},
+    {"regime": "position_sweep", "regime_level": "front_loaded", "count": 20, "start_seed": 5500},
+    {"regime": "position_sweep", "regime_level": "back_loaded", "count": 20, "start_seed": 5600},
+    {"regime": "position_sweep", "regime_level": "clustered", "count": 20, "start_seed": 5700},
+
+    {"regime": "target_count_sweep", "regime_level": "0", "count": 20, "start_seed": 5800},
+    {"regime": "target_count_sweep", "regime_level": "1", "count": 20, "start_seed": 5900},
+    {"regime": "target_count_sweep", "regime_level": "3", "count": 20, "start_seed": 6000},
+    {"regime": "target_count_sweep", "regime_level": "5", "count": 20, "start_seed": 6100},
+
+    {"regime": "target_count_x_confound_sweep", "regime_level": "0_low", "count": 20, "start_seed": 6200},
+    {"regime": "target_count_x_confound_sweep", "regime_level": "0_medium", "count": 20, "start_seed": 6300},
+    {"regime": "target_count_x_confound_sweep", "regime_level": "0_extreme", "count": 20, "start_seed": 6400},
+    {"regime": "target_count_x_confound_sweep", "regime_level": "3_low", "count": 20, "start_seed": 6500},
+    {"regime": "target_count_x_confound_sweep", "regime_level": "3_medium", "count": 20, "start_seed": 6600},
+    {"regime": "target_count_x_confound_sweep", "regime_level": "3_extreme", "count": 20, "start_seed": 6700},
+
+    {"regime": "target_count_x_rule_arity_sweep", "regime_level": "0_1f", "count": 20, "start_seed": 6800},
+    {"regime": "target_count_x_rule_arity_sweep", "regime_level": "0_2f", "count": 20, "start_seed": 6900},
+    {"regime": "target_count_x_rule_arity_sweep", "regime_level": "0_4f", "count": 20, "start_seed": 7000},
+    {"regime": "target_count_x_rule_arity_sweep", "regime_level": "3_1f", "count": 20, "start_seed": 7100},
+    {"regime": "target_count_x_rule_arity_sweep", "regime_level": "3_2f", "count": 20, "start_seed": 7200},
+    {"regime": "target_count_x_rule_arity_sweep", "regime_level": "3_4f", "count": 20, "start_seed": 7300},
+
+    {"regime": "combined", "regime_level": "easy", "count": 20, "start_seed": 7400},
+    {"regime": "combined", "regime_level": "medium", "count": 20, "start_seed": 7500},
+    {"regime": "combined", "regime_level": "hard", "count": 20, "start_seed": 7600},
+]
+
+
 def main() -> None:
-    out_dir = Path("artifacts/datasets/feature_text_v2")
+    out_dir = Path("artifacts/datasets/selective_attention/feature_text_v2")
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    specs = [
-        # Baseline
-        ("baseline", "baseline", 20, 1000),
-
-        # Single-factor sweeps
-        ("set_size_sweep", "xs", 20, 2000),
-        ("set_size_sweep", "s", 20, 2100),
-        ("set_size_sweep", "m", 20, 2200),
-        ("set_size_sweep", "l", 20, 2300),
-
-        ("rule_arity_sweep", "1f", 20, 3000),
-        ("rule_arity_sweep", "2f", 20, 3100),
-        ("rule_arity_sweep", "3f", 20, 3200),
-        ("rule_arity_sweep", "4f", 20, 3300),
-
-        ("noise_width_sweep", "n0", 20, 4000),
-        ("noise_width_sweep", "n1", 20, 4100),
-        ("noise_width_sweep", "n2", 20, 4200),
-
-        ("confound_sweep", "low", 20, 5000),
-        ("confound_sweep", "medium", 20, 5100),
-        ("confound_sweep", "high", 20, 5200),
-        ("confound_sweep", "extreme", 20, 5300),
-
-        # Combined
-        ("combined", "easy", 20, 6000),
-        ("combined", "medium", 20, 6100),
-        ("combined", "hard", 20, 6200),
-    ]
-
     dfs: list[pd.DataFrame] = []
-    for regime, regime_level, count, start_seed in specs:
+    for spec in SPECS:
         df = build_feature_text_dataset_v2(
             out_dir,
-            regime=regime,
-            regime_level=regime_level,
-            count=count,
-            start_seed=start_seed,
+            regime=str(spec["regime"]),
+            regime_level=str(spec["regime_level"]),
+            count=int(spec["count"]),
+            start_seed=int(spec.get("start_seed", 0)),
+            position_mode=(
+                None
+                if spec.get("position_mode") is None
+                else str(spec["position_mode"])
+            ),
+            target_count_override=(
+                None
+                if spec.get("target_count_override") is None
+                else int(spec["target_count_override"])
+            ),
         )
         dfs.append(df)
 
@@ -58,8 +91,17 @@ def main() -> None:
     print("=== feature_text_v2_full: by regime, regime_level ===")
     print(full_df.groupby(["regime", "regime_level"]).size())
 
+    print("\n=== feature_text_v2_full: by position_mode ===")
+    print(full_df.groupby(["position_mode"]).size())
+
+    print("\n=== feature_text_v2_full: by target_count ===")
+    print(full_df.groupby(["target_count"]).size())
+
     print("\n=== feature_text_v2_full: total rows ===")
     print(len(full_df))
+
+    print("\n=== feature_text_v2_full: columns ===")
+    print(sorted(full_df.columns.tolist()))
 
     print("\n=== feature_text_v2_full: sample ===")
     print(full_df.head())

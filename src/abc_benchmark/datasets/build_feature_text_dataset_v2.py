@@ -1,3 +1,4 @@
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -17,15 +18,20 @@ def build_feature_text_dataset_v2(
     regime_level: str,
     count: int,
     start_seed: int = 0,
+    position_mode: str | None = None,
+    target_count_override: int | None = None,
 ) -> pd.DataFrame:
-    """Build a wide feature-text v2 dataset.
+    """Build a wide feature-text dataset.
 
-    Each generated scene supports both tasks:
+    Each generated scene is exported once and supports both:
     - counting via count_prompt + gold_count
     - filtering via filter_prompt + gold_lines
 
-    So this builder intentionally generates each scene only once and does not
-    split rows by a fake response_mode.
+    Explicit benchmark-facing factors:
+    - regime / regime_level (including position_sweep, target_count_sweep,
+      and the interaction sweeps)
+    - target_count_override (optional manual override for experiments)
+    - position_mode (primarily meaningful for position_sweep)
     """
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -39,10 +45,19 @@ def build_feature_text_dataset_v2(
             seed=seed,
             regime=regime,  # type: ignore[arg-type]
             regime_level=regime_level,
+            position_mode=position_mode,  # type: ignore[arg-type]
+            target_count_override=target_count_override,
         )
         rows.append(scene_to_dataset_row(scene))
 
     df = pd.DataFrame(rows)
-    filename = f"{regime}_{regime_level}.csv"
+
+    filename_parts = [regime, regime_level]
+    if position_mode is not None and not (regime == "position_sweep" and position_mode == regime_level):
+        filename_parts.append(position_mode)
+    if target_count_override is not None:
+        filename_parts.append(f"tc{target_count_override}")
+    filename = "_".join(filename_parts) + ".csv"
+
     df.to_csv(output_dir / filename, index=False)
     return df
