@@ -1,0 +1,1481 @@
+seed,family,attentional_basis,modality,dimension,variant,structure_type,count_instruction,filter_instruction,text_input,count_prompt,filter_prompt,gold_count,gold_lines,target_definition,structure_depth,binding_distance,serialization_style,num_records,target_count,confound_count,confound_type,unrelated_count,line_length_noise
+7000,selective_attention,structure_sensitive,text,combined,easy,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=square, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=square, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G2 | L[beta:blue,triangle,large] -> F[delta:1,striped]
+2. G3 | L[beta:blue,circle,large] -> F[delta:1,dotted]
+3. G1 | L[gamma:green,square,medium] -> F[delta:0,dotted]
+4. G2 | L[alpha:blue,square,medium] -> F[beta:0,dotted]
+5. G3 | L[beta:green,square,medium] -> F[alpha:0,dotted]
+6. G3 | L[alpha:red,triangle,large] -> F[gamma:1,dotted]
+7. G2 | L[alpha:yellow,square,small] -> F[beta:1,dotted]
+8. G4 | L[gamma:red,triangle,large] -> F[delta:0,dotted]
+9. G2 | L[delta:yellow,circle,medium] -> F[beta:1,dotted]
+10. G3 | L[alpha:blue,triangle,small] -> F[alpha:0,dotted]
+11. G2 | L[gamma:red,square,medium] -> F[gamma:0,striped]
+12. G4 | L[alpha:red,square,medium] -> F[gamma:0,dotted]
+13. G2 | L[alpha:red,square,medium] -> F[alpha:0,dotted]
+14. G2 | L[alpha:blue,square,medium] -> F[gamma:0,dotted]
+15. G4 | L[alpha:red,square,medium] -> F[alpha:0,dotted]
+16. G4 | L[alpha:green,square,small] -> F[alpha:0,dotted]","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=square, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G2 | L[beta:blue,triangle,large] -> F[delta:1,striped]
+2. G3 | L[beta:blue,circle,large] -> F[delta:1,dotted]
+3. G1 | L[gamma:green,square,medium] -> F[delta:0,dotted]
+4. G2 | L[alpha:blue,square,medium] -> F[beta:0,dotted]
+5. G3 | L[beta:green,square,medium] -> F[alpha:0,dotted]
+6. G3 | L[alpha:red,triangle,large] -> F[gamma:1,dotted]
+7. G2 | L[alpha:yellow,square,small] -> F[beta:1,dotted]
+8. G4 | L[gamma:red,triangle,large] -> F[delta:0,dotted]
+9. G2 | L[delta:yellow,circle,medium] -> F[beta:1,dotted]
+10. G3 | L[alpha:blue,triangle,small] -> F[alpha:0,dotted]
+11. G2 | L[gamma:red,square,medium] -> F[gamma:0,striped]
+12. G4 | L[alpha:red,square,medium] -> F[gamma:0,dotted]
+13. G2 | L[alpha:red,square,medium] -> F[alpha:0,dotted]
+14. G2 | L[alpha:blue,square,medium] -> F[gamma:0,dotted]
+15. G4 | L[alpha:red,square,medium] -> F[alpha:0,dotted]
+16. G4 | L[alpha:green,square,small] -> F[alpha:0,dotted]","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=square, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G2 | L[beta:blue,triangle,large] -> F[delta:1,striped]
+2. G3 | L[beta:blue,circle,large] -> F[delta:1,dotted]
+3. G1 | L[gamma:green,square,medium] -> F[delta:0,dotted]
+4. G2 | L[alpha:blue,square,medium] -> F[beta:0,dotted]
+5. G3 | L[beta:green,square,medium] -> F[alpha:0,dotted]
+6. G3 | L[alpha:red,triangle,large] -> F[gamma:1,dotted]
+7. G2 | L[alpha:yellow,square,small] -> F[beta:1,dotted]
+8. G4 | L[gamma:red,triangle,large] -> F[delta:0,dotted]
+9. G2 | L[delta:yellow,circle,medium] -> F[beta:1,dotted]
+10. G3 | L[alpha:blue,triangle,small] -> F[alpha:0,dotted]
+11. G2 | L[gamma:red,square,medium] -> F[gamma:0,striped]
+12. G4 | L[alpha:red,square,medium] -> F[gamma:0,dotted]
+13. G2 | L[alpha:red,square,medium] -> F[alpha:0,dotted]
+14. G2 | L[alpha:blue,square,medium] -> F[gamma:0,dotted]
+15. G4 | L[alpha:red,square,medium] -> F[alpha:0,dotted]
+16. G4 | L[alpha:green,square,small] -> F[alpha:0,dotted]",3,"[12, 13, 15]","{""follower_marker"": ""0"", ""leader_color"": ""red"", ""leader_shape"": ""square"", ""local_pattern"": ""dotted"", ""scope_size"": ""medium""}",1,near,compact,16,3,5,follower_only,8,0
+7001,selective_attention,structure_sensitive,text,combined,easy,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=triangle, follower.marker=1) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=triangle, follower.marker=1) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G3 | L[beta:green,triangle,medium] -> F[delta:1,dotted]
+2. G3 | L[alpha:green,circle,large] -> F[delta:1,solid]
+3. G4 | L[gamma:green,triangle,medium] -> F[gamma:0,dotted]
+4. G3 | L[gamma:green,triangle,small] -> F[alpha:0,dotted]
+5. G4 | L[gamma:green,triangle,small] -> F[delta:0,dotted]
+6. G3 | L[beta:red,circle,medium] -> F[delta:1,dotted]
+7. G2 | L[alpha:green,triangle,large] -> F[gamma:1,dotted]
+8. G3 | L[delta:blue,triangle,medium] -> F[delta:0,solid]
+9. G1 | L[gamma:green,triangle,small] -> F[gamma:1,dotted]
+10. G3 | L[gamma:green,triangle,large] -> F[alpha:0,dotted]
+11. G3 | L[alpha:green,triangle,large] -> F[beta:0,dotted]
+12. G2 | L[alpha:yellow,square,small] -> F[gamma:1,solid]
+13. G4 | L[delta:green,triangle,small] -> F[delta:0,striped]
+14. G1 | L[delta:red,circle,large] -> F[beta:0,dotted]
+15. G1 | L[gamma:green,square,large] -> F[beta:1,solid]
+16. G3 | L[delta:red,square,large] -> F[beta:0,solid]","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=triangle, follower.marker=1) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G3 | L[beta:green,triangle,medium] -> F[delta:1,dotted]
+2. G3 | L[alpha:green,circle,large] -> F[delta:1,solid]
+3. G4 | L[gamma:green,triangle,medium] -> F[gamma:0,dotted]
+4. G3 | L[gamma:green,triangle,small] -> F[alpha:0,dotted]
+5. G4 | L[gamma:green,triangle,small] -> F[delta:0,dotted]
+6. G3 | L[beta:red,circle,medium] -> F[delta:1,dotted]
+7. G2 | L[alpha:green,triangle,large] -> F[gamma:1,dotted]
+8. G3 | L[delta:blue,triangle,medium] -> F[delta:0,solid]
+9. G1 | L[gamma:green,triangle,small] -> F[gamma:1,dotted]
+10. G3 | L[gamma:green,triangle,large] -> F[alpha:0,dotted]
+11. G3 | L[alpha:green,triangle,large] -> F[beta:0,dotted]
+12. G2 | L[alpha:yellow,square,small] -> F[gamma:1,solid]
+13. G4 | L[delta:green,triangle,small] -> F[delta:0,striped]
+14. G1 | L[delta:red,circle,large] -> F[beta:0,dotted]
+15. G1 | L[gamma:green,square,large] -> F[beta:1,solid]
+16. G3 | L[delta:red,square,large] -> F[beta:0,solid]","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=triangle, follower.marker=1) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G3 | L[beta:green,triangle,medium] -> F[delta:1,dotted]
+2. G3 | L[alpha:green,circle,large] -> F[delta:1,solid]
+3. G4 | L[gamma:green,triangle,medium] -> F[gamma:0,dotted]
+4. G3 | L[gamma:green,triangle,small] -> F[alpha:0,dotted]
+5. G4 | L[gamma:green,triangle,small] -> F[delta:0,dotted]
+6. G3 | L[beta:red,circle,medium] -> F[delta:1,dotted]
+7. G2 | L[alpha:green,triangle,large] -> F[gamma:1,dotted]
+8. G3 | L[delta:blue,triangle,medium] -> F[delta:0,solid]
+9. G1 | L[gamma:green,triangle,small] -> F[gamma:1,dotted]
+10. G3 | L[gamma:green,triangle,large] -> F[alpha:0,dotted]
+11. G3 | L[alpha:green,triangle,large] -> F[beta:0,dotted]
+12. G2 | L[alpha:yellow,square,small] -> F[gamma:1,solid]
+13. G4 | L[delta:green,triangle,small] -> F[delta:0,striped]
+14. G1 | L[delta:red,circle,large] -> F[beta:0,dotted]
+15. G1 | L[gamma:green,square,large] -> F[beta:1,solid]
+16. G3 | L[delta:red,square,large] -> F[beta:0,solid]",3,"[1, 7, 9]","{""follower_marker"": ""1"", ""leader_color"": ""green"", ""leader_shape"": ""triangle"", ""local_pattern"": ""dotted"", ""scope_size"": ""large""}",1,near,compact,16,3,5,leader_only,8,0
+7002,selective_attention,structure_sensitive,text,combined,easy,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=square, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=square, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G3 | L[gamma:red,square,small] -> F[beta:1,solid]
+2. G1 | L[beta:red,circle,large] -> F[delta:1,striped]
+3. G1 | L[beta:yellow,circle,medium] -> F[gamma:1,solid]
+4. G3 | L[beta:green,square,medium] -> F[delta:1,solid]
+5. G1 | L[gamma:red,square,medium] -> F[gamma:0,dotted]
+6. G1 | L[delta:blue,square,small] -> F[alpha:0,solid]
+7. G2 | L[alpha:red,triangle,large] -> F[delta:0,striped]
+8. G3 | L[alpha:red,circle,large] -> F[alpha:0,striped]
+9. G2 | L[alpha:red,triangle,small] -> F[gamma:0,striped]
+10. G3 | L[gamma:red,triangle,large] -> F[delta:0,solid]
+11. G2 | L[gamma:red,circle,small] -> F[gamma:0,solid]
+12. G1 | L[beta:red,triangle,small] -> F[delta:0,dotted]
+13. G2 | L[delta:red,square,large] -> F[gamma:0,dotted]
+14. G4 | L[delta:green,circle,medium] -> F[gamma:1,solid]
+15. G4 | L[beta:red,square,small] -> F[gamma:0,dotted]
+16. G2 | L[gamma:red,triangle,large] -> F[alpha:0,striped]","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=square, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G3 | L[gamma:red,square,small] -> F[beta:1,solid]
+2. G1 | L[beta:red,circle,large] -> F[delta:1,striped]
+3. G1 | L[beta:yellow,circle,medium] -> F[gamma:1,solid]
+4. G3 | L[beta:green,square,medium] -> F[delta:1,solid]
+5. G1 | L[gamma:red,square,medium] -> F[gamma:0,dotted]
+6. G1 | L[delta:blue,square,small] -> F[alpha:0,solid]
+7. G2 | L[alpha:red,triangle,large] -> F[delta:0,striped]
+8. G3 | L[alpha:red,circle,large] -> F[alpha:0,striped]
+9. G2 | L[alpha:red,triangle,small] -> F[gamma:0,striped]
+10. G3 | L[gamma:red,triangle,large] -> F[delta:0,solid]
+11. G2 | L[gamma:red,circle,small] -> F[gamma:0,solid]
+12. G1 | L[beta:red,triangle,small] -> F[delta:0,dotted]
+13. G2 | L[delta:red,square,large] -> F[gamma:0,dotted]
+14. G4 | L[delta:green,circle,medium] -> F[gamma:1,solid]
+15. G4 | L[beta:red,square,small] -> F[gamma:0,dotted]
+16. G2 | L[gamma:red,triangle,large] -> F[alpha:0,striped]","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=square, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G3 | L[gamma:red,square,small] -> F[beta:1,solid]
+2. G1 | L[beta:red,circle,large] -> F[delta:1,striped]
+3. G1 | L[beta:yellow,circle,medium] -> F[gamma:1,solid]
+4. G3 | L[beta:green,square,medium] -> F[delta:1,solid]
+5. G1 | L[gamma:red,square,medium] -> F[gamma:0,dotted]
+6. G1 | L[delta:blue,square,small] -> F[alpha:0,solid]
+7. G2 | L[alpha:red,triangle,large] -> F[delta:0,striped]
+8. G3 | L[alpha:red,circle,large] -> F[alpha:0,striped]
+9. G2 | L[alpha:red,triangle,small] -> F[gamma:0,striped]
+10. G3 | L[gamma:red,triangle,large] -> F[delta:0,solid]
+11. G2 | L[gamma:red,circle,small] -> F[gamma:0,solid]
+12. G1 | L[beta:red,triangle,small] -> F[delta:0,dotted]
+13. G2 | L[delta:red,square,large] -> F[gamma:0,dotted]
+14. G4 | L[delta:green,circle,medium] -> F[gamma:1,solid]
+15. G4 | L[beta:red,square,small] -> F[gamma:0,dotted]
+16. G2 | L[gamma:red,triangle,large] -> F[alpha:0,striped]",3,"[5, 13, 15]","{""follower_marker"": ""0"", ""leader_color"": ""red"", ""leader_shape"": ""square"", ""local_pattern"": ""dotted"", ""scope_size"": ""medium""}",1,near,compact,16,3,5,cross_binding,8,0
+7003,selective_attention,structure_sensitive,text,combined,easy,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G3 | L[gamma:green,triangle,medium] -> F[alpha:0,striped]
+2. G3 | L[gamma:green,square,small] -> F[gamma:0,solid]
+3. G2 | L[alpha:blue,triangle,large] -> F[beta:0,solid]
+4. G1 | L[gamma:yellow,circle,medium] -> F[beta:1,dotted]
+5. G1 | L[beta:green,square,small] -> F[delta:0,striped]
+6. G1 | L[gamma:green,triangle,large] -> F[gamma:0,striped]
+7. G1 | L[beta:green,square,medium] -> F[gamma:0,dotted]
+8. G3 | L[gamma:green,square,small] -> F[alpha:1,dotted]
+9. G1 | L[delta:green,square,small] -> F[gamma:0,dotted]
+10. G1 | L[gamma:green,circle,medium] -> F[gamma:0,solid]
+11. G3 | L[beta:red,triangle,small] -> F[gamma:0,solid]
+12. G4 | L[alpha:green,triangle,medium] -> F[beta:0,striped]
+13. G2 | L[delta:red,triangle,medium] -> F[beta:1,solid]
+14. G3 | L[delta:green,square,small] -> F[alpha:0,dotted]
+15. G1 | L[delta:green,square,medium] -> F[gamma:0,solid]
+16. G2 | L[delta:green,triangle,medium] -> F[delta:0,dotted]","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G3 | L[gamma:green,triangle,medium] -> F[alpha:0,striped]
+2. G3 | L[gamma:green,square,small] -> F[gamma:0,solid]
+3. G2 | L[alpha:blue,triangle,large] -> F[beta:0,solid]
+4. G1 | L[gamma:yellow,circle,medium] -> F[beta:1,dotted]
+5. G1 | L[beta:green,square,small] -> F[delta:0,striped]
+6. G1 | L[gamma:green,triangle,large] -> F[gamma:0,striped]
+7. G1 | L[beta:green,square,medium] -> F[gamma:0,dotted]
+8. G3 | L[gamma:green,square,small] -> F[alpha:1,dotted]
+9. G1 | L[delta:green,square,small] -> F[gamma:0,dotted]
+10. G1 | L[gamma:green,circle,medium] -> F[gamma:0,solid]
+11. G3 | L[beta:red,triangle,small] -> F[gamma:0,solid]
+12. G4 | L[alpha:green,triangle,medium] -> F[beta:0,striped]
+13. G2 | L[delta:red,triangle,medium] -> F[beta:1,solid]
+14. G3 | L[delta:green,square,small] -> F[alpha:0,dotted]
+15. G1 | L[delta:green,square,medium] -> F[gamma:0,solid]
+16. G2 | L[delta:green,triangle,medium] -> F[delta:0,dotted]","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G3 | L[gamma:green,triangle,medium] -> F[alpha:0,striped]
+2. G3 | L[gamma:green,square,small] -> F[gamma:0,solid]
+3. G2 | L[alpha:blue,triangle,large] -> F[beta:0,solid]
+4. G1 | L[gamma:yellow,circle,medium] -> F[beta:1,dotted]
+5. G1 | L[beta:green,square,small] -> F[delta:0,striped]
+6. G1 | L[gamma:green,triangle,large] -> F[gamma:0,striped]
+7. G1 | L[beta:green,square,medium] -> F[gamma:0,dotted]
+8. G3 | L[gamma:green,square,small] -> F[alpha:1,dotted]
+9. G1 | L[delta:green,square,small] -> F[gamma:0,dotted]
+10. G1 | L[gamma:green,circle,medium] -> F[gamma:0,solid]
+11. G3 | L[beta:red,triangle,small] -> F[gamma:0,solid]
+12. G4 | L[alpha:green,triangle,medium] -> F[beta:0,striped]
+13. G2 | L[delta:red,triangle,medium] -> F[beta:1,solid]
+14. G3 | L[delta:green,square,small] -> F[alpha:0,dotted]
+15. G1 | L[delta:green,square,medium] -> F[gamma:0,solid]
+16. G2 | L[delta:green,triangle,medium] -> F[delta:0,dotted]",3,"[1, 6, 12]","{""follower_marker"": ""0"", ""leader_color"": ""green"", ""leader_shape"": ""triangle"", ""local_pattern"": ""striped"", ""scope_size"": ""medium""}",1,near,compact,16,3,5,cross_binding,8,0
+7004,selective_attention,structure_sensitive,text,combined,easy,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=circle, follower.marker=0) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=circle, follower.marker=0) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G1 | L[gamma:red,square,medium] -> F[beta:1,solid]
+2. G4 | L[delta:green,circle,medium] -> F[alpha:0,dotted]
+3. G4 | L[beta:red,circle,medium] -> F[gamma:1,striped]
+4. G1 | L[alpha:yellow,circle,small] -> F[alpha:0,dotted]
+5. G4 | L[delta:red,circle,large] -> F[delta:1,striped]
+6. G1 | L[alpha:red,circle,small] -> F[delta:1,striped]
+7. G3 | L[alpha:red,circle,large] -> F[delta:0,striped]
+8. G2 | L[beta:red,circle,large] -> F[beta:1,striped]
+9. G3 | L[gamma:green,triangle,small] -> F[gamma:0,dotted]
+10. G4 | L[alpha:red,circle,small] -> F[gamma:1,striped]
+11. G1 | L[delta:red,circle,small] -> F[alpha:0,striped]
+12. G3 | L[delta:red,circle,medium] -> F[alpha:0,striped]
+13. G3 | L[beta:blue,triangle,large] -> F[beta:1,dotted]
+14. G2 | L[gamma:red,square,small] -> F[gamma:0,striped]
+15. G2 | L[beta:green,square,medium] -> F[alpha:0,solid]
+16. G1 | L[alpha:red,triangle,large] -> F[gamma:0,dotted]","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=circle, follower.marker=0) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G1 | L[gamma:red,square,medium] -> F[beta:1,solid]
+2. G4 | L[delta:green,circle,medium] -> F[alpha:0,dotted]
+3. G4 | L[beta:red,circle,medium] -> F[gamma:1,striped]
+4. G1 | L[alpha:yellow,circle,small] -> F[alpha:0,dotted]
+5. G4 | L[delta:red,circle,large] -> F[delta:1,striped]
+6. G1 | L[alpha:red,circle,small] -> F[delta:1,striped]
+7. G3 | L[alpha:red,circle,large] -> F[delta:0,striped]
+8. G2 | L[beta:red,circle,large] -> F[beta:1,striped]
+9. G3 | L[gamma:green,triangle,small] -> F[gamma:0,dotted]
+10. G4 | L[alpha:red,circle,small] -> F[gamma:1,striped]
+11. G1 | L[delta:red,circle,small] -> F[alpha:0,striped]
+12. G3 | L[delta:red,circle,medium] -> F[alpha:0,striped]
+13. G3 | L[beta:blue,triangle,large] -> F[beta:1,dotted]
+14. G2 | L[gamma:red,square,small] -> F[gamma:0,striped]
+15. G2 | L[beta:green,square,medium] -> F[alpha:0,solid]
+16. G1 | L[alpha:red,triangle,large] -> F[gamma:0,dotted]","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=circle, follower.marker=0) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G1 | L[gamma:red,square,medium] -> F[beta:1,solid]
+2. G4 | L[delta:green,circle,medium] -> F[alpha:0,dotted]
+3. G4 | L[beta:red,circle,medium] -> F[gamma:1,striped]
+4. G1 | L[alpha:yellow,circle,small] -> F[alpha:0,dotted]
+5. G4 | L[delta:red,circle,large] -> F[delta:1,striped]
+6. G1 | L[alpha:red,circle,small] -> F[delta:1,striped]
+7. G3 | L[alpha:red,circle,large] -> F[delta:0,striped]
+8. G2 | L[beta:red,circle,large] -> F[beta:1,striped]
+9. G3 | L[gamma:green,triangle,small] -> F[gamma:0,dotted]
+10. G4 | L[alpha:red,circle,small] -> F[gamma:1,striped]
+11. G1 | L[delta:red,circle,small] -> F[alpha:0,striped]
+12. G3 | L[delta:red,circle,medium] -> F[alpha:0,striped]
+13. G3 | L[beta:blue,triangle,large] -> F[beta:1,dotted]
+14. G2 | L[gamma:red,square,small] -> F[gamma:0,striped]
+15. G2 | L[beta:green,square,medium] -> F[alpha:0,solid]
+16. G1 | L[alpha:red,triangle,large] -> F[gamma:0,dotted]",3,"[7, 11, 12]","{""follower_marker"": ""0"", ""leader_color"": ""red"", ""leader_shape"": ""circle"", ""local_pattern"": ""striped"", ""scope_size"": ""small""}",1,near,compact,16,3,5,leader_only,8,0
+7005,selective_attention,structure_sensitive,text,combined,easy,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G3 | L[beta:blue,triangle,medium] -> F[alpha:0,dotted]
+2. G3 | L[beta:blue,triangle,medium] -> F[gamma:0,dotted]
+3. G1 | L[alpha:green,triangle,medium] -> F[beta:0,dotted]
+4. G2 | L[gamma:blue,triangle,large] -> F[delta:0,dotted]
+5. G4 | L[delta:red,triangle,large] -> F[delta:0,dotted]
+6. G2 | L[beta:green,triangle,large] -> F[gamma:0,striped]
+7. G1 | L[delta:green,triangle,small] -> F[delta:1,solid]
+8. G2 | L[alpha:blue,triangle,large] -> F[beta:1,solid]
+9. G2 | L[beta:green,triangle,small] -> F[delta:0,dotted]
+10. G2 | L[beta:green,triangle,small] -> F[delta:1,dotted]
+11. G4 | L[beta:green,triangle,large] -> F[gamma:0,dotted]
+12. G4 | L[alpha:yellow,circle,small] -> F[alpha:0,dotted]
+13. G4 | L[delta:yellow,circle,small] -> F[delta:0,striped]
+14. G2 | L[beta:red,circle,small] -> F[beta:1,dotted]
+15. G2 | L[alpha:yellow,triangle,small] -> F[alpha:0,dotted]
+16. G4 | L[beta:red,triangle,small] -> F[delta:0,dotted]","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G3 | L[beta:blue,triangle,medium] -> F[alpha:0,dotted]
+2. G3 | L[beta:blue,triangle,medium] -> F[gamma:0,dotted]
+3. G1 | L[alpha:green,triangle,medium] -> F[beta:0,dotted]
+4. G2 | L[gamma:blue,triangle,large] -> F[delta:0,dotted]
+5. G4 | L[delta:red,triangle,large] -> F[delta:0,dotted]
+6. G2 | L[beta:green,triangle,large] -> F[gamma:0,striped]
+7. G1 | L[delta:green,triangle,small] -> F[delta:1,solid]
+8. G2 | L[alpha:blue,triangle,large] -> F[beta:1,solid]
+9. G2 | L[beta:green,triangle,small] -> F[delta:0,dotted]
+10. G2 | L[beta:green,triangle,small] -> F[delta:1,dotted]
+11. G4 | L[beta:green,triangle,large] -> F[gamma:0,dotted]
+12. G4 | L[alpha:yellow,circle,small] -> F[alpha:0,dotted]
+13. G4 | L[delta:yellow,circle,small] -> F[delta:0,striped]
+14. G2 | L[beta:red,circle,small] -> F[beta:1,dotted]
+15. G2 | L[alpha:yellow,triangle,small] -> F[alpha:0,dotted]
+16. G4 | L[beta:red,triangle,small] -> F[delta:0,dotted]","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G3 | L[beta:blue,triangle,medium] -> F[alpha:0,dotted]
+2. G3 | L[beta:blue,triangle,medium] -> F[gamma:0,dotted]
+3. G1 | L[alpha:green,triangle,medium] -> F[beta:0,dotted]
+4. G2 | L[gamma:blue,triangle,large] -> F[delta:0,dotted]
+5. G4 | L[delta:red,triangle,large] -> F[delta:0,dotted]
+6. G2 | L[beta:green,triangle,large] -> F[gamma:0,striped]
+7. G1 | L[delta:green,triangle,small] -> F[delta:1,solid]
+8. G2 | L[alpha:blue,triangle,large] -> F[beta:1,solid]
+9. G2 | L[beta:green,triangle,small] -> F[delta:0,dotted]
+10. G2 | L[beta:green,triangle,small] -> F[delta:1,dotted]
+11. G4 | L[beta:green,triangle,large] -> F[gamma:0,dotted]
+12. G4 | L[alpha:yellow,circle,small] -> F[alpha:0,dotted]
+13. G4 | L[delta:yellow,circle,small] -> F[delta:0,striped]
+14. G2 | L[beta:red,circle,small] -> F[beta:1,dotted]
+15. G2 | L[alpha:yellow,triangle,small] -> F[alpha:0,dotted]
+16. G4 | L[beta:red,triangle,small] -> F[delta:0,dotted]",3,"[3, 9, 11]","{""follower_marker"": ""0"", ""leader_color"": ""green"", ""leader_shape"": ""triangle"", ""local_pattern"": ""dotted"", ""scope_size"": ""small""}",1,near,compact,16,3,5,follower_only,8,0
+7006,selective_attention,structure_sensitive,text,combined,easy,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=yellow, leader.shape=triangle, follower.marker=1) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=yellow, leader.shape=triangle, follower.marker=1) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G1 | L[gamma:yellow,triangle,small] -> F[delta:1,solid]
+2. G2 | L[delta:red,circle,small] -> F[beta:0,solid]
+3. G3 | L[beta:blue,triangle,medium] -> F[beta:1,solid]
+4. G2 | L[gamma:yellow,triangle,small] -> F[alpha:1,solid]
+5. G4 | L[gamma:green,triangle,small] -> F[alpha:1,solid]
+6. G2 | L[alpha:red,square,small] -> F[beta:0,solid]
+7. G4 | L[alpha:yellow,triangle,large] -> F[delta:0,solid]
+8. G1 | L[alpha:red,triangle,small] -> F[gamma:1,solid]
+9. G4 | L[alpha:yellow,circle,small] -> F[gamma:0,solid]
+10. G3 | L[gamma:blue,triangle,medium] -> F[delta:1,solid]
+11. G1 | L[alpha:yellow,triangle,small] -> F[beta:1,dotted]
+12. G3 | L[beta:green,square,small] -> F[delta:0,solid]
+13. G3 | L[delta:yellow,triangle,small] -> F[delta:1,solid]
+14. G2 | L[delta:green,triangle,medium] -> F[alpha:0,striped]
+15. G3 | L[delta:green,triangle,medium] -> F[alpha:1,solid]
+16. G4 | L[gamma:red,circle,small] -> F[beta:1,dotted]","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=yellow, leader.shape=triangle, follower.marker=1) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G1 | L[gamma:yellow,triangle,small] -> F[delta:1,solid]
+2. G2 | L[delta:red,circle,small] -> F[beta:0,solid]
+3. G3 | L[beta:blue,triangle,medium] -> F[beta:1,solid]
+4. G2 | L[gamma:yellow,triangle,small] -> F[alpha:1,solid]
+5. G4 | L[gamma:green,triangle,small] -> F[alpha:1,solid]
+6. G2 | L[alpha:red,square,small] -> F[beta:0,solid]
+7. G4 | L[alpha:yellow,triangle,large] -> F[delta:0,solid]
+8. G1 | L[alpha:red,triangle,small] -> F[gamma:1,solid]
+9. G4 | L[alpha:yellow,circle,small] -> F[gamma:0,solid]
+10. G3 | L[gamma:blue,triangle,medium] -> F[delta:1,solid]
+11. G1 | L[alpha:yellow,triangle,small] -> F[beta:1,dotted]
+12. G3 | L[beta:green,square,small] -> F[delta:0,solid]
+13. G3 | L[delta:yellow,triangle,small] -> F[delta:1,solid]
+14. G2 | L[delta:green,triangle,medium] -> F[alpha:0,striped]
+15. G3 | L[delta:green,triangle,medium] -> F[alpha:1,solid]
+16. G4 | L[gamma:red,circle,small] -> F[beta:1,dotted]","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=yellow, leader.shape=triangle, follower.marker=1) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G1 | L[gamma:yellow,triangle,small] -> F[delta:1,solid]
+2. G2 | L[delta:red,circle,small] -> F[beta:0,solid]
+3. G3 | L[beta:blue,triangle,medium] -> F[beta:1,solid]
+4. G2 | L[gamma:yellow,triangle,small] -> F[alpha:1,solid]
+5. G4 | L[gamma:green,triangle,small] -> F[alpha:1,solid]
+6. G2 | L[alpha:red,square,small] -> F[beta:0,solid]
+7. G4 | L[alpha:yellow,triangle,large] -> F[delta:0,solid]
+8. G1 | L[alpha:red,triangle,small] -> F[gamma:1,solid]
+9. G4 | L[alpha:yellow,circle,small] -> F[gamma:0,solid]
+10. G3 | L[gamma:blue,triangle,medium] -> F[delta:1,solid]
+11. G1 | L[alpha:yellow,triangle,small] -> F[beta:1,dotted]
+12. G3 | L[beta:green,square,small] -> F[delta:0,solid]
+13. G3 | L[delta:yellow,triangle,small] -> F[delta:1,solid]
+14. G2 | L[delta:green,triangle,medium] -> F[alpha:0,striped]
+15. G3 | L[delta:green,triangle,medium] -> F[alpha:1,solid]
+16. G4 | L[gamma:red,circle,small] -> F[beta:1,dotted]",3,"[1, 4, 13]","{""follower_marker"": ""1"", ""leader_color"": ""yellow"", ""leader_shape"": ""triangle"", ""local_pattern"": ""solid"", ""scope_size"": ""small""}",1,near,compact,16,3,5,follower_only,8,0
+7007,selective_attention,structure_sensitive,text,combined,easy,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=square, follower.marker=0) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=square, follower.marker=0) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G4 | L[delta:yellow,triangle,small] -> F[beta:0,striped]
+2. G1 | L[alpha:blue,triangle,large] -> F[beta:0,solid]
+3. G1 | L[gamma:blue,circle,large] -> F[alpha:0,solid]
+4. G2 | L[delta:blue,circle,medium] -> F[gamma:0,dotted]
+5. G3 | L[delta:red,circle,medium] -> F[delta:1,solid]
+6. G4 | L[beta:blue,triangle,large] -> F[alpha:0,solid]
+7. G4 | L[alpha:green,square,large] -> F[alpha:1,striped]
+8. G2 | L[alpha:blue,square,medium] -> F[gamma:0,striped]
+9. G4 | L[alpha:blue,square,small] -> F[delta:0,striped]
+10. G1 | L[delta:blue,square,large] -> F[gamma:0,striped]
+11. G3 | L[gamma:green,square,medium] -> F[delta:1,striped]
+12. G4 | L[gamma:blue,square,small] -> F[beta:1,dotted]
+13. G4 | L[beta:blue,square,medium] -> F[beta:0,solid]
+14. G1 | L[delta:blue,circle,small] -> F[gamma:1,solid]
+15. G1 | L[delta:blue,triangle,large] -> F[alpha:0,solid]
+16. G2 | L[gamma:green,triangle,large] -> F[beta:0,solid]","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=square, follower.marker=0) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G4 | L[delta:yellow,triangle,small] -> F[beta:0,striped]
+2. G1 | L[alpha:blue,triangle,large] -> F[beta:0,solid]
+3. G1 | L[gamma:blue,circle,large] -> F[alpha:0,solid]
+4. G2 | L[delta:blue,circle,medium] -> F[gamma:0,dotted]
+5. G3 | L[delta:red,circle,medium] -> F[delta:1,solid]
+6. G4 | L[beta:blue,triangle,large] -> F[alpha:0,solid]
+7. G4 | L[alpha:green,square,large] -> F[alpha:1,striped]
+8. G2 | L[alpha:blue,square,medium] -> F[gamma:0,striped]
+9. G4 | L[alpha:blue,square,small] -> F[delta:0,striped]
+10. G1 | L[delta:blue,square,large] -> F[gamma:0,striped]
+11. G3 | L[gamma:green,square,medium] -> F[delta:1,striped]
+12. G4 | L[gamma:blue,square,small] -> F[beta:1,dotted]
+13. G4 | L[beta:blue,square,medium] -> F[beta:0,solid]
+14. G1 | L[delta:blue,circle,small] -> F[gamma:1,solid]
+15. G1 | L[delta:blue,triangle,large] -> F[alpha:0,solid]
+16. G2 | L[gamma:green,triangle,large] -> F[beta:0,solid]","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=square, follower.marker=0) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G4 | L[delta:yellow,triangle,small] -> F[beta:0,striped]
+2. G1 | L[alpha:blue,triangle,large] -> F[beta:0,solid]
+3. G1 | L[gamma:blue,circle,large] -> F[alpha:0,solid]
+4. G2 | L[delta:blue,circle,medium] -> F[gamma:0,dotted]
+5. G3 | L[delta:red,circle,medium] -> F[delta:1,solid]
+6. G4 | L[beta:blue,triangle,large] -> F[alpha:0,solid]
+7. G4 | L[alpha:green,square,large] -> F[alpha:1,striped]
+8. G2 | L[alpha:blue,square,medium] -> F[gamma:0,striped]
+9. G4 | L[alpha:blue,square,small] -> F[delta:0,striped]
+10. G1 | L[delta:blue,square,large] -> F[gamma:0,striped]
+11. G3 | L[gamma:green,square,medium] -> F[delta:1,striped]
+12. G4 | L[gamma:blue,square,small] -> F[beta:1,dotted]
+13. G4 | L[beta:blue,square,medium] -> F[beta:0,solid]
+14. G1 | L[delta:blue,circle,small] -> F[gamma:1,solid]
+15. G1 | L[delta:blue,triangle,large] -> F[alpha:0,solid]
+16. G2 | L[gamma:green,triangle,large] -> F[beta:0,solid]",3,"[8, 9, 10]","{""follower_marker"": ""0"", ""leader_color"": ""blue"", ""leader_shape"": ""square"", ""local_pattern"": ""striped"", ""scope_size"": ""medium""}",1,near,compact,16,3,5,cross_binding,8,0
+7008,selective_attention,structure_sensitive,text,combined,easy,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=circle, follower.marker=0) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=circle, follower.marker=0) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G3 | L[alpha:yellow,square,large] -> F[gamma:1,striped]
+2. G2 | L[alpha:yellow,circle,small] -> F[delta:0,solid]
+3. G2 | L[beta:green,circle,small] -> F[gamma:1,dotted]
+4. G2 | L[alpha:yellow,circle,small] -> F[delta:0,solid]
+5. G4 | L[gamma:red,circle,medium] -> F[beta:0,dotted]
+6. G2 | L[alpha:yellow,square,medium] -> F[delta:1,solid]
+7. G3 | L[gamma:red,circle,medium] -> F[beta:0,solid]
+8. G2 | L[alpha:blue,circle,large] -> F[beta:0,solid]
+9. G2 | L[delta:yellow,circle,medium] -> F[alpha:0,solid]
+10. G3 | L[gamma:blue,triangle,small] -> F[gamma:0,striped]
+11. G2 | L[beta:green,circle,small] -> F[delta:0,solid]
+12. G2 | L[alpha:blue,circle,medium] -> F[delta:0,solid]
+13. G2 | L[alpha:blue,circle,large] -> F[beta:1,striped]
+14. G2 | L[gamma:yellow,circle,small] -> F[alpha:0,striped]
+15. G3 | L[alpha:blue,square,large] -> F[beta:1,striped]
+16. G4 | L[gamma:blue,circle,small] -> F[beta:0,solid]","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=circle, follower.marker=0) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G3 | L[alpha:yellow,square,large] -> F[gamma:1,striped]
+2. G2 | L[alpha:yellow,circle,small] -> F[delta:0,solid]
+3. G2 | L[beta:green,circle,small] -> F[gamma:1,dotted]
+4. G2 | L[alpha:yellow,circle,small] -> F[delta:0,solid]
+5. G4 | L[gamma:red,circle,medium] -> F[beta:0,dotted]
+6. G2 | L[alpha:yellow,square,medium] -> F[delta:1,solid]
+7. G3 | L[gamma:red,circle,medium] -> F[beta:0,solid]
+8. G2 | L[alpha:blue,circle,large] -> F[beta:0,solid]
+9. G2 | L[delta:yellow,circle,medium] -> F[alpha:0,solid]
+10. G3 | L[gamma:blue,triangle,small] -> F[gamma:0,striped]
+11. G2 | L[beta:green,circle,small] -> F[delta:0,solid]
+12. G2 | L[alpha:blue,circle,medium] -> F[delta:0,solid]
+13. G2 | L[alpha:blue,circle,large] -> F[beta:1,striped]
+14. G2 | L[gamma:yellow,circle,small] -> F[alpha:0,striped]
+15. G3 | L[alpha:blue,square,large] -> F[beta:1,striped]
+16. G4 | L[gamma:blue,circle,small] -> F[beta:0,solid]","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=circle, follower.marker=0) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G3 | L[alpha:yellow,square,large] -> F[gamma:1,striped]
+2. G2 | L[alpha:yellow,circle,small] -> F[delta:0,solid]
+3. G2 | L[beta:green,circle,small] -> F[gamma:1,dotted]
+4. G2 | L[alpha:yellow,circle,small] -> F[delta:0,solid]
+5. G4 | L[gamma:red,circle,medium] -> F[beta:0,dotted]
+6. G2 | L[alpha:yellow,square,medium] -> F[delta:1,solid]
+7. G3 | L[gamma:red,circle,medium] -> F[beta:0,solid]
+8. G2 | L[alpha:blue,circle,large] -> F[beta:0,solid]
+9. G2 | L[delta:yellow,circle,medium] -> F[alpha:0,solid]
+10. G3 | L[gamma:blue,triangle,small] -> F[gamma:0,striped]
+11. G2 | L[beta:green,circle,small] -> F[delta:0,solid]
+12. G2 | L[alpha:blue,circle,medium] -> F[delta:0,solid]
+13. G2 | L[alpha:blue,circle,large] -> F[beta:1,striped]
+14. G2 | L[gamma:yellow,circle,small] -> F[alpha:0,striped]
+15. G3 | L[alpha:blue,square,large] -> F[beta:1,striped]
+16. G4 | L[gamma:blue,circle,small] -> F[beta:0,solid]",3,"[8, 12, 16]","{""follower_marker"": ""0"", ""leader_color"": ""blue"", ""leader_shape"": ""circle"", ""local_pattern"": ""solid"", ""scope_size"": ""large""}",1,near,compact,16,3,5,follower_only,8,0
+7009,selective_attention,structure_sensitive,text,combined,easy,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=square, follower.marker=1) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=square, follower.marker=1) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G2 | L[alpha:yellow,square,large] -> F[gamma:1,striped]
+2. G3 | L[gamma:blue,square,medium] -> F[gamma:0,dotted]
+3. G3 | L[delta:red,square,large] -> F[beta:1,striped]
+4. G2 | L[delta:blue,square,large] -> F[delta:1,striped]
+5. G1 | L[gamma:red,square,medium] -> F[alpha:0,solid]
+6. G1 | L[alpha:green,square,large] -> F[beta:1,solid]
+7. G1 | L[gamma:yellow,circle,large] -> F[gamma:0,solid]
+8. G2 | L[delta:green,square,medium] -> F[alpha:0,striped]
+9. G2 | L[delta:green,square,small] -> F[gamma:1,striped]
+10. G3 | L[delta:red,square,small] -> F[gamma:0,dotted]
+11. G3 | L[gamma:yellow,square,large] -> F[gamma:1,striped]
+12. G3 | L[delta:green,square,large] -> F[delta:1,striped]
+13. G1 | L[delta:blue,triangle,medium] -> F[beta:1,striped]
+14. G4 | L[alpha:blue,square,large] -> F[beta:1,striped]
+15. G3 | L[beta:green,square,large] -> F[delta:1,striped]
+16. G2 | L[gamma:yellow,square,large] -> F[gamma:1,striped]","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=square, follower.marker=1) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G2 | L[alpha:yellow,square,large] -> F[gamma:1,striped]
+2. G3 | L[gamma:blue,square,medium] -> F[gamma:0,dotted]
+3. G3 | L[delta:red,square,large] -> F[beta:1,striped]
+4. G2 | L[delta:blue,square,large] -> F[delta:1,striped]
+5. G1 | L[gamma:red,square,medium] -> F[alpha:0,solid]
+6. G1 | L[alpha:green,square,large] -> F[beta:1,solid]
+7. G1 | L[gamma:yellow,circle,large] -> F[gamma:0,solid]
+8. G2 | L[delta:green,square,medium] -> F[alpha:0,striped]
+9. G2 | L[delta:green,square,small] -> F[gamma:1,striped]
+10. G3 | L[delta:red,square,small] -> F[gamma:0,dotted]
+11. G3 | L[gamma:yellow,square,large] -> F[gamma:1,striped]
+12. G3 | L[delta:green,square,large] -> F[delta:1,striped]
+13. G1 | L[delta:blue,triangle,medium] -> F[beta:1,striped]
+14. G4 | L[alpha:blue,square,large] -> F[beta:1,striped]
+15. G3 | L[beta:green,square,large] -> F[delta:1,striped]
+16. G2 | L[gamma:yellow,square,large] -> F[gamma:1,striped]","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=square, follower.marker=1) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G2 | L[alpha:yellow,square,large] -> F[gamma:1,striped]
+2. G3 | L[gamma:blue,square,medium] -> F[gamma:0,dotted]
+3. G3 | L[delta:red,square,large] -> F[beta:1,striped]
+4. G2 | L[delta:blue,square,large] -> F[delta:1,striped]
+5. G1 | L[gamma:red,square,medium] -> F[alpha:0,solid]
+6. G1 | L[alpha:green,square,large] -> F[beta:1,solid]
+7. G1 | L[gamma:yellow,circle,large] -> F[gamma:0,solid]
+8. G2 | L[delta:green,square,medium] -> F[alpha:0,striped]
+9. G2 | L[delta:green,square,small] -> F[gamma:1,striped]
+10. G3 | L[delta:red,square,small] -> F[gamma:0,dotted]
+11. G3 | L[gamma:yellow,square,large] -> F[gamma:1,striped]
+12. G3 | L[delta:green,square,large] -> F[delta:1,striped]
+13. G1 | L[delta:blue,triangle,medium] -> F[beta:1,striped]
+14. G4 | L[alpha:blue,square,large] -> F[beta:1,striped]
+15. G3 | L[beta:green,square,large] -> F[delta:1,striped]
+16. G2 | L[gamma:yellow,square,large] -> F[gamma:1,striped]",3,"[9, 12, 15]","{""follower_marker"": ""1"", ""leader_color"": ""green"", ""leader_shape"": ""square"", ""local_pattern"": ""striped"", ""scope_size"": ""medium""}",1,near,compact,16,3,5,follower_only,8,0
+7010,selective_attention,structure_sensitive,text,combined,easy,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=square, follower.marker=1) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=square, follower.marker=1) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G3 | L[delta:green,square,large] -> F[delta:0,dotted]
+2. G4 | L[delta:yellow,circle,medium] -> F[gamma:1,dotted]
+3. G4 | L[delta:yellow,circle,small] -> F[gamma:1,striped]
+4. G2 | L[beta:green,square,large] -> F[gamma:1,dotted]
+5. G3 | L[alpha:green,triangle,large] -> F[beta:1,dotted]
+6. G2 | L[delta:red,triangle,small] -> F[delta:0,dotted]
+7. G4 | L[gamma:green,square,large] -> F[delta:1,dotted]
+8. G2 | L[gamma:red,triangle,medium] -> F[delta:1,striped]
+9. G4 | L[delta:blue,circle,large] -> F[delta:0,striped]
+10. G3 | L[beta:green,square,small] -> F[gamma:0,dotted]
+11. G4 | L[alpha:green,square,small] -> F[alpha:0,dotted]
+12. G4 | L[delta:green,square,small] -> F[alpha:0,dotted]
+13. G3 | L[alpha:yellow,square,small] -> F[delta:0,striped]
+14. G2 | L[delta:yellow,triangle,small] -> F[gamma:0,dotted]
+15. G4 | L[alpha:green,square,medium] -> F[beta:1,dotted]
+16. G2 | L[gamma:green,square,large] -> F[delta:0,dotted]","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=square, follower.marker=1) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G3 | L[delta:green,square,large] -> F[delta:0,dotted]
+2. G4 | L[delta:yellow,circle,medium] -> F[gamma:1,dotted]
+3. G4 | L[delta:yellow,circle,small] -> F[gamma:1,striped]
+4. G2 | L[beta:green,square,large] -> F[gamma:1,dotted]
+5. G3 | L[alpha:green,triangle,large] -> F[beta:1,dotted]
+6. G2 | L[delta:red,triangle,small] -> F[delta:0,dotted]
+7. G4 | L[gamma:green,square,large] -> F[delta:1,dotted]
+8. G2 | L[gamma:red,triangle,medium] -> F[delta:1,striped]
+9. G4 | L[delta:blue,circle,large] -> F[delta:0,striped]
+10. G3 | L[beta:green,square,small] -> F[gamma:0,dotted]
+11. G4 | L[alpha:green,square,small] -> F[alpha:0,dotted]
+12. G4 | L[delta:green,square,small] -> F[alpha:0,dotted]
+13. G3 | L[alpha:yellow,square,small] -> F[delta:0,striped]
+14. G2 | L[delta:yellow,triangle,small] -> F[gamma:0,dotted]
+15. G4 | L[alpha:green,square,medium] -> F[beta:1,dotted]
+16. G2 | L[gamma:green,square,large] -> F[delta:0,dotted]","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=square, follower.marker=1) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G3 | L[delta:green,square,large] -> F[delta:0,dotted]
+2. G4 | L[delta:yellow,circle,medium] -> F[gamma:1,dotted]
+3. G4 | L[delta:yellow,circle,small] -> F[gamma:1,striped]
+4. G2 | L[beta:green,square,large] -> F[gamma:1,dotted]
+5. G3 | L[alpha:green,triangle,large] -> F[beta:1,dotted]
+6. G2 | L[delta:red,triangle,small] -> F[delta:0,dotted]
+7. G4 | L[gamma:green,square,large] -> F[delta:1,dotted]
+8. G2 | L[gamma:red,triangle,medium] -> F[delta:1,striped]
+9. G4 | L[delta:blue,circle,large] -> F[delta:0,striped]
+10. G3 | L[beta:green,square,small] -> F[gamma:0,dotted]
+11. G4 | L[alpha:green,square,small] -> F[alpha:0,dotted]
+12. G4 | L[delta:green,square,small] -> F[alpha:0,dotted]
+13. G3 | L[alpha:yellow,square,small] -> F[delta:0,striped]
+14. G2 | L[delta:yellow,triangle,small] -> F[gamma:0,dotted]
+15. G4 | L[alpha:green,square,medium] -> F[beta:1,dotted]
+16. G2 | L[gamma:green,square,large] -> F[delta:0,dotted]",3,"[4, 7, 15]","{""follower_marker"": ""1"", ""leader_color"": ""green"", ""leader_shape"": ""square"", ""local_pattern"": ""dotted"", ""scope_size"": ""small""}",1,near,compact,16,3,5,leader_only,8,0
+7011,selective_attention,structure_sensitive,text,combined,easy,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G4 | L[beta:blue,triangle,large] -> F[gamma:1,dotted]
+2. G1 | L[delta:green,triangle,large] -> F[beta:0,dotted]
+3. G3 | L[delta:yellow,triangle,medium] -> F[beta:1,solid]
+4. G3 | L[alpha:yellow,triangle,large] -> F[delta:0,dotted]
+5. G1 | L[beta:green,square,large] -> F[gamma:1,dotted]
+6. G4 | L[delta:yellow,circle,medium] -> F[delta:0,solid]
+7. G3 | L[gamma:green,triangle,medium] -> F[gamma:0,dotted]
+8. G3 | L[alpha:blue,circle,small] -> F[gamma:1,solid]
+9. G3 | L[gamma:yellow,triangle,medium] -> F[alpha:0,dotted]
+10. G1 | L[beta:green,circle,medium] -> F[beta:1,solid]
+11. G4 | L[beta:blue,triangle,large] -> F[gamma:0,dotted]
+12. G1 | L[beta:green,circle,large] -> F[gamma:1,striped]
+13. G3 | L[delta:blue,triangle,medium] -> F[beta:0,dotted]
+14. G3 | L[gamma:blue,triangle,large] -> F[beta:0,dotted]
+15. G2 | L[gamma:yellow,square,large] -> F[delta:1,striped]
+16. G3 | L[beta:green,triangle,small] -> F[delta:0,dotted]","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G4 | L[beta:blue,triangle,large] -> F[gamma:1,dotted]
+2. G1 | L[delta:green,triangle,large] -> F[beta:0,dotted]
+3. G3 | L[delta:yellow,triangle,medium] -> F[beta:1,solid]
+4. G3 | L[alpha:yellow,triangle,large] -> F[delta:0,dotted]
+5. G1 | L[beta:green,square,large] -> F[gamma:1,dotted]
+6. G4 | L[delta:yellow,circle,medium] -> F[delta:0,solid]
+7. G3 | L[gamma:green,triangle,medium] -> F[gamma:0,dotted]
+8. G3 | L[alpha:blue,circle,small] -> F[gamma:1,solid]
+9. G3 | L[gamma:yellow,triangle,medium] -> F[alpha:0,dotted]
+10. G1 | L[beta:green,circle,medium] -> F[beta:1,solid]
+11. G4 | L[beta:blue,triangle,large] -> F[gamma:0,dotted]
+12. G1 | L[beta:green,circle,large] -> F[gamma:1,striped]
+13. G3 | L[delta:blue,triangle,medium] -> F[beta:0,dotted]
+14. G3 | L[gamma:blue,triangle,large] -> F[beta:0,dotted]
+15. G2 | L[gamma:yellow,square,large] -> F[delta:1,striped]
+16. G3 | L[beta:green,triangle,small] -> F[delta:0,dotted]","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G4 | L[beta:blue,triangle,large] -> F[gamma:1,dotted]
+2. G1 | L[delta:green,triangle,large] -> F[beta:0,dotted]
+3. G3 | L[delta:yellow,triangle,medium] -> F[beta:1,solid]
+4. G3 | L[alpha:yellow,triangle,large] -> F[delta:0,dotted]
+5. G1 | L[beta:green,square,large] -> F[gamma:1,dotted]
+6. G4 | L[delta:yellow,circle,medium] -> F[delta:0,solid]
+7. G3 | L[gamma:green,triangle,medium] -> F[gamma:0,dotted]
+8. G3 | L[alpha:blue,circle,small] -> F[gamma:1,solid]
+9. G3 | L[gamma:yellow,triangle,medium] -> F[alpha:0,dotted]
+10. G1 | L[beta:green,circle,medium] -> F[beta:1,solid]
+11. G4 | L[beta:blue,triangle,large] -> F[gamma:0,dotted]
+12. G1 | L[beta:green,circle,large] -> F[gamma:1,striped]
+13. G3 | L[delta:blue,triangle,medium] -> F[beta:0,dotted]
+14. G3 | L[gamma:blue,triangle,large] -> F[beta:0,dotted]
+15. G2 | L[gamma:yellow,square,large] -> F[delta:1,striped]
+16. G3 | L[beta:green,triangle,small] -> F[delta:0,dotted]",3,"[11, 13, 14]","{""follower_marker"": ""0"", ""leader_color"": ""blue"", ""leader_shape"": ""triangle"", ""local_pattern"": ""dotted"", ""scope_size"": ""small""}",1,near,compact,16,3,5,follower_only,8,0
+7012,selective_attention,structure_sensitive,text,combined,easy,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G1 | L[beta:yellow,triangle,medium] -> F[beta:0,dotted]
+2. G4 | L[delta:green,circle,medium] -> F[delta:0,solid]
+3. G2 | L[beta:blue,triangle,large] -> F[beta:0,dotted]
+4. G2 | L[gamma:blue,triangle,large] -> F[alpha:0,dotted]
+5. G3 | L[beta:red,circle,medium] -> F[gamma:0,dotted]
+6. G4 | L[gamma:yellow,circle,medium] -> F[delta:1,striped]
+7. G4 | L[beta:blue,triangle,medium] -> F[gamma:1,striped]
+8. G2 | L[beta:red,triangle,medium] -> F[beta:0,dotted]
+9. G3 | L[alpha:yellow,square,small] -> F[gamma:0,striped]
+10. G2 | L[delta:red,triangle,medium] -> F[delta:0,dotted]
+11. G4 | L[beta:green,circle,large] -> F[beta:0,solid]
+12. G1 | L[delta:red,square,large] -> F[delta:0,solid]
+13. G4 | L[gamma:red,triangle,medium] -> F[delta:0,dotted]
+14. G3 | L[gamma:blue,triangle,medium] -> F[alpha:0,dotted]
+15. G1 | L[beta:yellow,circle,small] -> F[beta:0,striped]
+16. G2 | L[alpha:yellow,triangle,small] -> F[gamma:0,dotted]","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G1 | L[beta:yellow,triangle,medium] -> F[beta:0,dotted]
+2. G4 | L[delta:green,circle,medium] -> F[delta:0,solid]
+3. G2 | L[beta:blue,triangle,large] -> F[beta:0,dotted]
+4. G2 | L[gamma:blue,triangle,large] -> F[alpha:0,dotted]
+5. G3 | L[beta:red,circle,medium] -> F[gamma:0,dotted]
+6. G4 | L[gamma:yellow,circle,medium] -> F[delta:1,striped]
+7. G4 | L[beta:blue,triangle,medium] -> F[gamma:1,striped]
+8. G2 | L[beta:red,triangle,medium] -> F[beta:0,dotted]
+9. G3 | L[alpha:yellow,square,small] -> F[gamma:0,striped]
+10. G2 | L[delta:red,triangle,medium] -> F[delta:0,dotted]
+11. G4 | L[beta:green,circle,large] -> F[beta:0,solid]
+12. G1 | L[delta:red,square,large] -> F[delta:0,solid]
+13. G4 | L[gamma:red,triangle,medium] -> F[delta:0,dotted]
+14. G3 | L[gamma:blue,triangle,medium] -> F[alpha:0,dotted]
+15. G1 | L[beta:yellow,circle,small] -> F[beta:0,striped]
+16. G2 | L[alpha:yellow,triangle,small] -> F[gamma:0,dotted]","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=triangle, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G1 | L[beta:yellow,triangle,medium] -> F[beta:0,dotted]
+2. G4 | L[delta:green,circle,medium] -> F[delta:0,solid]
+3. G2 | L[beta:blue,triangle,large] -> F[beta:0,dotted]
+4. G2 | L[gamma:blue,triangle,large] -> F[alpha:0,dotted]
+5. G3 | L[beta:red,circle,medium] -> F[gamma:0,dotted]
+6. G4 | L[gamma:yellow,circle,medium] -> F[delta:1,striped]
+7. G4 | L[beta:blue,triangle,medium] -> F[gamma:1,striped]
+8. G2 | L[beta:red,triangle,medium] -> F[beta:0,dotted]
+9. G3 | L[alpha:yellow,square,small] -> F[gamma:0,striped]
+10. G2 | L[delta:red,triangle,medium] -> F[delta:0,dotted]
+11. G4 | L[beta:green,circle,large] -> F[beta:0,solid]
+12. G1 | L[delta:red,square,large] -> F[delta:0,solid]
+13. G4 | L[gamma:red,triangle,medium] -> F[delta:0,dotted]
+14. G3 | L[gamma:blue,triangle,medium] -> F[alpha:0,dotted]
+15. G1 | L[beta:yellow,circle,small] -> F[beta:0,striped]
+16. G2 | L[alpha:yellow,triangle,small] -> F[gamma:0,dotted]",3,"[3, 4, 14]","{""follower_marker"": ""0"", ""leader_color"": ""blue"", ""leader_shape"": ""triangle"", ""local_pattern"": ""dotted"", ""scope_size"": ""large""}",1,near,compact,16,3,5,follower_only,8,0
+7013,selective_attention,structure_sensitive,text,combined,easy,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=circle, follower.marker=1) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=circle, follower.marker=1) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G4 | L[gamma:blue,circle,small] -> F[alpha:1,solid]
+2. G1 | L[alpha:blue,circle,small] -> F[alpha:0,solid]
+3. G2 | L[alpha:blue,circle,small] -> F[alpha:0,solid]
+4. G3 | L[gamma:blue,circle,small] -> F[delta:0,solid]
+5. G1 | L[delta:blue,circle,small] -> F[alpha:1,solid]
+6. G4 | L[beta:blue,square,small] -> F[alpha:1,dotted]
+7. G1 | L[delta:blue,circle,large] -> F[alpha:0,solid]
+8. G3 | L[gamma:blue,circle,large] -> F[beta:1,dotted]
+9. G4 | L[delta:blue,circle,medium] -> F[gamma:1,solid]
+10. G1 | L[alpha:yellow,square,medium] -> F[gamma:1,solid]
+11. G3 | L[gamma:blue,circle,medium] -> F[delta:0,solid]
+12. G4 | L[beta:green,circle,large] -> F[delta:0,striped]
+13. G3 | L[gamma:red,triangle,medium] -> F[beta:0,dotted]
+14. G4 | L[gamma:green,triangle,medium] -> F[beta:1,striped]
+15. G3 | L[beta:red,square,small] -> F[gamma:1,dotted]
+16. G4 | L[delta:yellow,square,large] -> F[delta:0,solid]","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=circle, follower.marker=1) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G4 | L[gamma:blue,circle,small] -> F[alpha:1,solid]
+2. G1 | L[alpha:blue,circle,small] -> F[alpha:0,solid]
+3. G2 | L[alpha:blue,circle,small] -> F[alpha:0,solid]
+4. G3 | L[gamma:blue,circle,small] -> F[delta:0,solid]
+5. G1 | L[delta:blue,circle,small] -> F[alpha:1,solid]
+6. G4 | L[beta:blue,square,small] -> F[alpha:1,dotted]
+7. G1 | L[delta:blue,circle,large] -> F[alpha:0,solid]
+8. G3 | L[gamma:blue,circle,large] -> F[beta:1,dotted]
+9. G4 | L[delta:blue,circle,medium] -> F[gamma:1,solid]
+10. G1 | L[alpha:yellow,square,medium] -> F[gamma:1,solid]
+11. G3 | L[gamma:blue,circle,medium] -> F[delta:0,solid]
+12. G4 | L[beta:green,circle,large] -> F[delta:0,striped]
+13. G3 | L[gamma:red,triangle,medium] -> F[beta:0,dotted]
+14. G4 | L[gamma:green,triangle,medium] -> F[beta:1,striped]
+15. G3 | L[beta:red,square,small] -> F[gamma:1,dotted]
+16. G4 | L[delta:yellow,square,large] -> F[delta:0,solid]","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=circle, follower.marker=1) and the follower must also have pattern=solid.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G4 | L[gamma:blue,circle,small] -> F[alpha:1,solid]
+2. G1 | L[alpha:blue,circle,small] -> F[alpha:0,solid]
+3. G2 | L[alpha:blue,circle,small] -> F[alpha:0,solid]
+4. G3 | L[gamma:blue,circle,small] -> F[delta:0,solid]
+5. G1 | L[delta:blue,circle,small] -> F[alpha:1,solid]
+6. G4 | L[beta:blue,square,small] -> F[alpha:1,dotted]
+7. G1 | L[delta:blue,circle,large] -> F[alpha:0,solid]
+8. G3 | L[gamma:blue,circle,large] -> F[beta:1,dotted]
+9. G4 | L[delta:blue,circle,medium] -> F[gamma:1,solid]
+10. G1 | L[alpha:yellow,square,medium] -> F[gamma:1,solid]
+11. G3 | L[gamma:blue,circle,medium] -> F[delta:0,solid]
+12. G4 | L[beta:green,circle,large] -> F[delta:0,striped]
+13. G3 | L[gamma:red,triangle,medium] -> F[beta:0,dotted]
+14. G4 | L[gamma:green,triangle,medium] -> F[beta:1,striped]
+15. G3 | L[beta:red,square,small] -> F[gamma:1,dotted]
+16. G4 | L[delta:yellow,square,large] -> F[delta:0,solid]",3,"[1, 5, 9]","{""follower_marker"": ""1"", ""leader_color"": ""blue"", ""leader_shape"": ""circle"", ""local_pattern"": ""solid"", ""scope_size"": ""medium""}",1,near,compact,16,3,5,leader_only,8,0
+7014,selective_attention,structure_sensitive,text,combined,easy,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=circle, follower.marker=1) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=circle, follower.marker=1) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G1 | L[gamma:blue,circle,medium] -> F[delta:1,dotted]
+2. G1 | L[delta:green,circle,small] -> F[alpha:0,dotted]
+3. G3 | L[beta:red,circle,medium] -> F[delta:0,striped]
+4. G3 | L[alpha:red,circle,large] -> F[delta:0,striped]
+5. G1 | L[beta:red,circle,small] -> F[beta:1,striped]
+6. G2 | L[delta:red,square,large] -> F[alpha:0,striped]
+7. G3 | L[gamma:red,circle,medium] -> F[beta:1,striped]
+8. G4 | L[gamma:green,square,small] -> F[gamma:1,solid]
+9. G3 | L[beta:red,circle,large] -> F[alpha:0,striped]
+10. G4 | L[beta:red,circle,medium] -> F[gamma:0,striped]
+11. G1 | L[alpha:green,circle,medium] -> F[beta:1,solid]
+12. G2 | L[delta:red,triangle,large] -> F[alpha:0,dotted]
+13. G2 | L[delta:blue,triangle,large] -> F[alpha:1,striped]
+14. G2 | L[alpha:red,circle,medium] -> F[beta:1,striped]
+15. G1 | L[gamma:blue,triangle,medium] -> F[gamma:1,striped]
+16. G1 | L[alpha:red,circle,small] -> F[alpha:0,striped]","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=circle, follower.marker=1) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G1 | L[gamma:blue,circle,medium] -> F[delta:1,dotted]
+2. G1 | L[delta:green,circle,small] -> F[alpha:0,dotted]
+3. G3 | L[beta:red,circle,medium] -> F[delta:0,striped]
+4. G3 | L[alpha:red,circle,large] -> F[delta:0,striped]
+5. G1 | L[beta:red,circle,small] -> F[beta:1,striped]
+6. G2 | L[delta:red,square,large] -> F[alpha:0,striped]
+7. G3 | L[gamma:red,circle,medium] -> F[beta:1,striped]
+8. G4 | L[gamma:green,square,small] -> F[gamma:1,solid]
+9. G3 | L[beta:red,circle,large] -> F[alpha:0,striped]
+10. G4 | L[beta:red,circle,medium] -> F[gamma:0,striped]
+11. G1 | L[alpha:green,circle,medium] -> F[beta:1,solid]
+12. G2 | L[delta:red,triangle,large] -> F[alpha:0,dotted]
+13. G2 | L[delta:blue,triangle,large] -> F[alpha:1,striped]
+14. G2 | L[alpha:red,circle,medium] -> F[beta:1,striped]
+15. G1 | L[gamma:blue,triangle,medium] -> F[gamma:1,striped]
+16. G1 | L[alpha:red,circle,small] -> F[alpha:0,striped]","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=circle, follower.marker=1) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G1 | L[gamma:blue,circle,medium] -> F[delta:1,dotted]
+2. G1 | L[delta:green,circle,small] -> F[alpha:0,dotted]
+3. G3 | L[beta:red,circle,medium] -> F[delta:0,striped]
+4. G3 | L[alpha:red,circle,large] -> F[delta:0,striped]
+5. G1 | L[beta:red,circle,small] -> F[beta:1,striped]
+6. G2 | L[delta:red,square,large] -> F[alpha:0,striped]
+7. G3 | L[gamma:red,circle,medium] -> F[beta:1,striped]
+8. G4 | L[gamma:green,square,small] -> F[gamma:1,solid]
+9. G3 | L[beta:red,circle,large] -> F[alpha:0,striped]
+10. G4 | L[beta:red,circle,medium] -> F[gamma:0,striped]
+11. G1 | L[alpha:green,circle,medium] -> F[beta:1,solid]
+12. G2 | L[delta:red,triangle,large] -> F[alpha:0,dotted]
+13. G2 | L[delta:blue,triangle,large] -> F[alpha:1,striped]
+14. G2 | L[alpha:red,circle,medium] -> F[beta:1,striped]
+15. G1 | L[gamma:blue,triangle,medium] -> F[gamma:1,striped]
+16. G1 | L[alpha:red,circle,small] -> F[alpha:0,striped]",3,"[5, 7, 14]","{""follower_marker"": ""1"", ""leader_color"": ""red"", ""leader_shape"": ""circle"", ""local_pattern"": ""striped"", ""scope_size"": ""large""}",1,near,compact,16,3,5,leader_only,8,0
+7015,selective_attention,structure_sensitive,text,combined,easy,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=triangle, follower.marker=1) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=triangle, follower.marker=1) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G4 | L[alpha:red,square,small] -> F[beta:1,solid]
+2. G1 | L[delta:blue,triangle,medium] -> F[beta:0,striped]
+3. G1 | L[beta:blue,triangle,large] -> F[alpha:0,striped]
+4. G1 | L[beta:blue,triangle,medium] -> F[beta:1,striped]
+5. G4 | L[alpha:red,circle,small] -> F[gamma:1,dotted]
+6. G2 | L[delta:blue,triangle,small] -> F[delta:0,striped]
+7. G3 | L[delta:yellow,triangle,medium] -> F[delta:0,dotted]
+8. G3 | L[delta:blue,triangle,small] -> F[delta:0,striped]
+9. G3 | L[alpha:yellow,square,medium] -> F[alpha:1,striped]
+10. G4 | L[beta:blue,triangle,medium] -> F[gamma:0,striped]
+11. G2 | L[alpha:yellow,circle,small] -> F[alpha:0,striped]
+12. G2 | L[delta:red,triangle,medium] -> F[gamma:1,solid]
+13. G4 | L[beta:blue,circle,large] -> F[delta:1,solid]
+14. G2 | L[beta:blue,triangle,large] -> F[alpha:1,striped]
+15. G4 | L[delta:green,circle,medium] -> F[alpha:0,solid]
+16. G1 | L[beta:blue,triangle,small] -> F[alpha:1,striped]","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=triangle, follower.marker=1) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G4 | L[alpha:red,square,small] -> F[beta:1,solid]
+2. G1 | L[delta:blue,triangle,medium] -> F[beta:0,striped]
+3. G1 | L[beta:blue,triangle,large] -> F[alpha:0,striped]
+4. G1 | L[beta:blue,triangle,medium] -> F[beta:1,striped]
+5. G4 | L[alpha:red,circle,small] -> F[gamma:1,dotted]
+6. G2 | L[delta:blue,triangle,small] -> F[delta:0,striped]
+7. G3 | L[delta:yellow,triangle,medium] -> F[delta:0,dotted]
+8. G3 | L[delta:blue,triangle,small] -> F[delta:0,striped]
+9. G3 | L[alpha:yellow,square,medium] -> F[alpha:1,striped]
+10. G4 | L[beta:blue,triangle,medium] -> F[gamma:0,striped]
+11. G2 | L[alpha:yellow,circle,small] -> F[alpha:0,striped]
+12. G2 | L[delta:red,triangle,medium] -> F[gamma:1,solid]
+13. G4 | L[beta:blue,circle,large] -> F[delta:1,solid]
+14. G2 | L[beta:blue,triangle,large] -> F[alpha:1,striped]
+15. G4 | L[delta:green,circle,medium] -> F[alpha:0,solid]
+16. G1 | L[beta:blue,triangle,small] -> F[alpha:1,striped]","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=blue, leader.shape=triangle, follower.marker=1) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G4 | L[alpha:red,square,small] -> F[beta:1,solid]
+2. G1 | L[delta:blue,triangle,medium] -> F[beta:0,striped]
+3. G1 | L[beta:blue,triangle,large] -> F[alpha:0,striped]
+4. G1 | L[beta:blue,triangle,medium] -> F[beta:1,striped]
+5. G4 | L[alpha:red,circle,small] -> F[gamma:1,dotted]
+6. G2 | L[delta:blue,triangle,small] -> F[delta:0,striped]
+7. G3 | L[delta:yellow,triangle,medium] -> F[delta:0,dotted]
+8. G3 | L[delta:blue,triangle,small] -> F[delta:0,striped]
+9. G3 | L[alpha:yellow,square,medium] -> F[alpha:1,striped]
+10. G4 | L[beta:blue,triangle,medium] -> F[gamma:0,striped]
+11. G2 | L[alpha:yellow,circle,small] -> F[alpha:0,striped]
+12. G2 | L[delta:red,triangle,medium] -> F[gamma:1,solid]
+13. G4 | L[beta:blue,circle,large] -> F[delta:1,solid]
+14. G2 | L[beta:blue,triangle,large] -> F[alpha:1,striped]
+15. G4 | L[delta:green,circle,medium] -> F[alpha:0,solid]
+16. G1 | L[beta:blue,triangle,small] -> F[alpha:1,striped]",3,"[4, 14, 16]","{""follower_marker"": ""1"", ""leader_color"": ""blue"", ""leader_shape"": ""triangle"", ""local_pattern"": ""striped"", ""scope_size"": ""small""}",1,near,compact,16,3,5,leader_only,8,0
+7016,selective_attention,structure_sensitive,text,combined,easy,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=circle, follower.marker=1) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=circle, follower.marker=1) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G4 | L[delta:red,circle,small] -> F[alpha:0,dotted]
+2. G3 | L[gamma:red,circle,small] -> F[gamma:1,dotted]
+3. G2 | L[alpha:red,circle,large] -> F[gamma:0,dotted]
+4. G4 | L[delta:blue,triangle,medium] -> F[alpha:0,solid]
+5. G2 | L[gamma:red,triangle,large] -> F[delta:1,dotted]
+6. G2 | L[beta:yellow,circle,large] -> F[delta:1,striped]
+7. G4 | L[gamma:green,square,large] -> F[alpha:1,striped]
+8. G1 | L[gamma:green,square,large] -> F[gamma:0,solid]
+9. G3 | L[delta:red,circle,large] -> F[delta:0,dotted]
+10. G1 | L[delta:red,circle,large] -> F[gamma:0,dotted]
+11. G4 | L[gamma:red,circle,small] -> F[gamma:0,dotted]
+12. G1 | L[delta:red,circle,small] -> F[alpha:1,solid]
+13. G4 | L[delta:red,square,small] -> F[beta:1,solid]
+14. G4 | L[alpha:red,triangle,medium] -> F[gamma:0,striped]
+15. G1 | L[delta:red,circle,medium] -> F[beta:1,dotted]
+16. G2 | L[alpha:red,circle,large] -> F[alpha:1,dotted]","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=circle, follower.marker=1) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G4 | L[delta:red,circle,small] -> F[alpha:0,dotted]
+2. G3 | L[gamma:red,circle,small] -> F[gamma:1,dotted]
+3. G2 | L[alpha:red,circle,large] -> F[gamma:0,dotted]
+4. G4 | L[delta:blue,triangle,medium] -> F[alpha:0,solid]
+5. G2 | L[gamma:red,triangle,large] -> F[delta:1,dotted]
+6. G2 | L[beta:yellow,circle,large] -> F[delta:1,striped]
+7. G4 | L[gamma:green,square,large] -> F[alpha:1,striped]
+8. G1 | L[gamma:green,square,large] -> F[gamma:0,solid]
+9. G3 | L[delta:red,circle,large] -> F[delta:0,dotted]
+10. G1 | L[delta:red,circle,large] -> F[gamma:0,dotted]
+11. G4 | L[gamma:red,circle,small] -> F[gamma:0,dotted]
+12. G1 | L[delta:red,circle,small] -> F[alpha:1,solid]
+13. G4 | L[delta:red,square,small] -> F[beta:1,solid]
+14. G4 | L[alpha:red,triangle,medium] -> F[gamma:0,striped]
+15. G1 | L[delta:red,circle,medium] -> F[beta:1,dotted]
+16. G2 | L[alpha:red,circle,large] -> F[alpha:1,dotted]","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=red, leader.shape=circle, follower.marker=1) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G4 | L[delta:red,circle,small] -> F[alpha:0,dotted]
+2. G3 | L[gamma:red,circle,small] -> F[gamma:1,dotted]
+3. G2 | L[alpha:red,circle,large] -> F[gamma:0,dotted]
+4. G4 | L[delta:blue,triangle,medium] -> F[alpha:0,solid]
+5. G2 | L[gamma:red,triangle,large] -> F[delta:1,dotted]
+6. G2 | L[beta:yellow,circle,large] -> F[delta:1,striped]
+7. G4 | L[gamma:green,square,large] -> F[alpha:1,striped]
+8. G1 | L[gamma:green,square,large] -> F[gamma:0,solid]
+9. G3 | L[delta:red,circle,large] -> F[delta:0,dotted]
+10. G1 | L[delta:red,circle,large] -> F[gamma:0,dotted]
+11. G4 | L[gamma:red,circle,small] -> F[gamma:0,dotted]
+12. G1 | L[delta:red,circle,small] -> F[alpha:1,solid]
+13. G4 | L[delta:red,square,small] -> F[beta:1,solid]
+14. G4 | L[alpha:red,triangle,medium] -> F[gamma:0,striped]
+15. G1 | L[delta:red,circle,medium] -> F[beta:1,dotted]
+16. G2 | L[alpha:red,circle,large] -> F[alpha:1,dotted]",3,"[2, 15, 16]","{""follower_marker"": ""1"", ""leader_color"": ""red"", ""leader_shape"": ""circle"", ""local_pattern"": ""dotted"", ""scope_size"": ""medium""}",1,near,compact,16,3,5,leader_only,8,0
+7017,selective_attention,structure_sensitive,text,combined,easy,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=triangle, follower.marker=1) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=triangle, follower.marker=1) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G4 | L[beta:red,square,small] -> F[delta:0,striped]
+2. G1 | L[delta:green,triangle,large] -> F[delta:1,dotted]
+3. G4 | L[gamma:green,square,medium] -> F[alpha:0,striped]
+4. G3 | L[gamma:red,triangle,medium] -> F[beta:0,dotted]
+5. G2 | L[alpha:green,triangle,medium] -> F[gamma:1,striped]
+6. G3 | L[alpha:green,triangle,large] -> F[alpha:1,dotted]
+7. G4 | L[beta:green,square,large] -> F[alpha:1,striped]
+8. G1 | L[beta:green,square,small] -> F[delta:1,solid]
+9. G1 | L[beta:green,circle,small] -> F[alpha:1,solid]
+10. G4 | L[alpha:green,circle,small] -> F[gamma:1,striped]
+11. G4 | L[delta:green,square,medium] -> F[alpha:1,striped]
+12. G3 | L[alpha:green,square,medium] -> F[gamma:0,solid]
+13. G1 | L[alpha:green,square,medium] -> F[delta:1,solid]
+14. G2 | L[beta:green,triangle,small] -> F[alpha:1,dotted]
+15. G4 | L[gamma:red,square,medium] -> F[gamma:0,striped]
+16. G3 | L[alpha:red,circle,large] -> F[beta:1,dotted]","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=triangle, follower.marker=1) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G4 | L[beta:red,square,small] -> F[delta:0,striped]
+2. G1 | L[delta:green,triangle,large] -> F[delta:1,dotted]
+3. G4 | L[gamma:green,square,medium] -> F[alpha:0,striped]
+4. G3 | L[gamma:red,triangle,medium] -> F[beta:0,dotted]
+5. G2 | L[alpha:green,triangle,medium] -> F[gamma:1,striped]
+6. G3 | L[alpha:green,triangle,large] -> F[alpha:1,dotted]
+7. G4 | L[beta:green,square,large] -> F[alpha:1,striped]
+8. G1 | L[beta:green,square,small] -> F[delta:1,solid]
+9. G1 | L[beta:green,circle,small] -> F[alpha:1,solid]
+10. G4 | L[alpha:green,circle,small] -> F[gamma:1,striped]
+11. G4 | L[delta:green,square,medium] -> F[alpha:1,striped]
+12. G3 | L[alpha:green,square,medium] -> F[gamma:0,solid]
+13. G1 | L[alpha:green,square,medium] -> F[delta:1,solid]
+14. G2 | L[beta:green,triangle,small] -> F[alpha:1,dotted]
+15. G4 | L[gamma:red,square,medium] -> F[gamma:0,striped]
+16. G3 | L[alpha:red,circle,large] -> F[beta:1,dotted]","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=triangle, follower.marker=1) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G4 | L[beta:red,square,small] -> F[delta:0,striped]
+2. G1 | L[delta:green,triangle,large] -> F[delta:1,dotted]
+3. G4 | L[gamma:green,square,medium] -> F[alpha:0,striped]
+4. G3 | L[gamma:red,triangle,medium] -> F[beta:0,dotted]
+5. G2 | L[alpha:green,triangle,medium] -> F[gamma:1,striped]
+6. G3 | L[alpha:green,triangle,large] -> F[alpha:1,dotted]
+7. G4 | L[beta:green,square,large] -> F[alpha:1,striped]
+8. G1 | L[beta:green,square,small] -> F[delta:1,solid]
+9. G1 | L[beta:green,circle,small] -> F[alpha:1,solid]
+10. G4 | L[alpha:green,circle,small] -> F[gamma:1,striped]
+11. G4 | L[delta:green,square,medium] -> F[alpha:1,striped]
+12. G3 | L[alpha:green,square,medium] -> F[gamma:0,solid]
+13. G1 | L[alpha:green,square,medium] -> F[delta:1,solid]
+14. G2 | L[beta:green,triangle,small] -> F[alpha:1,dotted]
+15. G4 | L[gamma:red,square,medium] -> F[gamma:0,striped]
+16. G3 | L[alpha:red,circle,large] -> F[beta:1,dotted]",3,"[2, 6, 14]","{""follower_marker"": ""1"", ""leader_color"": ""green"", ""leader_shape"": ""triangle"", ""local_pattern"": ""dotted"", ""scope_size"": ""small""}",1,near,compact,16,3,5,cross_binding,8,0
+7018,selective_attention,structure_sensitive,text,combined,easy,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=square, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=square, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G3 | L[delta:green,triangle,small] -> F[beta:0,striped]
+2. G3 | L[gamma:green,square,small] -> F[alpha:1,striped]
+3. G2 | L[beta:blue,square,medium] -> F[alpha:0,dotted]
+4. G2 | L[gamma:yellow,square,small] -> F[beta:0,dotted]
+5. G2 | L[delta:red,square,large] -> F[delta:1,striped]
+6. G2 | L[beta:yellow,square,large] -> F[delta:0,dotted]
+7. G1 | L[gamma:blue,triangle,small] -> F[beta:0,dotted]
+8. G2 | L[beta:green,square,medium] -> F[beta:0,dotted]
+9. G2 | L[delta:green,square,large] -> F[beta:0,dotted]
+10. G1 | L[delta:green,circle,small] -> F[alpha:1,solid]
+11. G2 | L[beta:red,circle,large] -> F[delta:1,dotted]
+12. G4 | L[gamma:green,square,small] -> F[gamma:0,dotted]
+13. G1 | L[alpha:blue,square,small] -> F[alpha:0,dotted]
+14. G4 | L[delta:yellow,square,large] -> F[alpha:0,dotted]
+15. G1 | L[beta:yellow,triangle,medium] -> F[gamma:1,solid]
+16. G3 | L[beta:blue,square,small] -> F[delta:0,dotted]","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=square, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G3 | L[delta:green,triangle,small] -> F[beta:0,striped]
+2. G3 | L[gamma:green,square,small] -> F[alpha:1,striped]
+3. G2 | L[beta:blue,square,medium] -> F[alpha:0,dotted]
+4. G2 | L[gamma:yellow,square,small] -> F[beta:0,dotted]
+5. G2 | L[delta:red,square,large] -> F[delta:1,striped]
+6. G2 | L[beta:yellow,square,large] -> F[delta:0,dotted]
+7. G1 | L[gamma:blue,triangle,small] -> F[beta:0,dotted]
+8. G2 | L[beta:green,square,medium] -> F[beta:0,dotted]
+9. G2 | L[delta:green,square,large] -> F[beta:0,dotted]
+10. G1 | L[delta:green,circle,small] -> F[alpha:1,solid]
+11. G2 | L[beta:red,circle,large] -> F[delta:1,dotted]
+12. G4 | L[gamma:green,square,small] -> F[gamma:0,dotted]
+13. G1 | L[alpha:blue,square,small] -> F[alpha:0,dotted]
+14. G4 | L[delta:yellow,square,large] -> F[alpha:0,dotted]
+15. G1 | L[beta:yellow,triangle,medium] -> F[gamma:1,solid]
+16. G3 | L[beta:blue,square,small] -> F[delta:0,dotted]","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=square, follower.marker=0) and the follower must also have pattern=dotted.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G3 | L[delta:green,triangle,small] -> F[beta:0,striped]
+2. G3 | L[gamma:green,square,small] -> F[alpha:1,striped]
+3. G2 | L[beta:blue,square,medium] -> F[alpha:0,dotted]
+4. G2 | L[gamma:yellow,square,small] -> F[beta:0,dotted]
+5. G2 | L[delta:red,square,large] -> F[delta:1,striped]
+6. G2 | L[beta:yellow,square,large] -> F[delta:0,dotted]
+7. G1 | L[gamma:blue,triangle,small] -> F[beta:0,dotted]
+8. G2 | L[beta:green,square,medium] -> F[beta:0,dotted]
+9. G2 | L[delta:green,square,large] -> F[beta:0,dotted]
+10. G1 | L[delta:green,circle,small] -> F[alpha:1,solid]
+11. G2 | L[beta:red,circle,large] -> F[delta:1,dotted]
+12. G4 | L[gamma:green,square,small] -> F[gamma:0,dotted]
+13. G1 | L[alpha:blue,square,small] -> F[alpha:0,dotted]
+14. G4 | L[delta:yellow,square,large] -> F[alpha:0,dotted]
+15. G1 | L[beta:yellow,triangle,medium] -> F[gamma:1,solid]
+16. G3 | L[beta:blue,square,small] -> F[delta:0,dotted]",3,"[8, 9, 12]","{""follower_marker"": ""0"", ""leader_color"": ""green"", ""leader_shape"": ""square"", ""local_pattern"": ""dotted"", ""scope_size"": ""large""}",1,near,compact,16,3,5,follower_only,8,0
+7019,selective_attention,structure_sensitive,text,combined,easy,grouping,"Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=triangle, follower.marker=1) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=triangle, follower.marker=1) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object","1. G1 | L[beta:red,triangle,medium] -> F[alpha:1,solid]
+2. G2 | L[beta:red,circle,small] -> F[gamma:1,dotted]
+3. G2 | L[beta:green,triangle,small] -> F[beta:1,striped]
+4. G3 | L[beta:green,triangle,small] -> F[alpha:0,striped]
+5. G4 | L[beta:blue,square,medium] -> F[beta:1,solid]
+6. G4 | L[delta:green,triangle,medium] -> F[alpha:1,striped]
+7. G2 | L[delta:green,triangle,medium] -> F[beta:0,striped]
+8. G2 | L[beta:yellow,square,large] -> F[alpha:1,striped]
+9. G2 | L[gamma:green,triangle,medium] -> F[delta:0,striped]
+10. G2 | L[gamma:blue,circle,small] -> F[delta:1,striped]
+11. G3 | L[delta:yellow,circle,medium] -> F[gamma:0,striped]
+12. G2 | L[beta:green,triangle,small] -> F[beta:1,striped]
+13. G3 | L[gamma:green,triangle,medium] -> F[gamma:0,striped]
+14. G3 | L[alpha:red,circle,large] -> F[gamma:0,striped]
+15. G3 | L[alpha:blue,square,large] -> F[gamma:1,solid]
+16. G2 | L[gamma:green,triangle,small] -> F[beta:0,striped]","Count the lines matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=triangle, follower.marker=1) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""count"": <integer>}.
+Rules:
+- ""count"" must be an integer
+- Use the structure inside each line, not cross-line evidence
+- Return only the JSON object
+
+1. G1 | L[beta:red,triangle,medium] -> F[alpha:1,solid]
+2. G2 | L[beta:red,circle,small] -> F[gamma:1,dotted]
+3. G2 | L[beta:green,triangle,small] -> F[beta:1,striped]
+4. G3 | L[beta:green,triangle,small] -> F[alpha:0,striped]
+5. G4 | L[beta:blue,square,medium] -> F[beta:1,solid]
+6. G4 | L[delta:green,triangle,medium] -> F[alpha:1,striped]
+7. G2 | L[delta:green,triangle,medium] -> F[beta:0,striped]
+8. G2 | L[beta:yellow,square,large] -> F[alpha:1,striped]
+9. G2 | L[gamma:green,triangle,medium] -> F[delta:0,striped]
+10. G2 | L[gamma:blue,circle,small] -> F[delta:1,striped]
+11. G3 | L[delta:yellow,circle,medium] -> F[gamma:0,striped]
+12. G2 | L[beta:green,triangle,small] -> F[beta:1,striped]
+13. G3 | L[gamma:green,triangle,medium] -> F[gamma:0,striped]
+14. G3 | L[alpha:red,circle,large] -> F[gamma:0,striped]
+15. G3 | L[alpha:blue,square,large] -> F[gamma:1,solid]
+16. G2 | L[gamma:green,triangle,small] -> F[beta:0,striped]","Return the line numbers (1-based) matching this structured rule: within one line, the leader must satisfy (leader.color=green, leader.shape=triangle, follower.marker=1) and the follower must also have pattern=striped.
+Respond with a JSON object of the form {""lines"": [<sorted unique integers>]}.
+Rules:
+- Use 1-based indexing
+- Sort ascending
+- Do not include duplicates
+- Use the leader/follower structure inside the same line only
+- Return only the JSON object
+
+1. G1 | L[beta:red,triangle,medium] -> F[alpha:1,solid]
+2. G2 | L[beta:red,circle,small] -> F[gamma:1,dotted]
+3. G2 | L[beta:green,triangle,small] -> F[beta:1,striped]
+4. G3 | L[beta:green,triangle,small] -> F[alpha:0,striped]
+5. G4 | L[beta:blue,square,medium] -> F[beta:1,solid]
+6. G4 | L[delta:green,triangle,medium] -> F[alpha:1,striped]
+7. G2 | L[delta:green,triangle,medium] -> F[beta:0,striped]
+8. G2 | L[beta:yellow,square,large] -> F[alpha:1,striped]
+9. G2 | L[gamma:green,triangle,medium] -> F[delta:0,striped]
+10. G2 | L[gamma:blue,circle,small] -> F[delta:1,striped]
+11. G3 | L[delta:yellow,circle,medium] -> F[gamma:0,striped]
+12. G2 | L[beta:green,triangle,small] -> F[beta:1,striped]
+13. G3 | L[gamma:green,triangle,medium] -> F[gamma:0,striped]
+14. G3 | L[alpha:red,circle,large] -> F[gamma:0,striped]
+15. G3 | L[alpha:blue,square,large] -> F[gamma:1,solid]
+16. G2 | L[gamma:green,triangle,small] -> F[beta:0,striped]",3,"[3, 6, 12]","{""follower_marker"": ""1"", ""leader_color"": ""green"", ""leader_shape"": ""triangle"", ""local_pattern"": ""striped"", ""scope_size"": ""medium""}",1,near,compact,16,3,5,leader_only,8,0
