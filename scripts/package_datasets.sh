@@ -8,20 +8,17 @@ repo_root="$(cd "${script_dir}/.." && pwd)"
 datasets_root="${repo_root}/artifacts/datasets"
 archive_path="${datasets_root}/abc-factorized-attention-benchmark.zip"
 staging_dir="${datasets_root}/_zip_staging"
-archive_root_name="abc-factorized-attention-benchmark"
+source_root_name="selective_attention"
+source_root_path="${datasets_root}/${source_root_name}"
 
-if [[ ! -d "${datasets_root}" ]]; then
-  echo "Missing datasets directory: ${datasets_root}" >&2
+if [[ ! -d "${source_root_path}" ]]; then
+  echo "Missing dataset root: ${source_root_path}" >&2
   exit 1
 fi
 
 rm -rf "${staging_dir}"
-mkdir -p "${staging_dir}/${archive_root_name}"
-
-find "${datasets_root}" -mindepth 1 -maxdepth 1 -type d ! -name "_zip_staging" | while read -r dataset_dir; do
-  dataset_name="$(basename "${dataset_dir}")"
-  cp -R "${dataset_dir}" "${staging_dir}/${archive_root_name}/${dataset_name}"
-done
+mkdir -p "${staging_dir}"
+cp -R "${source_root_path}" "${staging_dir}/${source_root_name}"
 
 find "${staging_dir}" \
   \( -name ".DS_Store" -o -name "__pycache__" -o -name ".pytest_cache" -o -name "_smoke" \) \
@@ -31,7 +28,7 @@ rm -f "${archive_path}"
 
 (
   cd "${staging_dir}"
-  zip -rq "${archive_path}" "${archive_root_name}"
+  zip -rq "${archive_path}" "${source_root_name}"
 )
 
 rm -rf "${staging_dir}"
