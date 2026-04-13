@@ -1,0 +1,21 @@
+seed,difficulty,prompt,image_path,gold_label,target_shape,target_color,num_items
+1000,easy,Count the red squares. Respond with a number only.,images/easy/easy_1000.png,3,square,red,13
+1001,easy,Count the blue circles. Respond with a number only.,images/easy/easy_1001.png,4,circle,blue,10
+1002,easy,Count the yellow triangles. Respond with a number only.,images/easy/easy_1002.png,2,triangle,yellow,11
+1003,easy,Count the green squares. Respond with a number only.,images/easy/easy_1003.png,4,square,green,11
+1004,easy,Count the red squares. Respond with a number only.,images/easy/easy_1004.png,2,square,red,11
+1005,easy,Count the yellow squares. Respond with a number only.,images/easy/easy_1005.png,3,square,yellow,13
+1006,easy,Count the red squares. Respond with a number only.,images/easy/easy_1006.png,4,square,red,11
+1007,easy,Count the blue circles. Respond with a number only.,images/easy/easy_1007.png,2,circle,blue,12
+1008,easy,Count the yellow triangles. Respond with a number only.,images/easy/easy_1008.png,1,triangle,yellow,12
+1009,easy,Count the red circles. Respond with a number only.,images/easy/easy_1009.png,1,circle,red,13
+1010,easy,Count the blue triangles. Respond with a number only.,images/easy/easy_1010.png,4,triangle,blue,10
+1011,easy,Count the green squares. Respond with a number only.,images/easy/easy_1011.png,4,square,green,10
+1012,easy,Count the blue squares. Respond with a number only.,images/easy/easy_1012.png,4,square,blue,11
+1013,easy,Count the green squares. Respond with a number only.,images/easy/easy_1013.png,1,square,green,11
+1014,easy,Count the red triangles. Respond with a number only.,images/easy/easy_1014.png,3,triangle,red,11
+1015,easy,Count the green circles. Respond with a number only.,images/easy/easy_1015.png,4,circle,green,13
+1016,easy,Count the yellow squares. Respond with a number only.,images/easy/easy_1016.png,2,square,yellow,12
+1017,easy,Count the yellow squares. Respond with a number only.,images/easy/easy_1017.png,1,square,yellow,11
+1018,easy,Count the yellow squares. Respond with a number only.,images/easy/easy_1018.png,2,square,yellow,10
+1019,easy,Count the green circles. Respond with a number only.,images/easy/easy_1019.png,1,circle,green,11

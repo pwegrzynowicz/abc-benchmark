@@ -1,0 +1,21 @@
+seed,difficulty,prompt,image_path,gold_label,target_shape,target_color,num_items
+3000,hard,Count the blue triangles. Respond with a number only.,images/hard/hard_3000.png,2,triangle,blue,18
+3001,hard,Count the yellow squares. Respond with a number only.,images/hard/hard_3001.png,4,square,yellow,17
+3002,hard,Count the yellow circles. Respond with a number only.,images/hard/hard_3002.png,2,circle,yellow,16
+3003,hard,Count the yellow triangles. Respond with a number only.,images/hard/hard_3003.png,4,triangle,yellow,17
+3004,hard,Count the yellow squares. Respond with a number only.,images/hard/hard_3004.png,2,square,yellow,17
+3005,hard,Count the red triangles. Respond with a number only.,images/hard/hard_3005.png,4,triangle,red,19
+3006,hard,Count the red triangles. Respond with a number only.,images/hard/hard_3006.png,4,triangle,red,20
+3007,hard,Count the green triangles. Respond with a number only.,images/hard/hard_3007.png,6,triangle,green,19
+3008,hard,Count the yellow squares. Respond with a number only.,images/hard/hard_3008.png,3,square,yellow,16
+3009,hard,Count the green squares. Respond with a number only.,images/hard/hard_3009.png,5,square,green,16
+3010,hard,Count the green triangles. Respond with a number only.,images/hard/hard_3010.png,6,triangle,green,18
+3011,hard,Count the blue circles. Respond with a number only.,images/hard/hard_3011.png,3,circle,blue,20
+3012,hard,Count the blue squares. Respond with a number only.,images/hard/hard_3012.png,3,square,blue,19
+3013,hard,Count the yellow triangles. Respond with a number only.,images/hard/hard_3013.png,2,triangle,yellow,16
+3014,hard,Count the blue circles. Respond with a number only.,images/hard/hard_3014.png,4,circle,blue,16
+3015,hard,Count the green triangles. Respond with a number only.,images/hard/hard_3015.png,2,triangle,green,16
+3016,hard,Count the green triangles. Respond with a number only.,images/hard/hard_3016.png,5,triangle,green,16
+3017,hard,Count the yellow triangles. Respond with a number only.,images/hard/hard_3017.png,6,triangle,yellow,16
+3018,hard,Count the blue squares. Respond with a number only.,images/hard/hard_3018.png,2,square,blue,18
+3019,hard,Count the yellow squares. Respond with a number only.,images/hard/hard_3019.png,6,square,yellow,17
