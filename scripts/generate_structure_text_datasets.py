@@ -25,14 +25,28 @@ SPECS: list[dict[str, object]] = [
     {"regime": "confound_sweep", "regime_level": "high", "count": 20, "start_seed": 4200},
     {"regime": "confound_sweep", "regime_level": "extreme", "count": 20, "start_seed": 4300},
 
-    {"regime": "target_count_x_structure_depth", "regime_level": "0_shallow", "count": 20, "start_seed": 5000},
-    {"regime": "target_count_x_structure_depth", "regime_level": "0_nested", "count": 20, "start_seed": 5100},
-    {"regime": "target_count_x_structure_depth", "regime_level": "3_shallow", "count": 20, "start_seed": 5200},
-    {"regime": "target_count_x_structure_depth", "regime_level": "3_nested", "count": 20, "start_seed": 5300},
+    {"regime": "confound_type_sweep", "regime_level": "grouping_leader_only", "count": 20, "start_seed": 4400},
+    {"regime": "confound_type_sweep", "regime_level": "grouping_follower_only", "count": 20, "start_seed": 4500},
+    {"regime": "confound_type_sweep", "regime_level": "grouping_cross_binding", "count": 20, "start_seed": 4600},
+    {"regime": "confound_type_sweep", "regime_level": "relation_role_reversal", "count": 20, "start_seed": 4700},
+    {"regime": "confound_type_sweep", "regime_level": "relation_leader_partial", "count": 20, "start_seed": 4800},
+    {"regime": "confound_type_sweep", "regime_level": "relation_follower_partial", "count": 20, "start_seed": 4900},
+    {"regime": "confound_type_sweep", "regime_level": "scope_wrong_scope_value", "count": 20, "start_seed": 5000},
+    {"regime": "confound_type_sweep", "regime_level": "scope_leader_partial", "count": 20, "start_seed": 5100},
+    {"regime": "confound_type_sweep", "regime_level": "scope_follower_partial", "count": 20, "start_seed": 5200},
+    {"regime": "confound_type_sweep", "regime_level": "global_local_wrong_pattern", "count": 20, "start_seed": 5300},
+    {"regime": "confound_type_sweep", "regime_level": "global_local_wrong_marker", "count": 20, "start_seed": 5400},
+    {"regime": "confound_type_sweep", "regime_level": "global_local_leader_color_only", "count": 20, "start_seed": 5500},
+    {"regime": "confound_type_sweep", "regime_level": "global_local_leader_shape_only", "count": 20, "start_seed": 5600},
 
-    {"regime": "serialization_style_sweep", "regime_level": "compact", "count": 20, "start_seed": 6000},
-    {"regime": "serialization_style_sweep", "regime_level": "tagged", "count": 20, "start_seed": 6100},
-    {"regime": "serialization_style_sweep", "regime_level": "nested", "count": 20, "start_seed": 6200},
+    {"regime": "target_count_x_structure_depth", "regime_level": "0_shallow", "count": 20, "start_seed": 5700},
+    {"regime": "target_count_x_structure_depth", "regime_level": "0_nested", "count": 20, "start_seed": 5800},
+    {"regime": "target_count_x_structure_depth", "regime_level": "3_shallow", "count": 20, "start_seed": 5900},
+    {"regime": "target_count_x_structure_depth", "regime_level": "3_nested", "count": 20, "start_seed": 6000},
+
+    {"regime": "serialization_style_sweep", "regime_level": "compact", "count": 20, "start_seed": 6100},
+    {"regime": "serialization_style_sweep", "regime_level": "tagged", "count": 20, "start_seed": 6200},
+    {"regime": "serialization_style_sweep", "regime_level": "nested", "count": 20, "start_seed": 6300},
 
     {"regime": "combined", "regime_level": "easy", "count": 20, "start_seed": 7000},
     {"regime": "combined", "regime_level": "medium", "count": 20, "start_seed": 7100},
@@ -85,6 +99,15 @@ def main() -> None:
 
     print("\n=== structure_text_full: by target_count ===")
     print(full_df.groupby(["target_count"]).size())
+
+    print("\n=== structure_text_full: by confound_count ===")
+    print(full_df.groupby(["confound_count"]).size())
+
+    print("\n=== structure_text_full: by confound_type ===")
+    print(full_df.groupby(["confound_type"]).size())
+
+    print("\n=== structure_text_full: by structure_type, confound_type ===")
+    print(full_df.groupby(["structure_type", "confound_type"]).size())
 
     print("\n=== structure_text_full: total rows ===")
     print(len(full_df))

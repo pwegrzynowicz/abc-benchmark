@@ -34,6 +34,12 @@ def build_structure_text_dataset(
     - serialization_style
     - target_count
     - confound_count
+    - confound_type
+
+    Notes:
+    - `global_local` does not carry a hidden size condition.
+    - `scope` is the only size-conditioned structure type.
+    - Each scene has one dominant `confound_type`, used consistently across its confound rows.
     """
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)

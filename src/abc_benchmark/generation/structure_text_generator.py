@@ -13,11 +13,25 @@ SizeValue = Literal["small", "medium", "large"]
 PatternValue = Literal["solid", "striped", "dotted"]
 
 StructureType = Literal["grouping", "relation", "scope", "global_local"]
+ConfoundType = Literal[
+    "leader_only",
+    "follower_only",
+    "cross_binding",
+    "role_reversal",
+    "leader_partial",
+    "follower_partial",
+    "wrong_scope_value",
+    "wrong_pattern",
+    "wrong_marker",
+    "leader_color_only",
+    "leader_shape_only",
+]
 RegimeName = Literal[
     "baseline_structure",
     "structure_depth_sweep",
     "binding_distance_sweep",
     "confound_sweep",
+    "confound_type_sweep",
     "target_count_x_structure_depth",
     "serialization_style_sweep",
     "combined",
@@ -30,6 +44,32 @@ SHAPES: tuple[ShapeValue, ...] = ("circle", "square", "triangle")
 MARKERS: tuple[MarkerValue, ...] = ("0", "1")
 SIZES: tuple[SizeValue, ...] = ("small", "medium", "large")
 PATTERNS: tuple[PatternValue, ...] = ("solid", "striped", "dotted")
+
+STRUCTURE_TO_CONFOUND_TYPES: dict[StructureType, tuple[ConfoundType, ...]] = {
+    "grouping": ("leader_only", "follower_only", "cross_binding"),
+    "relation": ("role_reversal", "leader_partial", "follower_partial"),
+    "scope": ("wrong_scope_value", "leader_partial", "follower_partial"),
+    "global_local": ("wrong_pattern", "wrong_marker", "leader_color_only", "leader_shape_only"),
+}
+
+CONFOUND_TYPE_SWEEP_SPECS: dict[
+    str,
+    tuple[StructureType, ConfoundType, int, str, SerializationStyle, int, int, int, int, int],
+] = {
+    "grouping_leader_only": ("grouping", "leader_only", 1, "near", "compact", 14, 3, 5, 6, 0),
+    "grouping_follower_only": ("grouping", "follower_only", 1, "near", "compact", 14, 3, 5, 6, 0),
+    "grouping_cross_binding": ("grouping", "cross_binding", 1, "near", "compact", 14, 3, 5, 6, 0),
+    "relation_role_reversal": ("relation", "role_reversal", 2, "medium", "tagged", 14, 3, 5, 6, 1),
+    "relation_leader_partial": ("relation", "leader_partial", 2, "medium", "tagged", 14, 3, 5, 6, 1),
+    "relation_follower_partial": ("relation", "follower_partial", 2, "medium", "tagged", 14, 3, 5, 6, 1),
+    "scope_wrong_scope_value": ("scope", "wrong_scope_value", 2, "medium", "tagged", 18, 3, 6, 9, 1),
+    "scope_leader_partial": ("scope", "leader_partial", 2, "medium", "tagged", 18, 3, 6, 9, 1),
+    "scope_follower_partial": ("scope", "follower_partial", 2, "medium", "tagged", 18, 3, 6, 9, 1),
+    "global_local_wrong_pattern": ("global_local", "wrong_pattern", 3, "far", "nested", 18, 3, 8, 7, 2),
+    "global_local_wrong_marker": ("global_local", "wrong_marker", 3, "far", "nested", 18, 3, 8, 7, 2),
+    "global_local_leader_color_only": ("global_local", "leader_color_only", 3, "far", "nested", 18, 3, 8, 7, 2),
+    "global_local_leader_shape_only": ("global_local", "leader_shape_only", 3, "far", "nested", 18, 3, 8, 7, 2),
+}
 
 
 @dataclass(frozen=True)
@@ -63,6 +103,7 @@ class StructureTextFactors:
     num_records: int
     target_count: int
     confound_count: int
+    confound_type: ConfoundType
     unrelated_count: int
     line_length_noise: int
 
@@ -129,6 +170,8 @@ class StructureTextSelectiveAttentionGenerator:
             factors = self._override_target_count(factors, target_count_override)
         if serialization_style is not None:
             factors = replace(factors, serialization_style=serialization_style)
+
+        self._validate_render_alignment(factors)
 
         for _ in range(self.max_attempts):
             target_definition = self._sample_target_definition(local_rng)
@@ -203,23 +246,27 @@ class StructureTextSelectiveAttentionGenerator:
                 num_records=10,
                 target_count=rng.randint(1, 2),
                 confound_count=3,
+                confound_type="cross_binding",
                 unrelated_count=5,
                 line_length_noise=0,
             )
+
         if regime == "structure_depth_sweep":
             mapping = {
                 "shallow": ("grouping", 1, "near", "compact", 12, 2, 4, 6, 0),
                 "medium": ("scope", 2, "near", "tagged", 14, 2, 5, 7, 1),
                 "nested": ("global_local", 3, "far", "nested", 16, 2, 6, 8, 2),
             }
-            return self._factors_from_mapping(regime, level, mapping)
+            return self._factors_from_mapping(rng, regime, level, mapping)
+
         if regime == "binding_distance_sweep":
             mapping = {
                 "near": ("relation", 1, "near", "compact", 14, 3, 4, 7, 0),
                 "medium": ("relation", 2, "medium", "tagged", 14, 3, 5, 6, 1),
                 "far": ("relation", 2, "far", "nested", 14, 3, 6, 5, 2),
             }
-            return self._factors_from_mapping(regime, level, mapping)
+            return self._factors_from_mapping(rng, regime, level, mapping)
+
         if regime == "confound_sweep":
             mapping = {
                 "low": ("grouping", 1, "near", "compact", 14, 3, 3, 8, 0),
@@ -227,7 +274,11 @@ class StructureTextSelectiveAttentionGenerator:
                 "high": ("scope", 2, "medium", "tagged", 24, 3, 10, 11, 1),
                 "extreme": ("global_local", 3, "far", "nested", 30, 3, 15, 12, 2),
             }
-            return self._factors_from_mapping(regime, level, mapping)
+            return self._factors_from_mapping(rng, regime, level, mapping)
+
+        if regime == "confound_type_sweep":
+            return self._factors_from_confound_type_sweep(level)
+
         if regime == "target_count_x_structure_depth":
             mapping = {
                 "0_shallow": ("grouping", 1, "near", "compact", 12, 0, 5, 7, 0),
@@ -235,25 +286,29 @@ class StructureTextSelectiveAttentionGenerator:
                 "3_shallow": ("grouping", 1, "near", "compact", 12, 3, 4, 5, 0),
                 "3_nested": ("global_local", 3, "far", "nested", 18, 3, 8, 7, 2),
             }
-            return self._factors_from_mapping(regime, level, mapping)
+            return self._factors_from_mapping(rng, regime, level, mapping)
+
         if regime == "serialization_style_sweep":
             mapping = {
                 "compact": ("grouping", 1, "near", "compact", 14, 3, 5, 6, 0),
                 "tagged": ("grouping", 2, "medium", "tagged", 14, 3, 5, 6, 1),
                 "nested": ("grouping", 2, "medium", "nested", 14, 3, 5, 6, 2),
             }
-            return self._factors_from_mapping(regime, level, mapping)
+            return self._factors_from_mapping(rng, regime, level, mapping)
+
         if regime == "combined":
             mapping = {
                 "easy": ("grouping", 1, "near", "compact", 16, 3, 5, 8, 0),
                 "medium": ("scope", 2, "medium", "tagged", 22, 4, 8, 10, 1),
                 "hard": ("global_local", 3, "far", "nested", 30, 5, 13, 12, 2),
             }
-            return self._factors_from_mapping(regime, level, mapping)
+            return self._factors_from_mapping(rng, regime, level, mapping)
+
         raise ValueError(f"Unknown regime: {regime}")
 
     def _factors_from_mapping(
         self,
+        rng: random.Random,
         regime: RegimeName,
         level: str,
         mapping: dict[str, tuple[StructureType, int, str, SerializationStyle, int, int, int, int, int]],
@@ -271,9 +326,36 @@ class StructureTextSelectiveAttentionGenerator:
             num_records=num_records,
             target_count=target_count,
             confound_count=confound_count,
+            confound_type=self._sample_confound_type(rng, structure_type),
             unrelated_count=unrelated_count,
             line_length_noise=line_length_noise,
         )
+
+    def _factors_from_confound_type_sweep(self, level: str) -> StructureTextFactors:
+        if level not in CONFOUND_TYPE_SWEEP_SPECS:
+            raise ValueError(f"Unknown confound_type_sweep level: {level}")
+        structure_type, confound_type, structure_depth, binding_distance, serialization_style, num_records, target_count, confound_count, unrelated_count, line_length_noise = CONFOUND_TYPE_SWEEP_SPECS[level]
+        return StructureTextFactors(
+            regime="confound_type_sweep",
+            regime_level=level,
+            structure_type=structure_type,
+            structure_depth=structure_depth,
+            binding_distance=binding_distance,
+            serialization_style=serialization_style,
+            num_records=num_records,
+            target_count=target_count,
+            confound_count=confound_count,
+            confound_type=confound_type,
+            unrelated_count=unrelated_count,
+            line_length_noise=line_length_noise,
+        )
+
+    def _sample_confound_type(
+        self,
+        rng: random.Random,
+        structure_type: StructureType,
+    ) -> ConfoundType:
+        return rng.choice(STRUCTURE_TO_CONFOUND_TYPES[structure_type])
 
     def _override_target_count(
         self,
@@ -333,14 +415,25 @@ class StructureTextSelectiveAttentionGenerator:
         factors: StructureTextFactors,
         target_definition: dict[str, str],
     ) -> list[SceneRecord]:
-        builders = {
-            "grouping": self._random_grouping_confound,
-            "relation": self._random_relation_confound,
-            "scope": self._random_scope_confound,
-            "global_local": self._random_global_local_confound,
-        }
-        build = builders[factors.structure_type]
-        return [build(rng, factors, target_definition) for _ in range(factors.confound_count)]
+        if factors.structure_type == "grouping":
+            return [
+                self._build_grouping_confound(rng, factors, target_definition)
+                for _ in range(factors.confound_count)
+            ]
+        if factors.structure_type == "relation":
+            return [
+                self._build_relation_confound(rng, factors, target_definition)
+                for _ in range(factors.confound_count)
+            ]
+        if factors.structure_type == "scope":
+            return [
+                self._build_scope_confound(rng, factors, target_definition)
+                for _ in range(factors.confound_count)
+            ]
+        return [
+            self._build_global_local_confound(rng, factors, target_definition)
+            for _ in range(factors.confound_count)
+        ]
 
     def _build_unrelated_records(
         self,
@@ -352,7 +445,7 @@ class StructureTextSelectiveAttentionGenerator:
         records: list[SceneRecord] = []
         for _ in range(count):
             for _ in range(100):
-                record = self._random_unrelated_record(rng, factors)
+                record = self._random_unrelated_record(rng, factors.line_length_noise)
                 if not self._matches_target(record, factors, target_definition):
                     records.append(record)
                     break
@@ -370,7 +463,7 @@ class StructureTextSelectiveAttentionGenerator:
         records: list[SceneRecord] = []
         for _ in range(count):
             for _ in range(100):
-                record = self._random_unrelated_record(rng, factors)
+                record = self._random_unrelated_record(rng, factors.line_length_noise)
                 if not self._matches_target(record, factors, target_definition):
                     records.append(record)
                     break
@@ -384,14 +477,14 @@ class StructureTextSelectiveAttentionGenerator:
         factors: StructureTextFactors,
         target_definition: dict[str, str],
     ) -> SceneRecord:
-        leader = self._random_object(
-            rng,
-            fixed={
-                "color": target_definition["leader_color"],
-                "shape": target_definition["leader_shape"],
-                "size": target_definition["scope_size"],
-            },
-        )
+        leader_fixed = {
+            "color": target_definition["leader_color"],
+            "shape": target_definition["leader_shape"],
+        }
+        if factors.structure_type == "scope":
+            leader_fixed["size"] = target_definition["scope_size"]
+
+        leader = self._random_object(rng, fixed=leader_fixed)
         follower = self._random_object(
             rng,
             fixed={
@@ -399,16 +492,19 @@ class StructureTextSelectiveAttentionGenerator:
                 "pattern": target_definition["local_pattern"],
             },
         )
-        return SceneRecord(leader=leader, follower=follower, tag=self._random_tag(rng, factors))
+        return SceneRecord(
+            leader=leader,
+            follower=follower,
+            tag=self._random_tag(rng, factors.line_length_noise),
+        )
 
-    def _random_grouping_confound(
+    def _build_grouping_confound(
         self,
         rng: random.Random,
         factors: StructureTextFactors,
         target_definition: dict[str, str],
     ) -> SceneRecord:
-        confound_kind = rng.choice(["leader_match_only", "follower_match_only", "cross_boundaries"])
-        if confound_kind == "leader_match_only":
+        if factors.confound_type == "leader_only":
             leader = self._random_object(
                 rng,
                 fixed={
@@ -423,7 +519,220 @@ class StructureTextSelectiveAttentionGenerator:
                     "pattern": target_definition["local_pattern"],
                 },
             )
-        elif confound_kind == "follower_match_only":
+        elif factors.confound_type == "follower_only":
+            leader = self._random_object(
+                rng,
+                fixed={
+                    "color": self._different_choice(rng, COLORS, target_definition["leader_color"]),
+                    "shape": target_definition["leader_shape"],
+                },
+            )
+            follower = self._random_object(
+                rng,
+                fixed={
+                    "marker": target_definition["follower_marker"],
+                    "pattern": target_definition["local_pattern"],
+                },
+            )
+        elif factors.confound_type == "cross_binding":
+            leader = self._random_object(
+                rng,
+                fixed={
+                    "color": target_definition["leader_color"],
+                    "shape": self._different_choice(rng, SHAPES, target_definition["leader_shape"]),
+                },
+            )
+            follower = self._random_object(
+                rng,
+                fixed={
+                    "marker": target_definition["follower_marker"],
+                    "pattern": self._different_choice(rng, PATTERNS, target_definition["local_pattern"]),
+                },
+            )
+        else:
+            raise ValueError(f"Unsupported grouping confound_type: {factors.confound_type}")
+
+        return SceneRecord(
+            leader=leader,
+            follower=follower,
+            tag=self._random_tag(rng, factors.line_length_noise),
+        )
+
+    def _build_relation_confound(
+        self,
+        rng: random.Random,
+        factors: StructureTextFactors,
+        target_definition: dict[str, str],
+    ) -> SceneRecord:
+        if factors.confound_type == "role_reversal":
+            leader = self._random_object(
+                rng,
+                fixed={
+                    "marker": target_definition["follower_marker"],
+                    "pattern": target_definition["local_pattern"],
+                },
+            )
+            follower = self._random_object(
+                rng,
+                fixed={
+                    "color": target_definition["leader_color"],
+                    "shape": target_definition["leader_shape"],
+                },
+            )
+        elif factors.confound_type == "leader_partial":
+            leader = self._random_object(
+                rng,
+                fixed={
+                    "color": target_definition["leader_color"],
+                    "shape": self._different_choice(rng, SHAPES, target_definition["leader_shape"]),
+                },
+            )
+            follower = self._random_object(
+                rng,
+                fixed={
+                    "marker": target_definition["follower_marker"],
+                    "pattern": target_definition["local_pattern"],
+                },
+            )
+        elif factors.confound_type == "follower_partial":
+            leader = self._random_object(
+                rng,
+                fixed={
+                    "color": target_definition["leader_color"],
+                    "shape": target_definition["leader_shape"],
+                },
+            )
+            follower = self._random_object(
+                rng,
+                fixed={
+                    "marker": self._different_choice(rng, MARKERS, target_definition["follower_marker"]),
+                    "pattern": target_definition["local_pattern"],
+                },
+            )
+        else:
+            raise ValueError(f"Unsupported relation confound_type: {factors.confound_type}")
+
+        return SceneRecord(
+            leader=leader,
+            follower=follower,
+            tag=self._random_tag(rng, factors.line_length_noise),
+        )
+
+    def _build_scope_confound(
+        self,
+        rng: random.Random,
+        factors: StructureTextFactors,
+        target_definition: dict[str, str],
+    ) -> SceneRecord:
+        if factors.confound_type == "wrong_scope_value":
+            leader = self._random_object(
+                rng,
+                fixed={
+                    "color": target_definition["leader_color"],
+                    "shape": target_definition["leader_shape"],
+                    "size": self._different_choice(rng, SIZES, target_definition["scope_size"]),
+                },
+            )
+            follower = self._random_object(
+                rng,
+                fixed={
+                    "marker": target_definition["follower_marker"],
+                    "pattern": target_definition["local_pattern"],
+                },
+            )
+        elif factors.confound_type == "leader_partial":
+            leader = self._random_object(
+                rng,
+                fixed={
+                    "color": target_definition["leader_color"],
+                    "shape": self._different_choice(rng, SHAPES, target_definition["leader_shape"]),
+                    "size": target_definition["scope_size"],
+                },
+            )
+            follower = self._random_object(
+                rng,
+                fixed={
+                    "marker": target_definition["follower_marker"],
+                    "pattern": target_definition["local_pattern"],
+                },
+            )
+        elif factors.confound_type == "follower_partial":
+            leader = self._random_object(
+                rng,
+                fixed={
+                    "color": target_definition["leader_color"],
+                    "shape": target_definition["leader_shape"],
+                    "size": target_definition["scope_size"],
+                },
+            )
+            follower = self._random_object(
+                rng,
+                fixed={
+                    "marker": self._different_choice(rng, MARKERS, target_definition["follower_marker"]),
+                    "pattern": target_definition["local_pattern"],
+                },
+            )
+        else:
+            raise ValueError(f"Unsupported scope confound_type: {factors.confound_type}")
+
+        return SceneRecord(
+            leader=leader,
+            follower=follower,
+            tag=self._random_tag(rng, factors.line_length_noise),
+        )
+
+    def _build_global_local_confound(
+        self,
+        rng: random.Random,
+        factors: StructureTextFactors,
+        target_definition: dict[str, str],
+    ) -> SceneRecord:
+        if factors.confound_type == "wrong_pattern":
+            leader = self._random_object(
+                rng,
+                fixed={
+                    "color": target_definition["leader_color"],
+                    "shape": target_definition["leader_shape"],
+                },
+            )
+            follower = self._random_object(
+                rng,
+                fixed={
+                    "marker": target_definition["follower_marker"],
+                    "pattern": self._different_choice(rng, PATTERNS, target_definition["local_pattern"]),
+                },
+            )
+        elif factors.confound_type == "wrong_marker":
+            leader = self._random_object(
+                rng,
+                fixed={
+                    "color": target_definition["leader_color"],
+                    "shape": target_definition["leader_shape"],
+                },
+            )
+            follower = self._random_object(
+                rng,
+                fixed={
+                    "marker": self._different_choice(rng, MARKERS, target_definition["follower_marker"]),
+                    "pattern": target_definition["local_pattern"],
+                },
+            )
+        elif factors.confound_type == "leader_color_only":
+            leader = self._random_object(
+                rng,
+                fixed={
+                    "color": target_definition["leader_color"],
+                    "shape": self._different_choice(rng, SHAPES, target_definition["leader_shape"]),
+                },
+            )
+            follower = self._random_object(
+                rng,
+                fixed={
+                    "marker": target_definition["follower_marker"],
+                    "pattern": target_definition["local_pattern"],
+                },
+            )
+        elif factors.confound_type == "leader_shape_only":
             leader = self._random_object(
                 rng,
                 fixed={
@@ -439,116 +748,19 @@ class StructureTextSelectiveAttentionGenerator:
                 },
             )
         else:
-            leader = self._random_object(
-                rng,
-                fixed={
-                    "color": target_definition["leader_color"],
-                    "shape": self._different_choice(rng, SHAPES, target_definition["leader_shape"]),
-                },
-            )
-            follower = self._random_object(
-                rng,
-                fixed={
-                    "marker": target_definition["follower_marker"],
-                    "pattern": self._different_choice(rng, PATTERNS, target_definition["local_pattern"]),
-                },
-            )
-        return SceneRecord(leader=leader, follower=follower, tag=self._random_tag(rng, factors))
+            raise ValueError(f"Unsupported global_local confound_type: {factors.confound_type}")
 
-    def _random_relation_confound(
-        self,
-        rng: random.Random,
-        factors: StructureTextFactors,
-        target_definition: dict[str, str],
-    ) -> SceneRecord:
-        reverse_relation = rng.choice([True, False])
-        if reverse_relation:
-            leader = self._random_object(
-                rng,
-                fixed={
-                    "marker": target_definition["follower_marker"],
-                    "pattern": target_definition["local_pattern"],
-                },
-            )
-            follower = self._random_object(
-                rng,
-                fixed={
-                    "color": target_definition["leader_color"],
-                    "shape": target_definition["leader_shape"],
-                },
-            )
-        else:
-            leader = self._random_object(
-                rng,
-                fixed={
-                    "color": target_definition["leader_color"],
-                    "shape": self._different_choice(rng, SHAPES, target_definition["leader_shape"]),
-                },
-            )
-            follower = self._random_object(
-                rng,
-                fixed={
-                    "marker": target_definition["follower_marker"],
-                    "pattern": target_definition["local_pattern"],
-                },
-            )
-        return SceneRecord(leader=leader, follower=follower, tag=self._random_tag(rng, factors))
+        return SceneRecord(
+            leader=leader,
+            follower=follower,
+            tag=self._random_tag(rng, factors.line_length_noise),
+        )
 
-    def _random_scope_confound(
-        self,
-        rng: random.Random,
-        factors: StructureTextFactors,
-        target_definition: dict[str, str],
-    ) -> SceneRecord:
-        leader = self._random_object(
-            rng,
-            fixed={
-                "color": target_definition["leader_color"],
-                "shape": target_definition["leader_shape"],
-                "size": self._different_choice(rng, SIZES, target_definition["scope_size"]),
-            },
-        )
-        follower = self._random_object(
-            rng,
-            fixed={
-                "marker": target_definition["follower_marker"],
-                "pattern": target_definition["local_pattern"],
-            },
-        )
-        return SceneRecord(leader=leader, follower=follower, tag=self._random_tag(rng, factors))
-
-    def _random_global_local_confound(
-        self,
-        rng: random.Random,
-        factors: StructureTextFactors,
-        target_definition: dict[str, str],
-    ) -> SceneRecord:
-        leader = self._random_object(
-            rng,
-            fixed={
-                "color": target_definition["leader_color"],
-                "shape": target_definition["leader_shape"],
-            },
-        )
-        follower = self._random_object(
-            rng,
-            fixed={
-                "marker": target_definition["follower_marker"],
-                "pattern": self._different_choice(rng, PATTERNS, target_definition["local_pattern"]),
-                "size": target_definition["scope_size"],
-            },
-        )
-        return SceneRecord(leader=leader, follower=follower, tag=self._random_tag(rng, factors))
-
-    def _random_unrelated_record(
-        self,
-        rng: random.Random,
-        factors: StructureTextFactors,
-    ) -> SceneRecord:
+    def _random_unrelated_record(self, rng: random.Random, line_length_noise: int) -> SceneRecord:
         return SceneRecord(
             leader=self._random_object(rng, fixed={}),
             follower=self._random_object(rng, fixed={}),
-            tag=self._random_tag(rng, factors),
+            tag=self._random_tag(rng, line_length_noise),
         )
 
     def _random_object(self, rng: random.Random, fixed: dict[str, str]) -> ObjectSpec:
@@ -569,17 +781,21 @@ class StructureTextSelectiveAttentionGenerator:
             pattern=values["pattern"],  # type: ignore[arg-type]
         )
 
-    def _random_tag(self, rng: random.Random, factors: StructureTextFactors) -> str:
+    def _random_tag(self, rng: random.Random, line_length_noise: int) -> str:
         parts = [rng.choice(["G1", "G2", "G3", "G4"])]
-        for _ in range(factors.line_length_noise):
+        for _ in range(line_length_noise):
             parts.append(rng.choice(["aux=left", "aux=right", "flag=on", "flag=off"]))
         return " ".join(parts)
 
     def _different_choice(self, rng: random.Random, values: Sequence[str], current: str) -> str:
-        return rng.choice([value for value in values if value != current])
+        candidates = [value for value in values if value != current]
+        return rng.choice(candidates)
 
     def _render_records(self, records: list[SceneRecord], factors: StructureTextFactors) -> str:
-        return "\n".join(self._render_line(index=i + 1, record=record, factors=factors) for i, record in enumerate(records))
+        return "\n".join(
+            self._render_line(index=i + 1, record=record, factors=factors)
+            for i, record in enumerate(records)
+        )
 
     def _render_line(self, index: int, record: SceneRecord, factors: StructureTextFactors) -> str:
         if factors.serialization_style == "compact":
@@ -644,12 +860,27 @@ class StructureTextSelectiveAttentionGenerator:
             f"follower.marker={target_definition['follower_marker']}"
         )
         if factors.structure_type == "grouping":
-            return f"within one line, the leader must satisfy ({core}) and the follower must also have pattern={target_definition['local_pattern']}"
+            return (
+                f"within one line, the leader must satisfy ({core}) and the follower must also have "
+                f"pattern={target_definition['local_pattern']}"
+            )
         if factors.structure_type == "relation":
-            return f"the leader, not the follower, must satisfy leader.color={target_definition['leader_color']} and leader.shape={target_definition['leader_shape']}, while the follower must satisfy marker={target_definition['follower_marker']} and pattern={target_definition['local_pattern']}"
+            return (
+                f"the leader, not the follower, must satisfy leader.color={target_definition['leader_color']} "
+                f"and leader.shape={target_definition['leader_shape']}, while the follower must satisfy "
+                f"marker={target_definition['follower_marker']} and pattern={target_definition['local_pattern']}"
+            )
         if factors.structure_type == "scope":
-            return f"inside the leader scope, the leader must satisfy ({core}) and leader.size={target_definition['scope_size']}; the follower must satisfy pattern={target_definition['local_pattern']}"
-        return f"the local pair must satisfy ({core}), follower.pattern={target_definition['local_pattern']}, and the pair must preserve the same local block rather than mixing attributes across subparts"
+            return (
+                f"inside the leader scope, the leader must satisfy ({core}) and "
+                f"leader.size={target_definition['scope_size']}; the follower must satisfy "
+                f"pattern={target_definition['local_pattern']}"
+            )
+        return (
+            f"within the same local block, the leader must satisfy ({core}) and the follower must satisfy "
+            f"pattern={target_definition['local_pattern']}; do not mix a matching leader with a follower "
+            f"that only partially matches"
+        )
 
     def _matches_target(
         self,
@@ -666,13 +897,9 @@ class StructureTextSelectiveAttentionGenerator:
             and record.follower.pattern == target_definition["local_pattern"]
         )
 
-        if factors.structure_type == "grouping":
-            return leader_match and follower_match
-        if factors.structure_type == "relation":
+        if factors.structure_type in {"grouping", "relation", "global_local"}:
             return leader_match and follower_match
         if factors.structure_type == "scope":
-            return leader_match and follower_match and record.leader.size == target_definition["scope_size"]
-        if factors.structure_type == "global_local":
             return leader_match and follower_match and record.leader.size == target_definition["scope_size"]
         raise ValueError(f"Unknown structure_type: {factors.structure_type}")
 
@@ -712,6 +939,22 @@ class StructureTextSelectiveAttentionGenerator:
 
         return leader_only_count > factors.target_count and follower_only_count > factors.target_count
 
+    def _validate_render_alignment(self, factors: StructureTextFactors) -> None:
+        rendered_fields = {
+            "leader.color",
+            "leader.shape",
+            "leader.size",
+            "follower.marker",
+            "follower.pattern",
+        }
+        required_fields = {"leader.color", "leader.shape", "follower.marker", "follower.pattern"}
+        if factors.structure_type == "scope":
+            required_fields.add("leader.size")
+
+        missing = required_fields - rendered_fields
+        if missing:
+            raise GenerationError(f"Rendered serialization is missing required fields: {sorted(missing)}")
+
 
 def scene_to_dataset_row(scene: StructureSceneSpec) -> dict[str, object]:
     factors = scene.factors
@@ -734,6 +977,7 @@ def scene_to_dataset_row(scene: StructureSceneSpec) -> dict[str, object]:
         "num_records": factors.num_records,
         "target_count": factors.target_count,
         "confound_count": factors.confound_count,
+        "confound_type": factors.confound_type,
         "unrelated_count": factors.unrelated_count,
         "line_length_noise": factors.line_length_noise,
     }
