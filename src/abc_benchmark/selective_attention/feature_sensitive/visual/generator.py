@@ -7,7 +7,7 @@ from dataclasses import asdict, dataclass, replace
 from pathlib import Path
 from typing import Literal
 
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 
 ColorName = Literal["red", "blue", "green", "yellow"]
 ShapeName = Literal["circle", "square", "triangle"]
@@ -61,7 +61,7 @@ DENSITY_TO_ACTIVE_AREA_SCALE: dict[SpatialDensityName, float] = {
 
 
 class GenerationError(RuntimeError):
-    pass
+    """Raised when a valid scene cannot be generated within the retry budget."""
 
 
 @dataclass(frozen=True)
@@ -100,8 +100,9 @@ class FeatureSensitiveVisualFactors:
     jitter: int
 
 
-@dataclass
+@dataclass(frozen=True)
 class FeatureSensitiveVisualScene:
+    scene_id: str
     seed: int
     family: FamilyName
     attentional_basis: AttentionalBasisName
@@ -124,21 +125,26 @@ class FeatureSensitiveVisualScene:
         return payload
 
 
+def make_scene_id(dimension: str, variant: str, seed: int) -> str:
+    return f"feature_visual__{dimension}__{variant}__{seed}"
+
+
 class FeatureSensitiveVisualGenerator:
     def __init__(self, rng: random.Random | None = None, max_attempts: int = 1000) -> None:
         self.rng = rng or random.Random()
         self.max_attempts = max_attempts
+        self._font = ImageFont.load_default()
 
     def generate(
         self,
         *,
-        seed: int | None = None,
+        seed: int,
         factors: FeatureSensitiveVisualFactors | None = None,
         dimension: DimensionName = "combined",
         variant: str = "medium",
         target_count_override: int | None = None,
     ) -> FeatureSensitiveVisualScene:
-        local_rng = random.Random(seed) if seed is not None else self.rng
+        local_rng = random.Random(seed)
         if factors is None:
             factors = self.sample_factors(rng=local_rng, dimension=dimension, variant=variant)
         if target_count_override is not None:
@@ -159,7 +165,8 @@ class FeatureSensitiveVisualGenerator:
             gold_indices = self._matching_item_indices(items, target_definition, factors.rule_variant)
 
             return FeatureSensitiveVisualScene(
-                seed=seed if seed is not None else -1,
+                scene_id=make_scene_id(factors.dimension, factors.variant, seed),
+                seed=seed,
                 family=factors.family,
                 attentional_basis=factors.attentional_basis,
                 modality=factors.modality,
@@ -176,7 +183,9 @@ class FeatureSensitiveVisualGenerator:
                 items=items,
             )
 
-        raise GenerationError("Failed to generate a valid feature-sensitive visual scene within max_attempts")
+        raise GenerationError(
+            "Failed to generate a valid feature-sensitive visual scene within max_attempts"
+        )
 
     def sample_factors(
         self,
@@ -188,19 +197,19 @@ class FeatureSensitiveVisualGenerator:
         if dimension == "baseline":
             num_items = 6
             target_count = rng.randint(1, 2)
-            scws = 1
-            sswc = 1
-            unrelated = num_items - target_count - scws - sswc
+            same_color_wrong_shape_count = 1
+            same_shape_wrong_color_count = 1
+            unrelated_count = num_items - target_count - same_color_wrong_shape_count - same_shape_wrong_color_count
             return self._base_factors(
                 dimension="baseline",
                 variant="baseline",
                 num_items=num_items,
                 rule_variant="color_shape",
                 target_count=target_count,
-                same_color_wrong_shape_count=scws,
-                same_shape_wrong_color_count=sswc,
+                same_color_wrong_shape_count=same_color_wrong_shape_count,
+                same_shape_wrong_color_count=same_shape_wrong_color_count,
                 same_color_shape_wrong_size_count=0,
-                unrelated_count=unrelated,
+                unrelated_count=unrelated_count,
                 spatial_density="sparse",
                 layout_regularity="random",
                 fixed_size="large",
@@ -219,10 +228,10 @@ class FeatureSensitiveVisualGenerator:
             if variant not in mapping:
                 raise ValueError(f"Unknown set_size variant: {variant}")
             num_items, target_count = mapping[variant]
-            scws = 1
-            sswc = 1
-            unrelated = num_items - target_count - scws - sswc
-            if unrelated < 2:
+            same_color_wrong_shape_count = 1
+            same_shape_wrong_color_count = 1
+            unrelated_count = num_items - target_count - same_color_wrong_shape_count - same_shape_wrong_color_count
+            if unrelated_count < 2:
                 raise GenerationError("set_size configuration leaves too few unrelated items")
             return self._base_factors(
                 dimension="set_size",
@@ -230,10 +239,10 @@ class FeatureSensitiveVisualGenerator:
                 num_items=num_items,
                 rule_variant="color_shape",
                 target_count=target_count,
-                same_color_wrong_shape_count=scws,
-                same_shape_wrong_color_count=sswc,
+                same_color_wrong_shape_count=same_color_wrong_shape_count,
+                same_shape_wrong_color_count=same_shape_wrong_color_count,
                 same_color_shape_wrong_size_count=0,
-                unrelated_count=unrelated,
+                unrelated_count=unrelated_count,
                 spatial_density="medium",
                 layout_regularity="random",
                 fixed_size="large",
@@ -246,21 +255,27 @@ class FeatureSensitiveVisualGenerator:
             valid = {"color_only", "shape_only", "color_shape", "color_shape_size"}
             if variant not in valid:
                 raise ValueError(f"Unknown rule_arity variant: {variant}")
-            scws = 2 if variant in {"color_shape", "color_shape_size"} else 0
-            sswc = 2 if variant in {"color_shape", "color_shape_size"} else 0
-            scsws = 2 if variant == "color_shape_size" else 0
+            same_color_wrong_shape_count = 2 if variant in {"color_shape", "color_shape_size"} else 0
+            same_shape_wrong_color_count = 2 if variant in {"color_shape", "color_shape_size"} else 0
+            same_color_shape_wrong_size_count = 2 if variant == "color_shape_size" else 0
             num_items = 12
-            unrelated = num_items - 3 - scws - sswc - scsws
+            unrelated_count = (
+                num_items
+                - 3
+                - same_color_wrong_shape_count
+                - same_shape_wrong_color_count
+                - same_color_shape_wrong_size_count
+            )
             return self._base_factors(
                 dimension="rule_arity",
                 variant=variant,
                 num_items=num_items,
-                rule_variant=variant,  # type: ignore[arg-type]
+                rule_variant=variant,
                 target_count=3,
-                same_color_wrong_shape_count=scws,
-                same_shape_wrong_color_count=sswc,
-                same_color_shape_wrong_size_count=scsws,
-                unrelated_count=unrelated,
+                same_color_wrong_shape_count=same_color_wrong_shape_count,
+                same_shape_wrong_color_count=same_shape_wrong_color_count,
+                same_color_shape_wrong_size_count=same_color_shape_wrong_size_count,
+                unrelated_count=unrelated_count,
                 spatial_density="medium",
                 layout_regularity="random",
                 fixed_size=None,
@@ -300,22 +315,21 @@ class FeatureSensitiveVisualGenerator:
         if dimension == "spatial_density":
             if variant not in DENSITY_TO_GAP:
                 raise ValueError(f"Unknown spatial_density variant: {variant}")
-            num_items = 12
             return self._base_factors(
                 dimension="spatial_density",
                 variant=variant,
-                num_items=num_items,
+                num_items=12,
                 rule_variant="color_shape",
                 target_count=3,
                 same_color_wrong_shape_count=2,
                 same_shape_wrong_color_count=2,
                 same_color_shape_wrong_size_count=0,
                 unrelated_count=5,
-                spatial_density=variant,  # type: ignore[arg-type]
+                spatial_density=variant,
                 layout_regularity="random",
                 fixed_size="large",
-                active_area_scale=DENSITY_TO_ACTIVE_AREA_SCALE[variant],  # type: ignore[index]
-                min_gap=DENSITY_TO_GAP[variant],  # type: ignore[index]
+                active_area_scale=DENSITY_TO_ACTIVE_AREA_SCALE[variant],
+                min_gap=DENSITY_TO_GAP[variant],
                 jitter=12,
             )
 
@@ -325,10 +339,10 @@ class FeatureSensitiveVisualGenerator:
                 raise ValueError(f"Unknown target_count variant: {variant}")
             target_count = mapping[variant]
             num_items = 14
-            scws = 3
-            sswc = 3
-            unrelated = num_items - target_count - scws - sswc
-            if unrelated < 2:
+            same_color_wrong_shape_count = 3
+            same_shape_wrong_color_count = 3
+            unrelated_count = num_items - target_count - same_color_wrong_shape_count - same_shape_wrong_color_count
+            if unrelated_count < 2:
                 raise GenerationError("target_count configuration leaves too few unrelated items")
             return self._base_factors(
                 dimension="target_count",
@@ -336,10 +350,10 @@ class FeatureSensitiveVisualGenerator:
                 num_items=num_items,
                 rule_variant="color_shape",
                 target_count=target_count,
-                same_color_wrong_shape_count=scws,
-                same_shape_wrong_color_count=sswc,
+                same_color_wrong_shape_count=same_color_wrong_shape_count,
+                same_shape_wrong_color_count=same_shape_wrong_color_count,
                 same_color_shape_wrong_size_count=0,
-                unrelated_count=unrelated,
+                unrelated_count=unrelated_count,
                 spatial_density="medium",
                 layout_regularity="random",
                 fixed_size="large",
@@ -352,7 +366,6 @@ class FeatureSensitiveVisualGenerator:
             valid = {"random", "grid", "clustered"}
             if variant not in valid:
                 raise ValueError(f"Unknown layout_regularity variant: {variant}")
-
             if variant == "clustered":
                 return self._base_factors(
                     dimension="layout_regularity",
@@ -371,7 +384,6 @@ class FeatureSensitiveVisualGenerator:
                     min_gap=20,
                     jitter=4,
                 )
-
             return self._base_factors(
                 dimension="layout_regularity",
                 variant=variant,
@@ -383,7 +395,7 @@ class FeatureSensitiveVisualGenerator:
                 same_color_shape_wrong_size_count=0,
                 unrelated_count=5,
                 spatial_density="medium",
-                layout_regularity=variant,  # type: ignore[arg-type]
+                layout_regularity=variant,
                 fixed_size="large",
                 active_area_scale=1.0,
                 min_gap=36,
@@ -402,11 +414,10 @@ class FeatureSensitiveVisualGenerator:
             if variant not in mapping:
                 raise ValueError(f"Unknown target_count_x_confound variant: {variant}")
             target_count, scws, sswc, scsws, unrelated = mapping[variant]
-            num_items = target_count + scws + sswc + scsws + unrelated
             return self._base_factors(
                 dimension="target_count_x_confound",
                 variant=variant,
-                num_items=num_items,
+                num_items=target_count + scws + sswc + scsws + unrelated,
                 rule_variant="color_shape_size",
                 target_count=target_count,
                 same_color_wrong_shape_count=scws,
@@ -473,15 +484,15 @@ class FeatureSensitiveVisualGenerator:
                 dimension="combined",
                 variant=variant,
                 num_items=cfg["num_items"],
-                rule_variant=cfg["rule_variant"],  # type: ignore[arg-type]
+                rule_variant=cfg["rule_variant"],
                 target_count=cfg["target_count"],
                 same_color_wrong_shape_count=cfg["scws"],
                 same_shape_wrong_color_count=cfg["sswc"],
                 same_color_shape_wrong_size_count=cfg["scsws"],
                 unrelated_count=cfg["unrelated"],
-                spatial_density=cfg["density"],  # type: ignore[arg-type]
-                layout_regularity=cfg["layout"],  # type: ignore[arg-type]
-                fixed_size=cfg["fixed_size"],  # type: ignore[arg-type]
+                spatial_density=cfg["density"],
+                layout_regularity=cfg["layout"],
+                fixed_size=cfg["fixed_size"],
                 active_area_scale=cfg["active_area_scale"],
                 min_gap=cfg["gap"],
                 jitter=10,
@@ -493,34 +504,90 @@ class FeatureSensitiveVisualGenerator:
         self,
         scene: FeatureSensitiveVisualScene,
         output_path: str | Path | None = None,
+        *,
+        show_item_ids: bool = False,
     ) -> Image.Image:
         factors = scene.factors
         image = Image.new("RGB", (factors.width, factors.height), (255, 255, 255))
         draw = ImageDraw.Draw(image)
 
-        for item in scene.items:
-            radius = SIZE_TO_RADIUS[item.size]
-            color = COLOR_TO_RGB[item.color]
-            bbox = [item.x - radius, item.y - radius, item.x + radius, item.y + radius]
-            if item.shape == "circle":
-                draw.ellipse(bbox, fill=color, outline=(30, 30, 30), width=2)
-            elif item.shape == "square":
-                draw.rectangle(bbox, fill=color, outline=(30, 30, 30), width=2)
-            elif item.shape == "triangle":
-                points = [
-                    (item.x, item.y - radius),
-                    (item.x - radius * 0.9, item.y + radius * 0.8),
-                    (item.x + radius * 0.9, item.y + radius * 0.8),
-                ]
-                draw.polygon(points, fill=color, outline=(30, 30, 30))
-            else:
-                raise ValueError(f"Unsupported shape: {item.shape}")
+        for index, item in enumerate(scene.items, start=1):
+            self._draw_item(draw, item)
+            if show_item_ids:
+                self._draw_item_id(draw, item, index, factors)
 
         if output_path is not None:
             path = Path(output_path)
             path.parent.mkdir(parents=True, exist_ok=True)
             image.save(path)
         return image
+
+    def _draw_item(self, draw: ImageDraw.ImageDraw, item: VisualItemSpec) -> None:
+        radius = SIZE_TO_RADIUS[item.size]
+        color = COLOR_TO_RGB[item.color]
+        bbox = [item.x - radius, item.y - radius, item.x + radius, item.y + radius]
+
+        if item.shape == "circle":
+            draw.ellipse(bbox, fill=color, outline=(30, 30, 30), width=2)
+            return
+        if item.shape == "square":
+            draw.rectangle(bbox, fill=color, outline=(30, 30, 30), width=2)
+            return
+        if item.shape == "triangle":
+            points = [
+                (item.x, item.y - radius),
+                (item.x - radius * 0.9, item.y + radius * 0.8),
+                (item.x + radius * 0.9, item.y + radius * 0.8),
+            ]
+            draw.polygon(points, fill=color, outline=(30, 30, 30))
+            return
+        raise ValueError(f"Unsupported shape: {item.shape}")
+
+    def _draw_item_id(
+        self,
+        draw: ImageDraw.ImageDraw,
+        item: VisualItemSpec,
+        item_index: int,
+        factors: FeatureSensitiveVisualFactors,
+    ) -> None:
+        radius = SIZE_TO_RADIUS[item.size]
+        label = str(item_index)
+        stroke_width = 2
+        text_bbox = draw.textbbox((0, 0), label, font=self._font, stroke_width=stroke_width)
+        text_w = text_bbox[2] - text_bbox[0]
+        text_h = text_bbox[3] - text_bbox[1]
+
+        pad = 4
+        gap = 2
+        side_offset = radius + gap
+        vertical_nudge = text_h * 0.35
+        candidates = [
+            (item.x + side_offset, item.y - vertical_nudge),
+            (item.x - side_offset - text_w, item.y - vertical_nudge),
+            (item.x + side_offset, item.y - text_h + gap),
+            (item.x - side_offset - text_w, item.y - text_h + gap),
+            (item.x + side_offset, item.y - gap),
+            (item.x - side_offset - text_w, item.y - gap),
+        ]
+
+        def fits(x: float, y: float) -> bool:
+            return (
+                pad <= x <= factors.width - text_w - pad
+                and pad <= y <= factors.height - text_h - pad
+            )
+
+        x, y = next(((cx, cy) for cx, cy in candidates if fits(cx, cy)), candidates[0])
+        x = max(pad, min(x, factors.width - text_w - pad))
+        y = max(pad, min(y, factors.height - text_h - pad))
+
+        draw.text(
+            (x, y),
+            label,
+            fill=(60, 60, 60),
+            font=self._font,
+            stroke_width=stroke_width,
+            stroke_fill=(255, 255, 255),
+        )
 
     def _base_factors(
         self,
@@ -639,6 +706,7 @@ class FeatureSensitiveVisualGenerator:
         positions: list[tuple[float, float]] = []
         radius = max(SIZE_TO_RADIUS.values())
         left, right, top, bottom = self._sampling_bounds(factors)
+
         for _ in range(factors.num_items):
             placed = False
             for _ in range(500):
@@ -693,37 +761,17 @@ class FeatureSensitiveVisualGenerator:
         radius = max(SIZE_TO_RADIUS.values())
 
         cluster_boxes = [
-            (
-                left + 0.06 * width,
-                left + 0.34 * width,
-                top + 0.06 * height,
-                top + 0.34 * height,
-            ),
-            (
-                left + 0.66 * width,
-                left + 0.94 * width,
-                top + 0.06 * height,
-                top + 0.34 * height,
-            ),
-            (
-                left + 0.06 * width,
-                left + 0.34 * width,
-                top + 0.66 * height,
-                top + 0.94 * height,
-            ),
-            (
-                left + 0.66 * width,
-                left + 0.94 * width,
-                top + 0.66 * height,
-                top + 0.94 * height,
-            ),
+            (left + 0.06 * width, left + 0.34 * width, top + 0.06 * height, top + 0.34 * height),
+            (left + 0.66 * width, left + 0.94 * width, top + 0.06 * height, top + 0.34 * height),
+            (left + 0.06 * width, left + 0.34 * width, top + 0.66 * height, top + 0.94 * height),
+            (left + 0.66 * width, left + 0.94 * width, top + 0.66 * height, top + 0.94 * height),
         ]
 
         base = factors.num_items // 4
         remainder = factors.num_items % 4
         cluster_counts = [base] * 4
-        for i in range(remainder):
-            cluster_counts[i] += 1
+        for cluster_index in range(remainder):
+            cluster_counts[cluster_index] += 1
 
         positions: list[tuple[float, float]] = []
         local_jitter = min(factors.jitter, 4)
@@ -733,7 +781,6 @@ class FeatureSensitiveVisualGenerator:
             inner_right = box_right - radius
             inner_top = box_top + radius
             inner_bottom = box_bottom - radius
-
             if inner_left >= inner_right or inner_top >= inner_bottom:
                 return None
 
@@ -742,23 +789,18 @@ class FeatureSensitiveVisualGenerator:
                 for _ in range(800):
                     x = rng.uniform(inner_left, inner_right)
                     y = rng.uniform(inner_top, inner_bottom)
-
                     if local_jitter:
                         x += rng.uniform(-local_jitter, local_jitter)
                         y += rng.uniform(-local_jitter, local_jitter)
                         x = min(max(x, inner_left), inner_right)
                         y = min(max(y, inner_top), inner_bottom)
-
                     if any(self._distance((x, y), p) < factors.min_gap + 2 * radius for p in positions):
                         continue
-
                     positions.append((x, y))
                     placed = True
                     break
-
                 if not placed:
                     return None
-
         return positions
 
     def _build_items(
@@ -771,10 +813,10 @@ class FeatureSensitiveVisualGenerator:
         if len(positions) != factors.num_items:
             raise GenerationError("Position count does not match num_items")
 
-        fixed_size_for_scene = factors.fixed_size
         indices = list(range(factors.num_items))
         rng.shuffle(indices)
         items: list[VisualItemSpec | None] = [None] * factors.num_items
+        fixed_size = factors.fixed_size
 
         cursor = 0
         target_indices = indices[cursor : cursor + factors.target_count]
@@ -792,9 +834,9 @@ class FeatureSensitiveVisualGenerator:
             items[idx] = VisualItemSpec(
                 x=x,
                 y=y,
-                color=target_definition.get("color", rng.choice(COLORS)),  # type: ignore[arg-type]
-                shape=target_definition.get("shape", rng.choice(SHAPES)),  # type: ignore[arg-type]
-                size=target_definition.get("size", fixed_size_for_scene or rng.choice(SIZES)),  # type: ignore[arg-type]
+                color=target_definition.get("color", rng.choice(COLORS)),
+                shape=target_definition.get("shape", rng.choice(SHAPES)),
+                size=target_definition.get("size", fixed_size or rng.choice(SIZES)),
                 is_target=True,
                 role="target",
             )
@@ -804,9 +846,9 @@ class FeatureSensitiveVisualGenerator:
             items[idx] = VisualItemSpec(
                 x=x,
                 y=y,
-                color=target_definition.get("color", rng.choice(COLORS)),  # type: ignore[arg-type]
+                color=target_definition.get("color", rng.choice(COLORS)),
                 shape=self._different_choice(rng, SHAPES, target_definition.get("shape")),
-                size=target_definition.get("size", fixed_size_for_scene or rng.choice(SIZES)),  # type: ignore[arg-type]
+                size=target_definition.get("size", fixed_size or rng.choice(SIZES)),
                 is_target=False,
                 role="same_color_wrong_shape",
             )
@@ -817,8 +859,8 @@ class FeatureSensitiveVisualGenerator:
                 x=x,
                 y=y,
                 color=self._different_choice(rng, COLORS, target_definition.get("color")),
-                shape=target_definition.get("shape", rng.choice(SHAPES)),  # type: ignore[arg-type]
-                size=target_definition.get("size", fixed_size_for_scene or rng.choice(SIZES)),  # type: ignore[arg-type]
+                shape=target_definition.get("shape", rng.choice(SHAPES)),
+                size=target_definition.get("size", fixed_size or rng.choice(SIZES)),
                 is_target=False,
                 role="same_shape_wrong_color",
             )
@@ -828,8 +870,8 @@ class FeatureSensitiveVisualGenerator:
             items[idx] = VisualItemSpec(
                 x=x,
                 y=y,
-                color=target_definition["color"],  # type: ignore[arg-type]
-                shape=target_definition["shape"],  # type: ignore[arg-type]
+                color=target_definition["color"],
+                shape=target_definition["shape"],
                 size=self._different_choice(rng, SIZES, target_definition.get("size")),
                 is_target=False,
                 role="same_color_shape_wrong_size",
@@ -839,10 +881,10 @@ class FeatureSensitiveVisualGenerator:
             x, y = positions[idx]
             items[idx] = self._sample_unrelated_item(
                 rng,
-                x,
-                y,
-                target_definition,
-                fixed_size=fixed_size_for_scene,
+                x=x,
+                y=y,
+                target_definition=target_definition,
+                fixed_size=fixed_size,
             )
 
         return [item for item in items if item is not None]
@@ -850,24 +892,25 @@ class FeatureSensitiveVisualGenerator:
     def _sample_unrelated_item(
         self,
         rng: random.Random,
+        *,
         x: float,
         y: float,
         target_definition: dict[str, str],
-        *,
-        fixed_size: SizeName | None = None,
+        fixed_size: SizeName | None,
     ) -> VisualItemSpec:
         for _ in range(100):
-            color = rng.choice(COLORS)
-            shape = rng.choice(SHAPES)
-            size = fixed_size or rng.choice(SIZES)
-            candidate = {"color": color, "shape": shape, "size": size}
-            if all(candidate.get(field) != value for field, value in target_definition.items()):
+            candidate = {
+                "color": rng.choice(COLORS),
+                "shape": rng.choice(SHAPES),
+                "size": fixed_size or rng.choice(SIZES),
+            }
+            if all(candidate[field] != value for field, value in target_definition.items()):
                 return VisualItemSpec(
                     x=x,
                     y=y,
-                    color=color,
-                    shape=shape,
-                    size=size,
+                    color=candidate["color"],
+                    shape=candidate["shape"],
+                    size=candidate["size"],
                     is_target=False,
                     role="unrelated",
                 )
@@ -906,10 +949,7 @@ class FeatureSensitiveVisualGenerator:
         if rule_variant == "shape_only":
             return item.shape == target_definition["shape"]
         if rule_variant == "color_shape":
-            return (
-                item.color == target_definition["color"]
-                and item.shape == target_definition["shape"]
-            )
+            return item.color == target_definition["color"] and item.shape == target_definition["shape"]
         return (
             item.color == target_definition["color"]
             and item.shape == target_definition["shape"]
@@ -922,8 +962,8 @@ class FeatureSensitiveVisualGenerator:
         factors: FeatureSensitiveVisualFactors,
         target_definition: dict[str, str],
     ) -> bool:
-        gold = self._matching_item_indices(items, target_definition, factors.rule_variant)
-        if len(gold) != factors.target_count:
+        gold_indices = self._matching_item_indices(items, target_definition, factors.rule_variant)
+        if len(gold_indices) != factors.target_count:
             return False
 
         if factors.rule_variant in {"color_shape", "color_shape_size"}:
@@ -932,19 +972,21 @@ class FeatureSensitiveVisualGenerator:
             if self._count_same_shape_wrong_color(items, target_definition) < factors.same_shape_wrong_color_count:
                 return False
         if factors.rule_variant == "color_shape_size":
-            if self._count_same_color_shape_wrong_size(items, target_definition) < factors.same_color_shape_wrong_size_count:
+            if (
+                self._count_same_color_shape_wrong_size(items, target_definition)
+                < factors.same_color_shape_wrong_size_count
+            ):
                 return False
         if self._count_unrelated(items, target_definition) < factors.unrelated_count:
             return False
 
-        if factors.target_count == 0:
-            for field in target_definition:
-                if self._simplified_rule_count(items, target_definition, drop_field=field) <= 0:
+        for field in target_definition:
+            simplified_count = self._simplified_rule_count(items, target_definition, drop_field=field)
+            if factors.target_count == 0:
+                if simplified_count <= 0:
                     return False
-        else:
-            for field in target_definition:
-                if self._simplified_rule_count(items, target_definition, drop_field=field) == factors.target_count:
-                    return False
+            elif simplified_count == factors.target_count:
+                return False
         return True
 
     def _simplified_rule_count(
@@ -1031,17 +1073,16 @@ class FeatureSensitiveVisualGenerator:
         rule_variant: RuleVariant,
         target_definition: dict[str, str],
     ) -> str:
-        ordered: list[str] = []
+        ordered_parts: list[str] = []
         if "color" in target_definition:
-            ordered.append(target_definition["color"])
+            ordered_parts.append(target_definition["color"])
         if "size" in target_definition:
-            ordered.append(target_definition["size"])
+            ordered_parts.append(target_definition["size"])
         if "shape" in target_definition:
-            ordered.append(target_definition["shape"])
-
+            ordered_parts.append(target_definition["shape"])
         if rule_variant == "shape_only":
             return f"{target_definition['shape']}s"
-        return " ".join(ordered + ["objects"])
+        return " ".join(ordered_parts + ["objects"])
 
     def _build_count_instruction(
         self,
@@ -1076,9 +1117,10 @@ class FeatureSensitiveVisualGenerator:
         )
 
 
-def scene_to_dataset_row(scene: FeatureSensitiveVisualScene) -> dict[str, object]:
+def scene_to_scene_row(scene: FeatureSensitiveVisualScene) -> dict[str, object]:
     factors = scene.factors
     return {
+        "scene_id": scene.scene_id,
         "seed": scene.seed,
         "family": scene.family,
         "attentional_basis": scene.attentional_basis,
@@ -1092,6 +1134,7 @@ def scene_to_dataset_row(scene: FeatureSensitiveVisualScene) -> dict[str, object
         "gold_count": scene.gold_count,
         "gold_indices": json.dumps(scene.gold_indices),
         "target_definition": json.dumps(scene.target_definition, sort_keys=True),
+        "items_json": json.dumps([asdict(item) for item in scene.items], sort_keys=True),
         "num_items": factors.num_items,
         "rule_variant": factors.rule_variant,
         "target_count": factors.target_count,

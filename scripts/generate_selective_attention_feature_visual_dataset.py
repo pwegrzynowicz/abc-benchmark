@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import pandas as pd
-
 from abc_benchmark.selective_attention.feature_sensitive.visual.build_dataset import (
     build_feature_sensitive_visual_dataset,
 )
@@ -15,6 +13,7 @@ SLICES: list[tuple[str, str, int, int]] = [
     ("set_size", "m", 20, 1300),
     ("set_size", "l", 20, 1400),
     ("rule_arity", "color_only", 20, 2000),
+    ("rule_arity", "shape_only", 20, 2050),
     ("rule_arity", "color_shape", 20, 2100),
     ("rule_arity", "color_shape_size", 20, 2200),
     ("confound", "low", 20, 3000),
@@ -33,22 +32,16 @@ SLICES: list[tuple[str, str, int, int]] = [
 
 
 def main() -> None:
-    dfs = []
-    for dimension, variant, count, start_seed in SLICES:
-        print(f"Generating {dimension}/{variant}...")
-        df = build_feature_sensitive_visual_dataset(
-            output_dir=OUT_DIR,
-            dimension=dimension,
-            variant=variant,
-            count=count,
-            start_seed=start_seed,
-        )
-        dfs.append(df)
-    full_df = pd.concat(dfs, ignore_index=True)
-    full_df.to_csv(f"{OUT_DIR}/feature_sensitive_visual_full.csv", index=False)
+    result = build_feature_sensitive_visual_dataset(
+        OUT_DIR,
+        slices=SLICES,
+    )
 
-    print(full_df[["dimension", "variant"]].value_counts())
-    print(full_df.head())
+    print("Scenes:", len(result.scenes_df))
+    print("Counting rows:", len(result.counting_df))
+    print("Filtering rows:", len(result.filtering_df))
+    print(result.scenes_df[["dimension", "variant"]].value_counts().sort_index())
+    print(result.scenes_df.head())
 
 
 if __name__ == "__main__":
