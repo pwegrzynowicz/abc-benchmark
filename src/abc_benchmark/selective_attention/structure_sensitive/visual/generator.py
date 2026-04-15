@@ -969,53 +969,258 @@ class StructureSensitiveVisualGenerator:
         factors: StructureSensitiveVisualFactors,
         target_definition: dict[str, str],
     ) -> tuple[list[VisualItemSpec], list[VisualStructureSpec]]:
-        structures: list[VisualStructureSpec] = [
-            VisualStructureSpec("box", "box_main", {"x1": 140.0, "y1": 110.0, "x2": 500.0, "y2": 340.0}),
-        ]
-        if factors.relation_operator in {"left_of", "right_of"}:
-            structures.append(VisualStructureSpec("line", "divider", {"orientation": "vertical", "x": 320.0, "y1": 110.0, "y2": 340.0}))
-        else:
-            structures.append(VisualStructureSpec("line", "divider", {"orientation": "horizontal", "y": 225.0, "x1": 140.0, "x2": 500.0}))
-
         query_color = target_definition["query_color"]
         query_shape = target_definition["query_shape"]
         size = factors.item_size
-
-        inside_left = [(220, 165), (270, 165), (220, 275), (270, 275)]
-        inside_right = [(390, 165), (440, 165), (390, 275), (440, 275)]
-        outside_pts = [(90, 165), (550, 165), (90, 275), (550, 275)]
-
-        def qualifies(x: float, y: float) -> bool:
-            if target_definition["rule_type"] == "inside_region":
-                return 140 <= x <= 500 and 110 <= y <= 340
-            if target_definition["rule_type"] == "outside_region":
-                return not (140 <= x <= 500 and 110 <= y <= 340)
-            if target_definition["rule_type"] == "left_of_line":
-                return x < 320
-            if target_definition["rule_type"] == "right_of_line":
-                return x > 320
-            if target_definition["rule_type"] == "above_line":
-                return y < 225
-            return y > 225
-
-        qualifying_positions = [pt for pt in inside_left + inside_right + outside_pts if qualifies(*pt)]
-        nonqualifying_positions = [pt for pt in inside_left + inside_right + outside_pts if not qualifies(*pt)]
+        radius = SIZE_TO_RADIUS[size]
+        min_dist = 2 * radius + 8
 
         items: list[VisualItemSpec] = []
-        for x, y in qualifying_positions[: factors.target_count]:
-            region_id = "box_main" if 140 <= x <= 500 and 110 <= y <= 340 else None
-            items.append(VisualItemSpec(x, y, query_color, query_shape, size, "target_zone", None, region_id, None, True, False, "target"))
-        if len(qualifying_positions) > factors.target_count:
-            x, y = qualifying_positions[factors.target_count]
-            region_id = "box_main" if 140 <= x <= 500 and 110 <= y <= 340 else None
-            items.append(VisualItemSpec(x, y, self._different_color(query_color), query_shape, size, "target_zone", None, region_id, None, False, False, "group_only"))
-        if nonqualifying_positions:
-            x, y = nonqualifying_positions[0]
-            region_id = "box_main" if 140 <= x <= 500 and 110 <= y <= 340 else None
-            items.append(VisualItemSpec(x, y, query_color, query_shape, size, "other_zone", None, region_id, None, False, False, "feature_only"))
-        for x, y in nonqualifying_positions[1:]:
-            region_id = "box_main" if 140 <= x <= 500 and 110 <= y <= 340 else None
-            items.append(VisualItemSpec(x, y, self._different_color(query_color), self._different_shape(query_shape), size, "other_zone", None, region_id, None, False, False, "distractor"))
+        structures: list[VisualStructureSpec] = []
+
+        template = rng.choice(["single_box", "vertical_line", "horizontal_line"])
+
+        used_positions: list[tuple[float, float]] = []
+
+        def sample_points_in_rect(
+            rect: tuple[float, float, float, float],
+            count: int,
+            *,
+            pad: float = 8.0,
+        ) -> list[tuple[float, float]]:
+            x1, y1, x2, y2 = rect
+            sx1 = x1 + radius + pad
+            sy1 = y1 + radius + pad
+            sx2 = x2 - radius - pad
+            sy2 = y2 - radius - pad
+            if sx2 <= sx1 or sy2 <= sy1:
+                raise GenerationError("Rectangle too small in shallow scene")
+
+            pts: list[tuple[float, float]] = []
+            for _ in range(count):
+                placed = False
+                for _ in range(1200):
+                    x = rng.uniform(sx1, sx2)
+                    y = rng.uniform(sy1, sy2)
+                    if any(math.dist((x, y), p) < min_dist for p in pts):
+                        continue
+                    if any(math.dist((x, y), p) < min_dist for p in used_positions):
+                        continue
+                    pts.append((x, y))
+                    used_positions.append((x, y))
+                    placed = True
+                    break
+                if not placed:
+                    raise GenerationError("Failed to place points in shallow scene")
+            return pts
+
+        candidate_points: list[tuple[float, float, str | None]] = []
+
+        if template == "single_box":
+            box_w = rng.uniform(260, 340)
+            box_h = rng.uniform(180, 240)
+            x1 = rng.uniform(120, factors.width - 120 - box_w)
+            y1 = rng.uniform(95, factors.height - 95 - box_h)
+            x2 = x1 + box_w
+            y2 = y1 + box_h
+
+            structures.append(
+                VisualStructureSpec("box", "box_main", {"x1": x1, "y1": y1, "x2": x2, "y2": y2})
+            )
+
+            inside_pts = sample_points_in_rect((x1, y1, x2, y2), max(5, factors.target_count + 2))
+
+            outside_rects = [
+                (factors.margin, factors.margin, x1 - 10, factors.height - factors.margin),
+                (
+                    x2 + 10,
+                    factors.margin,
+                    factors.width - factors.margin,
+                    factors.height - factors.margin,
+                ),
+            ]
+            outside_pts: list[tuple[float, float]] = []
+            for rect in outside_rects:
+                rx1, ry1, rx2, ry2 = rect
+                if rx2 - rx1 > 2 * radius + 20:
+                    try:
+                        outside_pts.extend(sample_points_in_rect(rect, 3, pad=4.0))
+                    except GenerationError:
+                        pass
+
+            for x, y in inside_pts:
+                candidate_points.append((x, y, "box_main"))
+            for x, y in outside_pts:
+                candidate_points.append((x, y, None))
+
+            def qualifies(x: float, y: float) -> bool:
+                inside = x1 <= x <= x2 and y1 <= y <= y2
+                if target_definition["rule_type"] == "inside_region":
+                    return inside
+                if target_definition["rule_type"] == "outside_region":
+                    return not inside
+                return inside
+
+        elif template == "vertical_line":
+            line_x = rng.uniform(260, 380)
+            top = factors.margin + 20
+            bottom = factors.height - factors.margin - 20
+            structures.append(
+                VisualStructureSpec(
+                    "line",
+                    "divider",
+                    {"orientation": "vertical", "x": line_x, "y1": top, "y2": bottom},
+                )
+            )
+
+            left_pts = sample_points_in_rect(
+                (factors.margin, factors.margin, line_x - 10, factors.height - factors.margin),
+                6,
+                pad=4.0,
+            )
+            right_pts = sample_points_in_rect(
+                (
+                    line_x + 10,
+                    factors.margin,
+                    factors.width - factors.margin,
+                    factors.height - factors.margin,
+                ),
+                6,
+                pad=4.0,
+            )
+
+            for x, y in left_pts + right_pts:
+                candidate_points.append((x, y, None))
+
+            def qualifies(x: float, y: float) -> bool:
+                if target_definition["rule_type"] == "left_of_line":
+                    return x < line_x
+                if target_definition["rule_type"] == "right_of_line":
+                    return x > line_x
+                # fallback so relation scenes still work even if factors mismatch
+                return x < line_x
+
+        else:
+            line_y = rng.uniform(185, 295)
+            left = factors.margin + 20
+            right = factors.width - factors.margin - 20
+            structures.append(
+                VisualStructureSpec(
+                    "line",
+                    "divider",
+                    {"orientation": "horizontal", "y": line_y, "x1": left, "x2": right},
+                )
+            )
+
+            top_pts = sample_points_in_rect(
+                (factors.margin, factors.margin, factors.width - factors.margin, line_y - 10),
+                6,
+                pad=4.0,
+            )
+            bottom_pts = sample_points_in_rect(
+                (
+                    factors.margin,
+                    line_y + 10,
+                    factors.width - factors.margin,
+                    factors.height - factors.margin,
+                ),
+                6,
+                pad=4.0,
+            )
+
+            for x, y in top_pts + bottom_pts:
+                candidate_points.append((x, y, None))
+
+            def qualifies(x: float, y: float) -> bool:
+                if target_definition["rule_type"] == "above_line":
+                    return y < line_y
+                if target_definition["rule_type"] == "below_line":
+                    return y > line_y
+                return y < line_y
+
+        rng.shuffle(candidate_points)
+
+        qualifying = [(x, y, rid) for x, y, rid in candidate_points if qualifies(x, y)]
+        nonqualifying = [(x, y, rid) for x, y, rid in candidate_points if not qualifies(x, y)]
+
+        if len(qualifying) < max(1, factors.target_count):
+            raise GenerationError("Not enough qualifying points in shallow scene")
+        if len(nonqualifying) < 3:
+            raise GenerationError("Not enough non-qualifying points in shallow scene")
+
+        for x, y, region_id in qualifying[: factors.target_count]:
+            items.append(
+                VisualItemSpec(
+                    x,
+                    y,
+                    query_color,
+                    query_shape,
+                    size,
+                    "target_zone",
+                    None,
+                    region_id,
+                    None,
+                    True,
+                    False,
+                    "target",
+                )
+            )
+
+        remaining_q = qualifying[factors.target_count :]
+        if remaining_q:
+            x, y, region_id = remaining_q[0]
+            items.append(
+                VisualItemSpec(
+                    x,
+                    y,
+                    self._different_color(query_color),
+                    query_shape,
+                    size,
+                    "target_zone",
+                    None,
+                    region_id,
+                    None,
+                    False,
+                    False,
+                    "group_only",
+                )
+            )
+
+        x, y, region_id = nonqualifying[0]
+        items.append(
+            VisualItemSpec(
+                x,
+                y,
+                query_color,
+                query_shape,
+                size,
+                "other_zone",
+                None,
+                region_id,
+                None,
+                False,
+                False,
+                "feature_only",
+            )
+        )
+
+        for x, y, region_id in nonqualifying[1:]:
+            items.append(
+                VisualItemSpec(
+                    x,
+                    y,
+                    self._different_color(query_color),
+                    self._different_shape(query_shape),
+                    size,
+                    "other_zone",
+                    None,
+                    region_id,
+                    None,
+                    False,
+                    False,
+                    "distractor",
+                )
+            )
 
         if factors.target_count == 0:
             items = [
@@ -1035,6 +1240,7 @@ class StructureSensitiveVisualGenerator:
                 )
                 for item in items
             ]
+
         return items[: factors.num_items], structures
 
     def _build_scope_scene(
@@ -1165,88 +1371,435 @@ class StructureSensitiveVisualGenerator:
         factors: StructureSensitiveVisualFactors,
         target_definition: dict[str, str],
     ) -> tuple[list[VisualItemSpec], list[VisualStructureSpec]]:
-        structures: list[VisualStructureSpec] = [
-            VisualStructureSpec("box", "box_left", {"x1": 60.0, "y1": 125.0, "x2": 225.0, "y2": 325.0}),
-            VisualStructureSpec("box", "box_center", {"x1": 240.0, "y1": 125.0, "x2": 405.0, "y2": 325.0}),
-            VisualStructureSpec("box", "box_right", {"x1": 415.0, "y1": 125.0, "x2": 580.0, "y2": 325.0}),
-        ]
         query_color = target_definition["query_color"]
         query_shape = target_definition["query_shape"]
         size = factors.item_size
-        items: list[VisualItemSpec] = []
-        target_region_id = "box_left"
+        radius = SIZE_TO_RADIUS[size]
+        min_dist = 2 * radius + 8
+
+        outer_x1 = 65.0
+        outer_y1 = 85.0
+        outer_x2 = 575.0
+        outer_y2 = 375.0
+
+        structures: list[VisualStructureSpec] = [
+            VisualStructureSpec(
+                "box",
+                "outer_box",
+                {"x1": outer_x1, "y1": outer_y1, "x2": outer_x2, "y2": outer_y2},
+            )
+        ]
+
+        inner_box_count = rng.choice([2, 3])
+        anchor_mode = rng.choice(["inner", "outer"])
+
+        usable_left = outer_x1 + 18
+        usable_top = outer_y1 + 18
+        usable_right = outer_x2 - 18
+        usable_bottom = outer_y2 - 18
+
+        gap = 18.0
+        total_w = usable_right - usable_left
+        lane_w = (total_w - gap * (inner_box_count - 1)) / inner_box_count
+
+        inner_boxes: list[dict[str, float | str]] = []
+        for idx in range(inner_box_count):
+            lane_x1 = usable_left + idx * (lane_w + gap)
+            lane_x2 = lane_x1 + lane_w
+
+            box_w = rng.uniform(max(118.0, lane_w - 32), lane_w - 4)
+            box_h = rng.uniform(120.0, 205.0)
+            x1 = rng.uniform(lane_x1 + 2, lane_x2 - box_w)
+            y1 = rng.uniform(usable_top, usable_bottom - box_h)
+            x2 = x1 + box_w
+            y2 = y1 + box_h
+
+            box_id = f"inner_{idx}"
+            inner_boxes.append({"id": box_id, "x1": x1, "y1": y1, "x2": x2, "y2": y2})
+            structures.append(
+                VisualStructureSpec("box", box_id, {"x1": x1, "y1": y1, "x2": x2, "y2": y2})
+            )
+
+        inner_boxes_sorted = sorted(inner_boxes, key=lambda b: float(b["x1"]))
+        target_region_id = str(inner_boxes_sorted[0]["id"])
         target_definition["selected_region_id"] = target_region_id
+        target_definition["anchor_mode"] = anchor_mode
 
-        positions = {
-            "box_left": [(100, 170), (180, 170), (100, 270), (180, 270)],
-            "box_center": [(280, 170), (360, 170), (280, 270), (360, 270)],
-            "box_right": [(455, 170), (535, 170), (455, 270), (535, 270)],
-        }
+        used_positions: list[tuple[float, float]] = []
+        items: list[VisualItemSpec] = []
 
-        for box_id, pos_list in positions.items():
-            for idx, pos in enumerate(pos_list):
-                x, y = pos
-                if idx == 0 and box_id == target_region_id:
-                    items.append(
-                        VisualItemSpec(
-                            x, y, "yellow", "triangle", size,
-                            box_id, None, box_id, None,
-                            False, True, "anchor"
-                        )
-                    )
-                elif idx < factors.target_count + 1 and box_id == target_region_id:
-                    items.append(
-                        VisualItemSpec(
-                            x, y, query_color, query_shape, size,
-                            box_id, None, box_id, None,
-                            True, False, "target"
-                        )
-                    )
-                elif idx == 0 and box_id != target_region_id:
-                    if factors.confound_type == "cross_binding":
-                        items.append(
-                            VisualItemSpec(
-                                x, y, query_color, query_shape, size,
-                                box_id, None, box_id, None,
-                                False, False, "cross_binding_feature"
-                            )
-                        )
-                    else:
-                        items.append(
-                            VisualItemSpec(
-                                x, y, query_color, query_shape, size,
-                                box_id, None, box_id, None,
-                                False, False, "wrong_global_choice"
-                            )
-                        )
-                elif idx == 1 and box_id != target_region_id and factors.confound_type == "cross_binding":
-                    items.append(
-                        VisualItemSpec(
-                            x, y, self._different_color(query_color), query_shape, size,
-                            box_id, None, box_id, None,
-                            False, False, "group_only"
-                        )
-                    )
-                else:
-                    color, shape = self._sample_non_target_feature(
-                        rng, query_color, query_shape, factors.confound_type
-                    )
-                    items.append(
-                        VisualItemSpec(
-                            x, y, color, shape, size,
-                            box_id, None, box_id, None,
-                            False, False, "distractor"
-                        )
-                    )
+        def sample_points_in_rect(
+            rect: tuple[float, float, float, float],
+            count: int,
+            *,
+            extra_pad: float = 10.0,
+        ) -> list[tuple[float, float]]:
+            x1, y1, x2, y2 = rect
+            sx1 = x1 + radius + extra_pad
+            sy1 = y1 + radius + extra_pad
+            sx2 = x2 - radius - extra_pad
+            sy2 = y2 - radius - extra_pad
+            if sx2 <= sx1 or sy2 <= sy1:
+                raise GenerationError("Sampling rectangle too small")
 
-        if factors.cue_conflict == "proximity_vs_common_region":
+            pts: list[tuple[float, float]] = []
+            for _ in range(count):
+                placed = False
+                for _ in range(1200):
+                    x = rng.uniform(sx1, sx2)
+                    y = rng.uniform(sy1, sy2)
+                    if any(math.dist((x, y), p) < min_dist for p in pts):
+                        continue
+                    if any(math.dist((x, y), p) < min_dist for p in used_positions):
+                        continue
+                    pts.append((x, y))
+                    used_positions.append((x, y))
+                    placed = True
+                    break
+                if not placed:
+                    raise GenerationError("Failed to place items in nested scene rectangle")
+            return pts
+
+        def box_capacity(box: dict[str, float | str]) -> int:
+            x1 = float(box["x1"])
+            y1 = float(box["y1"])
+            x2 = float(box["x2"])
+            y2 = float(box["y2"])
+            inner_w = (x2 - x1) - 2 * (radius + 10)
+            inner_h = (y2 - y1) - 2 * (radius + 10)
+            cols = max(1, int(inner_w // (2 * radius + 8)))
+            rows = max(1, int(inner_h // (2 * radius + 8)))
+            return max(1, cols * rows)
+
+        counts_by_box: dict[str, int] = {}
+        for box in inner_boxes:
+            cap = box_capacity(box)
+            box_id = str(box["id"])
+            if box_id == target_region_id:
+                # extra space if anchor sits inside the selected inner box
+                desired = (
+                    factors.target_count + (2 if anchor_mode == "inner" else 1) + rng.choice([0, 1])
+                )
+            else:
+                desired = rng.choice([2, 3, 4])
+            counts_by_box[box_id] = min(max(desired, 2), cap)
+
+        positions_by_box: dict[str, list[tuple[float, float]]] = {}
+        for box in inner_boxes:
+            rect = (float(box["x1"]), float(box["y1"]), float(box["x2"]), float(box["y2"]))
+            positions_by_box[str(box["id"])] = sample_points_in_rect(
+                rect, counts_by_box[str(box["id"])]
+            )
+
+        outer_candidates: list[tuple[float, float, float, float]] = []
+        leftmost_x1 = min(float(b["x1"]) for b in inner_boxes)
+        rightmost_x2 = max(float(b["x2"]) for b in inner_boxes)
+        highest_y1 = min(float(b["y1"]) for b in inner_boxes)
+        lowest_y2 = max(float(b["y2"]) for b in inner_boxes)
+
+        if leftmost_x1 - outer_x1 > 55:
+            outer_candidates.append((outer_x1, outer_y1, leftmost_x1 - 8, outer_y2))
+        if outer_x2 - rightmost_x2 > 55:
+            outer_candidates.append((rightmost_x2 + 8, outer_y1, outer_x2, outer_y2))
+        if highest_y1 - outer_y1 > 45:
+            outer_candidates.append((outer_x1 + 8, outer_y1, outer_x2 - 8, highest_y1 - 8))
+        if outer_y2 - lowest_y2 > 45:
+            outer_candidates.append((outer_x1 + 8, lowest_y2 + 8, outer_x2 - 8, outer_y2))
+
+        outer_only_points: list[tuple[float, float]] = []
+        outer_item_target = rng.choice([3, 4, 5])
+
+        shuffled_candidates = outer_candidates[:]
+        rng.shuffle(shuffled_candidates)
+        for rect in shuffled_candidates:
+            if len(outer_only_points) >= outer_item_target:
+                break
+            remaining = outer_item_target - len(outer_only_points)
+            count_here = min(remaining, rng.choice([1, 2]))
+            try:
+                pts = sample_points_in_rect(rect, count_here, extra_pad=8.0)
+                outer_only_points.extend(pts)
+            except GenerationError:
+                continue
+
+        if len(outer_only_points) < 2:
+            raise GenerationError("Failed to place enough outer-only items in nested scene")
+
+        # Anchor placement mode
+        if anchor_mode == "inner":
+            target_positions = positions_by_box[target_region_id]
+            anchor_x, anchor_y = target_positions[0]
             items.append(
                 VisualItemSpec(
-                    232, 180, query_color, query_shape, size,
-                    "outside_near_left", None, None, None,
-                    False, False, "cue_conflict_trap"
+                    anchor_x,
+                    anchor_y,
+                    "yellow",
+                    "triangle",
+                    size,
+                    target_region_id,
+                    None,
+                    target_region_id,
+                    None,
+                    False,
+                    True,
+                    "anchor",
                 )
             )
+            target_start_idx = 1
+        else:
+            anchor_x, anchor_y = outer_only_points[0]
+            items.append(
+                VisualItemSpec(
+                    anchor_x,
+                    anchor_y,
+                    "yellow",
+                    "triangle",
+                    size,
+                    "outer_only",
+                    None,
+                    "outer_box",
+                    None,
+                    False,
+                    True,
+                    "anchor",
+                )
+            )
+            outer_only_points = outer_only_points[1:]
+            target_start_idx = 0
+
+        # Selected inner box targets
+        target_positions = positions_by_box[target_region_id]
+        for x, y in target_positions[target_start_idx : target_start_idx + factors.target_count]:
+            items.append(
+                VisualItemSpec(
+                    x,
+                    y,
+                    query_color,
+                    query_shape,
+                    size,
+                    target_region_id,
+                    None,
+                    target_region_id,
+                    None,
+                    True,
+                    False,
+                    "target",
+                )
+            )
+
+        remaining_target_positions = target_positions[target_start_idx + factors.target_count :]
+        if remaining_target_positions:
+            x, y = remaining_target_positions[0]
+            items.append(
+                VisualItemSpec(
+                    x,
+                    y,
+                    self._different_color(query_color),
+                    query_shape,
+                    size,
+                    target_region_id,
+                    None,
+                    target_region_id,
+                    None,
+                    False,
+                    False,
+                    "group_only",
+                )
+            )
+            for x, y in remaining_target_positions[1:]:
+                color, shape = self._sample_non_target_feature(
+                    rng, query_color, query_shape, "group_only"
+                )
+                items.append(
+                    VisualItemSpec(
+                        x,
+                        y,
+                        color,
+                        shape,
+                        size,
+                        target_region_id,
+                        None,
+                        target_region_id,
+                        None,
+                        False,
+                        False,
+                        "distractor",
+                    )
+                )
+
+        # Non-selected inner boxes
+        for box in inner_boxes:
+            box_id = str(box["id"])
+            if box_id == target_region_id:
+                continue
+
+            pos_list = positions_by_box[box_id]
+            if not pos_list:
+                continue
+
+            x, y = pos_list[0]
+            role = (
+                "cross_binding_feature"
+                if factors.confound_type == "cross_binding"
+                else "wrong_global_choice"
+            )
+            items.append(
+                VisualItemSpec(
+                    x,
+                    y,
+                    query_color,
+                    query_shape,
+                    size,
+                    box_id,
+                    None,
+                    box_id,
+                    None,
+                    False,
+                    False,
+                    role,
+                )
+            )
+
+            cursor = 1
+            if factors.confound_type == "cross_binding" and cursor < len(pos_list):
+                x, y = pos_list[cursor]
+                items.append(
+                    VisualItemSpec(
+                        x,
+                        y,
+                        self._different_color(query_color),
+                        query_shape,
+                        size,
+                        box_id,
+                        None,
+                        box_id,
+                        None,
+                        False,
+                        False,
+                        "group_only",
+                    )
+                )
+                cursor += 1
+
+            for x, y in pos_list[cursor:]:
+                color, shape = self._sample_non_target_feature(
+                    rng, query_color, query_shape, factors.confound_type
+                )
+                items.append(
+                    VisualItemSpec(
+                        x,
+                        y,
+                        color,
+                        shape,
+                        size,
+                        box_id,
+                        None,
+                        box_id,
+                        None,
+                        False,
+                        False,
+                        "distractor",
+                    )
+                )
+
+        # Outer-only distractors and traps
+        if not outer_only_points:
+            raise GenerationError("No outer-only points left for nested scene")
+
+        x, y = outer_only_points[0]
+        outer_match_role = (
+            "cue_conflict_trap"
+            if factors.cue_conflict == "proximity_vs_common_region"
+            else "wrong_scope"
+        )
+        items.append(
+            VisualItemSpec(
+                x,
+                y,
+                query_color,
+                query_shape,
+                size,
+                "outer_only",
+                None,
+                "outer_box",
+                None,
+                False,
+                False,
+                outer_match_role,
+            )
+        )
+
+        for x, y in outer_only_points[1:]:
+            color, shape = self._sample_non_target_feature(
+                rng, query_color, query_shape, "feature_only"
+            )
+            items.append(
+                VisualItemSpec(
+                    x,
+                    y,
+                    color,
+                    shape,
+                    size,
+                    "outer_only",
+                    None,
+                    "outer_box",
+                    None,
+                    False,
+                    False,
+                    "distractor",
+                )
+            )
+
+        # Additional near-boundary trap for hard cue-conflict cases
+        if factors.cue_conflict == "proximity_vs_common_region":
+            target_box = next(box for box in inner_boxes if str(box["id"]) == target_region_id)
+            tx1 = float(target_box["x1"])
+            ty1 = float(target_box["y1"])
+            tx2 = float(target_box["x2"])
+            ty2 = float(target_box["y2"])
+
+            trap_candidates = [
+                (tx1 - radius - 14, (ty1 + ty2) / 2),
+                (tx2 + radius + 14, (ty1 + ty2) / 2),
+                ((tx1 + tx2) / 2, ty1 - radius - 14),
+                ((tx1 + tx2) / 2, ty2 + radius + 14),
+            ]
+
+            if not any(item.role == "cue_conflict_trap" for item in items):
+                for trap_x, trap_y in trap_candidates:
+                    inside_outer = (
+                        outer_x1 + radius <= trap_x <= outer_x2 - radius
+                        and outer_y1 + radius <= trap_y <= outer_y2 - radius
+                    )
+                    inside_any_inner = any(
+                        float(box["x1"]) + radius <= trap_x <= float(box["x2"]) - radius
+                        and float(box["y1"]) + radius <= trap_y <= float(box["y2"]) - radius
+                        for box in inner_boxes
+                    )
+                    far_enough = all(
+                        math.dist((trap_x, trap_y), p) >= min_dist for p in used_positions
+                    )
+                    if inside_outer and not inside_any_inner and far_enough:
+                        items.append(
+                            VisualItemSpec(
+                                trap_x,
+                                trap_y,
+                                query_color,
+                                query_shape,
+                                size,
+                                "outer_only",
+                                None,
+                                "outer_box",
+                                None,
+                                False,
+                                False,
+                                "cue_conflict_trap",
+                            )
+                        )
+                        used_positions.append((trap_x, trap_y))
+                        break
+                else:
+                    raise GenerationError("Failed to place cue-conflict trap in nested scene")
 
         if factors.target_count == 0:
             items = [
