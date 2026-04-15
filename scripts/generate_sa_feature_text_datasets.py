@@ -15,6 +15,8 @@ SPECS: list[dict[str, object]] = [
     {"dimension": "set_size", "variant": "s", "count": 30, "start_seed": 2100},
     {"dimension": "set_size", "variant": "m", "count": 30, "start_seed": 2200},
     {"dimension": "set_size", "variant": "l", "count": 30, "start_seed": 2300},
+    {"dimension": "set_size", "variant": "xl", "count": 30, "start_seed": 2400},
+    {"dimension": "set_size", "variant": "xxl", "count": 30, "start_seed": 2500},
     {"dimension": "rule_arity", "variant": "1f", "count": 30, "start_seed": 3000},
     {"dimension": "rule_arity", "variant": "2f", "count": 30, "start_seed": 3100},
     {"dimension": "rule_arity", "variant": "3f", "count": 30, "start_seed": 3200},

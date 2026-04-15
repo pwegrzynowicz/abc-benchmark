@@ -291,7 +291,7 @@ class FeatureSensitiveTextGenerator:
         )
 
     def _sample_set_size_factors(self, rng: random.Random, variant: str) -> FeatureSensitiveTextFactors:
-        mapping = {"xs": 8, "s": 16, "m": 24, "l": 32}
+        mapping = {"xs": 8, "s": 16, "m": 24, "l": 32, "xl": 48, "xxl": 64}
         if variant not in mapping:
             raise ValueError(f"Unknown set_size variant: {variant}")
         num_records = mapping[variant]
