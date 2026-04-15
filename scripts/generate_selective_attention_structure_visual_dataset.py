@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from abc_benchmark.selective_attention.structure_sensitive.visual.build_dataset import (
+from abc_benchmark.selective_attention.structure_sensitive.visual.dataset import (
     build_structure_sensitive_visual_dataset,
 )
 

@@ -384,27 +384,27 @@ class StructureSensitiveVisualGenerator:
             dimension="baseline",
             variant="simple",
             principle="baseline",
-            condition_type="simple",
-            layout_pattern="cluster",
+            condition_type="uneven_boxes",
+            layout_pattern="2_regions",
             difficulty="easy",
-            grouping_feature_primary="proximity",
+            grouping_feature_primary="common_region",
             grouping_feature_secondary=None,
             queried_feature="shape",
-            num_groups=3,
-            min_items_per_group=4,
-            max_items_per_group=4,
-            target_in_anchor_group=2,
+            num_groups=2,
+            min_items_per_group=3,
+            max_items_per_group=3,
+            target_in_anchor_group=1,
             target_outside_anchor_group=1,
             non_target_in_anchor_group=2,
-            cluster_spread=26.0,
-            inter_group_margin=176.0,
+            cluster_spread=None,
+            inter_group_margin=None,
             stripe_count=0,
             shape_bias_strength=0.0,
             path_crossing_count=0,
-            region_count=0,
+            region_count=2,
             loose_item_count=0,
             min_gap=34,
-            jitter=4,
+            jitter=0,
         )
 
     def _sample_principle_factors(
@@ -450,8 +450,6 @@ class StructureSensitiveVisualGenerator:
                     ("color_only", "horizontal_halves"),
                     ("color_only", "vertical_stripes"),
                     ("color_only", "horizontal_stripes"),
-                    ("color_then_shape", "vertical_halves"),
-                    ("color_then_shape", "horizontal_halves"),
                 ]
             )
             stripe_count = 4 if "stripes" in layout_pattern else 0
@@ -463,13 +461,13 @@ class StructureSensitiveVisualGenerator:
                 layout_pattern=layout_pattern,
                 difficulty=difficulty,
                 grouping_feature_primary="color",
-                grouping_feature_secondary="shape" if condition_type == "color_then_shape" else None,
+                grouping_feature_secondary=None,
                 queried_feature="shape",
                 num_groups=2,
                 cluster_spread=None,
                 inter_group_margin=None,
                 stripe_count=stripe_count,
-                shape_bias_strength=0.65 if condition_type == "color_then_shape" else 0.0,
+                shape_bias_strength=0.0,
                 path_crossing_count=0,
                 region_count=0,
                 loose_item_count=0,
@@ -639,14 +637,11 @@ class StructureSensitiveVisualGenerator:
         rng: random.Random,
         factors: StructureSensitiveVisualFactors,
     ) -> tuple[list[VisualItemSpec], list[VisualRegionSpec], list[VisualPathSpec], dict[str, object]]:
-        group_sizes = self._sample_group_sizes(rng, factors)
-        centers = self._sample_cluster_centers(rng, factors, group_sizes)
-        items = self._items_from_clusters(rng, factors, group_sizes, centers)
-        metadata = {
-            "group_sizes": group_sizes,
-            "cluster_centers": [{"x": x, "y": y} for x, y in centers],
+        items, regions, paths, metadata = self._build_common_region_scene(rng, factors)
+        return items, regions, paths, {
+            **metadata,
+            "baseline_backing_principle": "common_region",
         }
-        return items, [], [], metadata
 
     def _build_proximity_scene(
         self,
@@ -729,7 +724,7 @@ class StructureSensitiveVisualGenerator:
         factors: StructureSensitiveVisualFactors,
     ) -> list[int]:
         if factors.principle == "baseline":
-            return [4] * factors.num_groups
+            return [3] * factors.num_groups
 
         if factors.principle == "similarity":
             anchor_floor = factors.target_in_anchor_group + factors.non_target_in_anchor_group
@@ -1772,7 +1767,7 @@ class StructureSensitiveVisualGenerator:
         regions: list[VisualRegionSpec],
         paths: list[VisualPathSpec],
     ) -> bool:
-        return not regions and not paths and len(self._ordered_group_ids(items)) >= 2
+        return self._passes_common_region_constraints(factors, items, regions, paths)
 
     def _passes_proximity_constraints(
         self,
