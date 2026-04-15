@@ -49,6 +49,12 @@ SPECS: list[dict[str, object]] = [
     {"dimension": "combined", "variant": "easy", "count": 20, "start_seed": 7400},
     {"dimension": "combined", "variant": "medium", "count": 20, "start_seed": 7500},
     {"dimension": "combined", "variant": "hard", "count": 20, "start_seed": 7600},
+    {"dimension": "adversarial_confound", "variant": "dense", "count": 20, "start_seed": 7700},
+    {"dimension": "adversarial_confound", "variant": "extreme", "count": 20, "start_seed": 7800},
+    {"dimension": "negation", "variant": "easy", "count": 20, "start_seed": 7900},
+    {"dimension": "negation", "variant": "hard", "count": 20, "start_seed": 8000},
+    {"dimension": "disjunction", "variant": "easy", "count": 20, "start_seed": 8100},
+    {"dimension": "disjunction", "variant": "hard", "count": 20, "start_seed": 8200},
 ]
 
 
