@@ -7,14 +7,14 @@ from abc_benchmark.selective_attention.structure_sensitive.visual.dataset import
 OUT_DIR = "artifacts/datasets/selective_attention/structure_sensitive/visual"
 
 SLICES: list[tuple[str, str, int, int]] = [
-    ("baseline", "simple", 20, 1000),
-    ("principle", "proximity", 20, 2000),
-    ("principle", "similarity", 20, 2100),
-    ("principle", "continuity", 20, 2200),
-    ("principle", "common_region", 20, 2300),
-    ("combined", "easy", 20, 7000),
-    ("combined", "medium", 20, 7100),
-    ("combined", "hard", 20, 7200),
+    ("baseline", "simple", 30, 1000),
+    ("principle", "proximity", 30, 2000),
+    ("principle", "similarity", 30, 2100),
+    ("principle", "continuity", 30, 2200),
+    ("principle", "common_region", 30, 2300),
+    ("combined", "easy", 30, 7000),
+    ("combined", "medium", 30, 7100),
+    ("combined", "hard", 30, 7200),
 ]
 
 

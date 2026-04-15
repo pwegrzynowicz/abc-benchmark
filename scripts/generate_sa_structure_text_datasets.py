@@ -9,19 +9,19 @@ from abc_benchmark.selective_attention.structure_sensitive.text.dataset import (
 )
 
 SPECS: list[dict[str, object]] = [
-    {"dimension": "baseline", "variant": "simple", "count": 20, "start_seed": 1000},
-    {"dimension": "principle", "variant": "paragraph_proximity", "count": 20, "start_seed": 2000},
-    {"dimension": "principle", "variant": "section_common_region", "count": 20, "start_seed": 2100},
-    {"dimension": "principle", "variant": "format_similarity", "count": 20, "start_seed": 2200},
-    {"dimension": "principle", "variant": "scope_indentation", "count": 20, "start_seed": 2300},
-    {"dimension": "principle", "variant": "continuation_chain", "count": 20, "start_seed": 2400},
-    {"dimension": "target_count", "variant": "0", "count": 20, "start_seed": 3000},
-    {"dimension": "target_count", "variant": "1", "count": 20, "start_seed": 3100},
-    {"dimension": "target_count", "variant": "3", "count": 20, "start_seed": 3200},
-    {"dimension": "target_count", "variant": "6", "count": 20, "start_seed": 3300},
-    {"dimension": "combined", "variant": "easy", "count": 20, "start_seed": 4000},
-    {"dimension": "combined", "variant": "medium", "count": 20, "start_seed": 4100},
-    {"dimension": "combined", "variant": "hard", "count": 20, "start_seed": 4200},
+    {"dimension": "baseline", "variant": "simple", "count": 30, "start_seed": 1000},
+    {"dimension": "principle", "variant": "paragraph_proximity", "count": 30, "start_seed": 2000},
+    {"dimension": "principle", "variant": "section_common_region", "count": 30, "start_seed": 2100},
+    {"dimension": "principle", "variant": "format_similarity", "count": 30, "start_seed": 2200},
+    {"dimension": "principle", "variant": "scope_indentation", "count": 30, "start_seed": 2300},
+    {"dimension": "principle", "variant": "continuation_chain", "count": 30, "start_seed": 2400},
+    {"dimension": "target_count", "variant": "0", "count": 30, "start_seed": 3000},
+    {"dimension": "target_count", "variant": "1", "count": 30, "start_seed": 3100},
+    {"dimension": "target_count", "variant": "3", "count": 30, "start_seed": 3200},
+    {"dimension": "target_count", "variant": "6", "count": 30, "start_seed": 3300},
+    {"dimension": "combined", "variant": "easy", "count": 30, "start_seed": 4000},
+    {"dimension": "combined", "variant": "medium", "count": 30, "start_seed": 4100},
+    {"dimension": "combined", "variant": "hard", "count": 30, "start_seed": 4200},
 ]
 
 
