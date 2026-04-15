@@ -694,22 +694,165 @@ class StructureSensitiveVisualGenerator:
         anchor_shape = target_definition["reference_similarity_key"]
         query_color = target_definition["query_color"]
         size = factors.item_size
-        positions = [
-            (110, 160), (170, 160), (230, 160),
-            (140, 240), (200, 240), (260, 240),
-            (390, 160), (450, 160), (510, 160),
-            (420, 240), (480, 240), (540, 240),
-        ]
+        radius = SIZE_TO_RADIUS[size]
+        min_dist = 2 * radius + 10
+
+        left = factors.margin + radius + 6
+        right = factors.width - factors.margin - radius - 6
+        top = factors.margin + radius + 6
+        bottom = factors.height - factors.margin - radius - 6
+
+        # Spread positions across the whole canvas using a loose grid with jitter.
+        cols = 4
+        rows = 3
+        cell_w = (right - left) / cols
+        cell_h = (bottom - top) / rows
+
+        candidate_positions: list[tuple[float, float]] = []
+        for r in range(rows):
+            for c in range(cols):
+                cx1 = left + c * cell_w
+                cy1 = top + r * cell_h
+                cx2 = cx1 + cell_w
+                cy2 = cy1 + cell_h
+
+                x = rng.uniform(cx1 + 10, cx2 - 10)
+                y = rng.uniform(cy1 + 10, cy2 - 10)
+                candidate_positions.append((x, y))
+
+        rng.shuffle(candidate_positions)
+
+        # Light repair pass in case jitter created positions that are too close.
+        positions: list[tuple[float, float]] = []
+        for x, y in candidate_positions:
+            if all(math.dist((x, y), p) >= min_dist for p in positions):
+                positions.append((x, y))
+            else:
+                placed = False
+                for _ in range(200):
+                    nx = rng.uniform(left, right)
+                    ny = rng.uniform(top, bottom)
+                    if all(math.dist((nx, ny), p) >= min_dist for p in positions):
+                        positions.append((nx, ny))
+                        placed = True
+                        break
+                if not placed:
+                    raise GenerationError(
+                        "Failed to place similarity items without accidental clustering"
+                    )
+
         items: list[VisualItemSpec] = []
-        items.append(VisualItemSpec(positions[0][0], positions[0][1], "yellow", anchor_shape, size, f"shape_{anchor_shape}", anchor_shape, None, None, False, True, "anchor"))
-        for pos in positions[1 : 1 + factors.target_count]:
-            items.append(VisualItemSpec(pos[0], pos[1], query_color, anchor_shape, size, f"shape_{anchor_shape}", anchor_shape, None, None, True, False, "target"))
+
+        # Anchor
+        ax, ay = positions[0]
+        items.append(
+            VisualItemSpec(
+                ax,
+                ay,
+                "yellow",
+                anchor_shape,
+                size,
+                f"shape_{anchor_shape}",
+                anchor_shape,
+                None,
+                None,
+                False,
+                True,
+                "anchor",
+            )
+        )
+
+        cursor = 1
+
+        # True targets: same shape-group as anchor, matching query color.
+        for x, y in positions[cursor : cursor + factors.target_count]:
+            items.append(
+                VisualItemSpec(
+                    x,
+                    y,
+                    query_color,
+                    anchor_shape,
+                    size,
+                    f"shape_{anchor_shape}",
+                    anchor_shape,
+                    None,
+                    None,
+                    True,
+                    False,
+                    "target",
+                )
+            )
+        cursor += factors.target_count
+
+        # Same-shape, wrong-color distractor.
+        if cursor < len(positions):
+            x, y = positions[cursor]
+            items.append(
+                VisualItemSpec(
+                    x,
+                    y,
+                    self._different_color(query_color),
+                    anchor_shape,
+                    size,
+                    f"shape_{anchor_shape}",
+                    anchor_shape,
+                    None,
+                    None,
+                    False,
+                    False,
+                    "group_only",
+                )
+            )
+            cursor += 1
+
+        # Same-color, wrong-shape distractor.
         alt_shape = self._different_shape(anchor_shape)
-        items.append(VisualItemSpec(positions[3][0], positions[3][1], self._different_color(query_color), anchor_shape, size, f"shape_{anchor_shape}", anchor_shape, None, None, False, False, "group_only"))
-        items.append(VisualItemSpec(positions[4][0], positions[4][1], query_color, alt_shape, size, f"shape_{alt_shape}", alt_shape, None, None, False, False, "partial_feature"))
-        extra_shape = self._third_shape(anchor_shape, alt_shape)
-        for pos in positions[5:]:
-            items.append(VisualItemSpec(pos[0], pos[1], rng.choice(COLORS), extra_shape, size, f"shape_{extra_shape}", extra_shape, None, None, False, False, "distractor"))
+        if cursor < len(positions):
+            x, y = positions[cursor]
+            items.append(
+                VisualItemSpec(
+                    x,
+                    y,
+                    query_color,
+                    alt_shape,
+                    size,
+                    f"shape_{alt_shape}",
+                    alt_shape,
+                    None,
+                    None,
+                    False,
+                    False,
+                    "partial_feature",
+                )
+            )
+            cursor += 1
+
+        # Remaining distractors: mixed, spread across the canvas.
+        other_shapes = [shape for shape in SHAPES if shape != anchor_shape]
+        other_colors = [color for color in COLORS if color != query_color]
+
+        while cursor < len(positions):
+            x, y = positions[cursor]
+            shape = rng.choice(other_shapes)
+            color = rng.choice(other_colors)
+            items.append(
+                VisualItemSpec(
+                    x,
+                    y,
+                    color,
+                    shape,
+                    size,
+                    f"shape_{shape}",
+                    shape,
+                    None,
+                    None,
+                    False,
+                    False,
+                    "distractor",
+                )
+            )
+            cursor += 1
+
         return items[: factors.num_items], []
 
     def _build_common_region_grouping_scene(
@@ -901,18 +1044,10 @@ class StructureSensitiveVisualGenerator:
         target_definition: dict[str, str],
     ) -> tuple[list[VisualItemSpec], list[VisualStructureSpec]]:
         structures: list[VisualStructureSpec] = [
-            VisualStructureSpec(
-                "panel", "panel_left", {"x1": 40.0, "y1": 70.0, "x2": 310.0, "y2": 370.0}
-            ),
-            VisualStructureSpec(
-                "panel", "panel_right", {"x1": 330.0, "y1": 70.0, "x2": 600.0, "y2": 370.0}
-            ),
-            VisualStructureSpec(
-                "box", "left_box", {"x1": 80.0, "y1": 120.0, "x2": 270.0, "y2": 320.0}
-            ),
-            VisualStructureSpec(
-                "box", "right_box", {"x1": 370.0, "y1": 120.0, "x2": 560.0, "y2": 320.0}
-            ),
+            VisualStructureSpec("panel", "panel_left", {"x1": 40.0, "y1": 70.0, "x2": 310.0, "y2": 370.0}),
+            VisualStructureSpec("panel", "panel_right", {"x1": 330.0, "y1": 70.0, "x2": 600.0, "y2": 370.0}),
+            VisualStructureSpec("box", "left_box", {"x1": 80.0, "y1": 120.0, "x2": 270.0, "y2": 320.0}),
+            VisualStructureSpec("box", "right_box", {"x1": 370.0, "y1": 120.0, "x2": 560.0, "y2": 320.0}),
         ]
         query_color = target_definition["query_color"]
         query_shape = target_definition["query_shape"]
@@ -920,36 +1055,20 @@ class StructureSensitiveVisualGenerator:
         items: list[VisualItemSpec] = []
 
         left_positions = [
-            (115, 165),
-            (175, 165),
-            (235, 165),
-            (115, 255),
-            (175, 255),
-            (235, 255),
+            (115, 165), (175, 165), (235, 165),
+            (115, 255), (175, 255), (235, 255),
         ]
         right_positions = [
-            (405, 165),
-            (465, 165),
-            (525, 165),
-            (405, 255),
-            (465, 255),
-            (525, 255),
+            (405, 165), (465, 165), (525, 165),
+            (405, 255), (465, 255), (525, 255),
         ]
 
         items.append(
             VisualItemSpec(
-                left_positions[0][0],
-                left_positions[0][1],
-                "yellow",
-                "triangle",
-                size,
-                "left_box",
-                None,
-                "left_box",
-                "panel_left",
-                False,
-                True,
-                "anchor",
+                left_positions[0][0], left_positions[0][1],
+                "yellow", "triangle", size,
+                "left_box", None, "left_box", "panel_left",
+                False, True, "anchor"
             )
         )
 
@@ -957,18 +1076,9 @@ class StructureSensitiveVisualGenerator:
         for pos in target_positions:
             items.append(
                 VisualItemSpec(
-                    pos[0],
-                    pos[1],
-                    query_color,
-                    query_shape,
-                    size,
-                    "left_box",
-                    None,
-                    "left_box",
-                    "panel_left",
-                    True,
-                    False,
-                    "target",
+                    pos[0], pos[1], query_color, query_shape, size,
+                    "left_box", None, "left_box", "panel_left",
+                    True, False, "target"
                 )
             )
 
@@ -977,148 +1087,77 @@ class StructureSensitiveVisualGenerator:
             pos = remaining_left[0]
             items.append(
                 VisualItemSpec(
-                    pos[0],
-                    pos[1],
-                    self._different_color(query_color),
-                    query_shape,
-                    size,
-                    "left_box",
-                    None,
-                    "left_box",
-                    "panel_left",
-                    False,
-                    False,
-                    "group_only",
+                    pos[0], pos[1], self._different_color(query_color), query_shape, size,
+                    "left_box", None, "left_box", "panel_left",
+                    False, False, "group_only"
                 )
             )
             for pos in remaining_left[1:]:
-                color, shape = self._sample_non_target_feature(
-                    rng, query_color, query_shape, "group_only"
-                )
+                color, shape = self._sample_non_target_feature(rng, query_color, query_shape, "group_only")
                 items.append(
                     VisualItemSpec(
-                        pos[0],
-                        pos[1],
-                        color,
-                        shape,
-                        size,
-                        "left_box",
-                        None,
-                        "left_box",
-                        "panel_left",
-                        False,
-                        False,
-                        "distractor",
+                        pos[0], pos[1], color, shape, size,
+                        "left_box", None, "left_box", "panel_left",
+                        False, False, "distractor"
                     )
                 )
 
         items.append(
             VisualItemSpec(
-                right_positions[0][0],
-                right_positions[0][1],
-                query_color,
-                query_shape,
-                size,
-                "right_box",
-                None,
-                "right_box",
-                "panel_right",
-                False,
-                False,
-                "wrong_scope",
+                right_positions[0][0], right_positions[0][1],
+                query_color, query_shape, size,
+                "right_box", None, "right_box", "panel_right",
+                False, False, "wrong_scope"
             )
         )
         items.append(
             VisualItemSpec(
-                right_positions[1][0],
-                right_positions[1][1],
-                self._different_color(query_color),
-                query_shape,
-                size,
-                "right_box",
-                None,
-                "right_box",
-                "panel_right",
-                False,
-                False,
-                "distractor",
+                right_positions[1][0], right_positions[1][1],
+                self._different_color(query_color), query_shape, size,
+                "right_box", None, "right_box", "panel_right",
+                False, False, "distractor"
             )
         )
         items.append(
             VisualItemSpec(
-                right_positions[2][0],
-                right_positions[2][1],
-                query_color,
-                self._different_shape(query_shape),
-                size,
-                "right_box",
-                None,
-                "right_box",
-                "panel_right",
-                False,
-                False,
-                "partial_feature",
+                right_positions[2][0], right_positions[2][1],
+                query_color, self._different_shape(query_shape), size,
+                "right_box", None, "right_box", "panel_right",
+                False, False, "partial_feature"
             )
         )
         for pos in right_positions[3:]:
-            color, shape = self._sample_non_target_feature(
-                rng, query_color, query_shape, "feature_only"
-            )
+            color, shape = self._sample_non_target_feature(rng, query_color, query_shape, "feature_only")
             items.append(
                 VisualItemSpec(
-                    pos[0],
-                    pos[1],
-                    color,
-                    shape,
-                    size,
-                    "right_box",
-                    None,
-                    "right_box",
-                    "panel_right",
-                    False,
-                    False,
-                    "distractor",
+                    pos[0], pos[1], color, shape, size,
+                    "right_box", None, "right_box", "panel_right",
+                    False, False, "distractor"
                 )
             )
 
         items.append(
             VisualItemSpec(
-                320,
-                110,
-                query_color,
-                query_shape,
-                size,
-                "between",
-                None,
-                None,
-                None,
-                False,
-                False,
-                "feature_only",
+                320, 110, query_color, query_shape, size,
+                "between", None, None, None,
+                False, False, "feature_only"
             )
         )
 
         if factors.target_count == 0:
             items = [
                 VisualItemSpec(
-                    it.x,
-                    it.y,
+                    it.x, it.y,
                     self._different_color(query_color) if it.role == "target" else it.color,
-                    it.shape,
-                    it.size,
-                    it.group_id,
-                    it.similarity_key,
-                    it.region_id,
-                    it.panel_id,
-                    False,
-                    it.is_anchor,
+                    it.shape, it.size, it.group_id, it.similarity_key,
+                    it.region_id, it.panel_id,
+                    False, it.is_anchor,
                     "partial_feature" if it.role == "target" else it.role,
                 )
                 for it in items
             ]
 
         return items[: factors.num_items], structures
-
 
     def _build_global_local_scene(
         self,
@@ -1127,15 +1166,9 @@ class StructureSensitiveVisualGenerator:
         target_definition: dict[str, str],
     ) -> tuple[list[VisualItemSpec], list[VisualStructureSpec]]:
         structures: list[VisualStructureSpec] = [
-            VisualStructureSpec(
-                "box", "box_left", {"x1": 60.0, "y1": 125.0, "x2": 225.0, "y2": 325.0}
-            ),
-            VisualStructureSpec(
-                "box", "box_center", {"x1": 240.0, "y1": 125.0, "x2": 405.0, "y2": 325.0}
-            ),
-            VisualStructureSpec(
-                "box", "box_right", {"x1": 415.0, "y1": 125.0, "x2": 580.0, "y2": 325.0}
-            ),
+            VisualStructureSpec("box", "box_left", {"x1": 60.0, "y1": 125.0, "x2": 225.0, "y2": 325.0}),
+            VisualStructureSpec("box", "box_center", {"x1": 240.0, "y1": 125.0, "x2": 405.0, "y2": 325.0}),
+            VisualStructureSpec("box", "box_right", {"x1": 415.0, "y1": 125.0, "x2": 580.0, "y2": 325.0}),
         ]
         query_color = target_definition["query_color"]
         query_shape = target_definition["query_shape"]
@@ -1156,91 +1189,42 @@ class StructureSensitiveVisualGenerator:
                 if idx == 0 and box_id == target_region_id:
                     items.append(
                         VisualItemSpec(
-                            x,
-                            y,
-                            "yellow",
-                            "triangle",
-                            size,
-                            box_id,
-                            None,
-                            box_id,
-                            None,
-                            False,
-                            True,
-                            "anchor",
+                            x, y, "yellow", "triangle", size,
+                            box_id, None, box_id, None,
+                            False, True, "anchor"
                         )
                     )
                 elif idx < factors.target_count + 1 and box_id == target_region_id:
                     items.append(
                         VisualItemSpec(
-                            x,
-                            y,
-                            query_color,
-                            query_shape,
-                            size,
-                            box_id,
-                            None,
-                            box_id,
-                            None,
-                            True,
-                            False,
-                            "target",
+                            x, y, query_color, query_shape, size,
+                            box_id, None, box_id, None,
+                            True, False, "target"
                         )
                     )
                 elif idx == 0 and box_id != target_region_id:
                     if factors.confound_type == "cross_binding":
                         items.append(
                             VisualItemSpec(
-                                x,
-                                y,
-                                query_color,
-                                query_shape,
-                                size,
-                                box_id,
-                                None,
-                                box_id,
-                                None,
-                                False,
-                                False,
-                                "cross_binding_feature",
+                                x, y, query_color, query_shape, size,
+                                box_id, None, box_id, None,
+                                False, False, "cross_binding_feature"
                             )
                         )
                     else:
                         items.append(
                             VisualItemSpec(
-                                x,
-                                y,
-                                query_color,
-                                query_shape,
-                                size,
-                                box_id,
-                                None,
-                                box_id,
-                                None,
-                                False,
-                                False,
-                                "wrong_global_choice",
+                                x, y, query_color, query_shape, size,
+                                box_id, None, box_id, None,
+                                False, False, "wrong_global_choice"
                             )
                         )
-                elif (
-                    idx == 1
-                    and box_id != target_region_id
-                    and factors.confound_type == "cross_binding"
-                ):
+                elif idx == 1 and box_id != target_region_id and factors.confound_type == "cross_binding":
                     items.append(
                         VisualItemSpec(
-                            x,
-                            y,
-                            self._different_color(query_color),
-                            query_shape,
-                            size,
-                            box_id,
-                            None,
-                            box_id,
-                            None,
-                            False,
-                            False,
-                            "group_only",
+                            x, y, self._different_color(query_color), query_shape, size,
+                            box_id, None, box_id, None,
+                            False, False, "group_only"
                         )
                     )
                 else:
@@ -1249,36 +1233,18 @@ class StructureSensitiveVisualGenerator:
                     )
                     items.append(
                         VisualItemSpec(
-                            x,
-                            y,
-                            color,
-                            shape,
-                            size,
-                            box_id,
-                            None,
-                            box_id,
-                            None,
-                            False,
-                            False,
-                            "distractor",
+                            x, y, color, shape, size,
+                            box_id, None, box_id, None,
+                            False, False, "distractor"
                         )
                     )
 
         if factors.cue_conflict == "proximity_vs_common_region":
             items.append(
                 VisualItemSpec(
-                    232,
-                    180,
-                    query_color,
-                    query_shape,
-                    size,
-                    "outside_near_left",
-                    None,
-                    None,
-                    None,
-                    False,
-                    False,
-                    "cue_conflict_trap",
+                    232, 180, query_color, query_shape, size,
+                    "outside_near_left", None, None, None,
+                    False, False, "cue_conflict_trap"
                 )
             )
 
@@ -1302,7 +1268,6 @@ class StructureSensitiveVisualGenerator:
             ]
 
         return items[: factors.num_items], structures
-
 
     def _sample_group_sizes(
         self,
