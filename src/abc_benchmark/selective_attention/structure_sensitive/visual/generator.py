@@ -1249,115 +1249,366 @@ class StructureSensitiveVisualGenerator:
         factors: StructureSensitiveVisualFactors,
         target_definition: dict[str, str],
     ) -> tuple[list[VisualItemSpec], list[VisualStructureSpec]]:
-        structures: list[VisualStructureSpec] = [
-            VisualStructureSpec("panel", "panel_left", {"x1": 40.0, "y1": 70.0, "x2": 310.0, "y2": 370.0}),
-            VisualStructureSpec("panel", "panel_right", {"x1": 330.0, "y1": 70.0, "x2": 600.0, "y2": 370.0}),
-            VisualStructureSpec("box", "left_box", {"x1": 80.0, "y1": 120.0, "x2": 270.0, "y2": 320.0}),
-            VisualStructureSpec("box", "right_box", {"x1": 370.0, "y1": 120.0, "x2": 560.0, "y2": 320.0}),
-        ]
         query_color = target_definition["query_color"]
         query_shape = target_definition["query_shape"]
         size = factors.item_size
+        radius = SIZE_TO_RADIUS[size]
+        min_dist = 2 * radius + 8
+
         items: list[VisualItemSpec] = []
+        structures: list[VisualStructureSpec] = []
+        used_positions: list[tuple[float, float]] = []
 
-        left_positions = [
-            (115, 165), (175, 165), (235, 165),
-            (115, 255), (175, 255), (235, 255),
-        ]
-        right_positions = [
-            (405, 165), (465, 165), (525, 165),
-            (405, 255), (465, 255), (525, 255),
-        ]
+        layout = rng.choice(["left_right", "top_bottom", "triple_box"])
 
-        items.append(
-            VisualItemSpec(
-                left_positions[0][0], left_positions[0][1],
-                "yellow", "triangle", size,
-                "left_box", None, "left_box", "panel_left",
-                False, True, "anchor"
+        def sample_points_in_rect(
+            rect: tuple[float, float, float, float],
+            count: int,
+            *,
+            pad: float = 10.0,
+        ) -> list[tuple[float, float]]:
+            x1, y1, x2, y2 = rect
+            sx1 = x1 + radius + pad
+            sy1 = y1 + radius + pad
+            sx2 = x2 - radius - pad
+            sy2 = y2 - radius - pad
+            if sx2 <= sx1 or sy2 <= sy1:
+                raise GenerationError("Scope rectangle too small")
+
+            pts: list[tuple[float, float]] = []
+            for _ in range(count):
+                placed = False
+                for _ in range(1200):
+                    x = rng.uniform(sx1, sx2)
+                    y = rng.uniform(sy1, sy2)
+                    if any(math.dist((x, y), p) < min_dist for p in pts):
+                        continue
+                    if any(math.dist((x, y), p) < min_dist for p in used_positions):
+                        continue
+                    pts.append((x, y))
+                    used_positions.append((x, y))
+                    placed = True
+                    break
+                if not placed:
+                    raise GenerationError("Failed to place items in scope scene")
+            return pts
+
+        contexts: list[dict[str, object]] = []
+
+        if layout == "left_right":
+            gap = 26.0
+            panel_w = 235.0
+            panel_h = 270.0
+            y1 = 90.0
+            y2 = y1 + panel_h
+            left_x1 = 50.0
+            left_x2 = left_x1 + panel_w
+            right_x1 = left_x2 + gap
+            right_x2 = right_x1 + panel_w
+
+            structures.extend(
+                [
+                    VisualStructureSpec(
+                        "panel", "panel_left", {"x1": left_x1, "y1": y1, "x2": left_x2, "y2": y2}
+                    ),
+                    VisualStructureSpec(
+                        "panel", "panel_right", {"x1": right_x1, "y1": y1, "x2": right_x2, "y2": y2}
+                    ),
+                ]
             )
-        )
 
-        target_positions = left_positions[1 : 1 + factors.target_count]
-        for pos in target_positions:
-            items.append(
-                VisualItemSpec(
-                    pos[0], pos[1], query_color, query_shape, size,
-                    "left_box", None, "left_box", "panel_left",
-                    True, False, "target"
-                )
+            contexts = [
+                {"context_id": "panel_left", "rect": (left_x1, y1, left_x2, y2), "selected": True},
+                {
+                    "context_id": "panel_right",
+                    "rect": (right_x1, y1, right_x2, y2),
+                    "selected": False,
+                },
+            ]
+            target_definition["scope_selector"] = "left_panel"
+
+        elif layout == "top_bottom":
+            gap = 24.0
+            panel_h = 125.0
+            x1 = 85.0
+            x2 = 555.0
+            top_y1 = 70.0
+            top_y2 = top_y1 + panel_h
+            bottom_y1 = top_y2 + gap
+            bottom_y2 = bottom_y1 + panel_h
+
+            structures.extend(
+                [
+                    VisualStructureSpec(
+                        "panel", "panel_top", {"x1": x1, "y1": top_y1, "x2": x2, "y2": top_y2}
+                    ),
+                    VisualStructureSpec(
+                        "panel",
+                        "panel_bottom",
+                        {"x1": x1, "y1": bottom_y1, "x2": x2, "y2": bottom_y2},
+                    ),
+                ]
             )
 
-        remaining_left = left_positions[1 + factors.target_count :]
-        if remaining_left:
-            pos = remaining_left[0]
-            items.append(
-                VisualItemSpec(
-                    pos[0], pos[1], self._different_color(query_color), query_shape, size,
-                    "left_box", None, "left_box", "panel_left",
-                    False, False, "group_only"
-                )
-            )
-            for pos in remaining_left[1:]:
-                color, shape = self._sample_non_target_feature(rng, query_color, query_shape, "group_only")
-                items.append(
-                    VisualItemSpec(
-                        pos[0], pos[1], color, shape, size,
-                        "left_box", None, "left_box", "panel_left",
-                        False, False, "distractor"
+            contexts = [
+                {"context_id": "panel_top", "rect": (x1, top_y1, x2, top_y2), "selected": True},
+                {
+                    "context_id": "panel_bottom",
+                    "rect": (x1, bottom_y1, x2, bottom_y2),
+                    "selected": False,
+                },
+            ]
+            target_definition["scope_selector"] = "top_panel"
+
+        else:
+            gap = 18.0
+            box_w = 145.0
+            box_h = 185.0
+            y1 = 145.0
+            y2 = y1 + box_h
+            x_start = 62.0
+
+            triple_boxes = []
+            for i in range(3):
+                bx1 = x_start + i * (box_w + gap)
+                bx2 = bx1 + box_w
+                triple_boxes.append((bx1, y1, bx2, y2))
+                structures.append(
+                    VisualStructureSpec(
+                        "box", f"scope_box_{i}", {"x1": bx1, "y1": y1, "x2": bx2, "y2": y2}
                     )
                 )
 
+            contexts = [
+                {"context_id": "scope_box_0", "rect": triple_boxes[0], "selected": True},
+                {"context_id": "scope_box_1", "rect": triple_boxes[1], "selected": False},
+                {"context_id": "scope_box_2", "rect": triple_boxes[2], "selected": False},
+            ]
+            target_definition["scope_selector"] = "leftmost_box"
+
+        selected_context = next(ctx for ctx in contexts if bool(ctx["selected"]))
+        selected_rect = selected_context["rect"]
+        selected_context_id = str(selected_context["context_id"])
+
+        selected_points = sample_points_in_rect(selected_rect, max(factors.target_count + 2, 5))
+        other_context_points: list[tuple[float, float, str]] = []
+
+        for ctx in contexts:
+            if ctx is selected_context:
+                continue
+            pts = sample_points_in_rect(ctx["rect"], 4)
+            for x, y in pts:
+                other_context_points.append((x, y, str(ctx["context_id"])))
+
+        # Anchor in selected context
+        ax, ay = selected_points[0]
         items.append(
             VisualItemSpec(
-                right_positions[0][0], right_positions[0][1],
-                query_color, query_shape, size,
-                "right_box", None, "right_box", "panel_right",
-                False, False, "wrong_scope"
+                ax,
+                ay,
+                "yellow",
+                "triangle",
+                size,
+                selected_context_id,
+                None,
+                None,
+                selected_context_id if selected_context_id.startswith("panel_") else None,
+                False,
+                True,
+                "anchor",
             )
         )
-        items.append(
-            VisualItemSpec(
-                right_positions[1][0], right_positions[1][1],
-                self._different_color(query_color), query_shape, size,
-                "right_box", None, "right_box", "panel_right",
-                False, False, "distractor"
-            )
-        )
-        items.append(
-            VisualItemSpec(
-                right_positions[2][0], right_positions[2][1],
-                query_color, self._different_shape(query_shape), size,
-                "right_box", None, "right_box", "panel_right",
-                False, False, "partial_feature"
-            )
-        )
-        for pos in right_positions[3:]:
-            color, shape = self._sample_non_target_feature(rng, query_color, query_shape, "feature_only")
+
+        # Targets in selected context
+        for x, y in selected_points[1 : 1 + factors.target_count]:
             items.append(
                 VisualItemSpec(
-                    pos[0], pos[1], color, shape, size,
-                    "right_box", None, "right_box", "panel_right",
-                    False, False, "distractor"
+                    x,
+                    y,
+                    query_color,
+                    query_shape,
+                    size,
+                    selected_context_id,
+                    None,
+                    None,
+                    selected_context_id if selected_context_id.startswith("panel_") else None,
+                    True,
+                    False,
+                    "target",
                 )
             )
 
+        remaining_selected = selected_points[1 + factors.target_count :]
+        if remaining_selected:
+            x, y = remaining_selected[0]
+            items.append(
+                VisualItemSpec(
+                    x,
+                    y,
+                    self._different_color(query_color),
+                    query_shape,
+                    size,
+                    selected_context_id,
+                    None,
+                    None,
+                    selected_context_id if selected_context_id.startswith("panel_") else None,
+                    False,
+                    False,
+                    "group_only",
+                )
+            )
+            for x, y in remaining_selected[1:]:
+                color, shape = self._sample_non_target_feature(
+                    rng, query_color, query_shape, "group_only"
+                )
+                items.append(
+                    VisualItemSpec(
+                        x,
+                        y,
+                        color,
+                        shape,
+                        size,
+                        selected_context_id,
+                        None,
+                        None,
+                        selected_context_id if selected_context_id.startswith("panel_") else None,
+                        False,
+                        False,
+                        "distractor",
+                    )
+                )
+
+        # Wrong-scope exact match
+        x, y, other_context_id = other_context_points[0]
         items.append(
             VisualItemSpec(
-                320, 110, query_color, query_shape, size,
-                "between", None, None, None,
-                False, False, "feature_only"
+                x,
+                y,
+                query_color,
+                query_shape,
+                size,
+                other_context_id,
+                None,
+                None,
+                other_context_id if other_context_id.startswith("panel_") else None,
+                False,
+                False,
+                "wrong_scope",
             )
         )
+
+        # Same-shape wrong-color distractor
+        if len(other_context_points) > 1:
+            x, y, other_context_id = other_context_points[1]
+            items.append(
+                VisualItemSpec(
+                    x,
+                    y,
+                    self._different_color(query_color),
+                    query_shape,
+                    size,
+                    other_context_id,
+                    None,
+                    None,
+                    other_context_id if other_context_id.startswith("panel_") else None,
+                    False,
+                    False,
+                    "distractor",
+                )
+            )
+
+        # Same-color wrong-shape distractor
+        if len(other_context_points) > 2:
+            x, y, other_context_id = other_context_points[2]
+            items.append(
+                VisualItemSpec(
+                    x,
+                    y,
+                    query_color,
+                    self._different_shape(query_shape),
+                    size,
+                    other_context_id,
+                    None,
+                    None,
+                    other_context_id if other_context_id.startswith("panel_") else None,
+                    False,
+                    False,
+                    "partial_feature",
+                )
+            )
+
+        for x, y, other_context_id in other_context_points[3:]:
+            color, shape = self._sample_non_target_feature(
+                rng, query_color, query_shape, "feature_only"
+            )
+            items.append(
+                VisualItemSpec(
+                    x,
+                    y,
+                    color,
+                    shape,
+                    size,
+                    other_context_id,
+                    None,
+                    None,
+                    other_context_id if other_context_id.startswith("panel_") else None,
+                    False,
+                    False,
+                    "distractor",
+                )
+            )
+
+        # Optional free distractor outside explicit scope regions
+        free_rects = [
+            (factors.margin, factors.margin, factors.width - factors.margin, 70.0),
+            (
+                factors.margin,
+                factors.height - 70.0,
+                factors.width - factors.margin,
+                factors.height - factors.margin,
+            ),
+        ]
+        for rect in free_rects:
+            try:
+                free_pts = sample_points_in_rect(rect, 1, pad=4.0)
+                fx, fy = free_pts[0]
+                color, shape = self._sample_non_target_feature(
+                    rng, query_color, query_shape, "feature_only"
+                )
+                items.append(
+                    VisualItemSpec(
+                        fx,
+                        fy,
+                        color,
+                        shape,
+                        size,
+                        "free",
+                        None,
+                        None,
+                        None,
+                        False,
+                        False,
+                        "distractor",
+                    )
+                )
+                break
+            except GenerationError:
+                continue
 
         if factors.target_count == 0:
             items = [
                 VisualItemSpec(
-                    it.x, it.y,
+                    it.x,
+                    it.y,
                     self._different_color(query_color) if it.role == "target" else it.color,
-                    it.shape, it.size, it.group_id, it.similarity_key,
-                    it.region_id, it.panel_id,
-                    False, it.is_anchor,
+                    it.shape,
+                    it.size,
+                    it.group_id,
+                    it.similarity_key,
+                    it.region_id,
+                    it.panel_id,
+                    False,
+                    it.is_anchor,
                     "partial_feature" if it.role == "target" else it.role,
                 )
                 for it in items
@@ -2355,6 +2606,15 @@ class StructureSensitiveVisualGenerator:
             return f"{feature_desc} inside the selected box"
         if target_definition["rule_type"] == "different_group_from_anchor":
             return f"{feature_desc} in a different group from the marked item"
+        if target_definition["rule_type"] == "inside_region_in_panel":
+            selector = target_definition.get("scope_selector", "selected_scope")
+            if selector == "left_panel":
+                return f"{feature_desc} inside the left panel only"
+            if selector == "top_panel":
+                return f"{feature_desc} inside the top panel only"
+            if selector == "leftmost_box":
+                return f"{feature_desc} inside the leftmost box only"
+            return f"{feature_desc} inside the selected scope only"
         return feature_desc
 
 
