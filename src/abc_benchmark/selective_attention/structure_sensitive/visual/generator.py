@@ -310,7 +310,7 @@ class StructureSensitiveVisualGenerator:
             if item.is_anchor:
                 self._draw_anchor_marker(draw, item)
             if show_item_ids:
-                self._draw_item_id(draw, item, index, factors)
+                self._draw_item_id(draw, item, index, factors, scene.items)
 
         if output_path is not None:
             path = Path(output_path)
@@ -435,8 +435,8 @@ class StructureSensitiveVisualGenerator:
                 grouping_feature_secondary=None,
                 queried_feature="shape",
                 num_groups=3 if difficulty != "hard" else 4,
-                cluster_spread=38.0 if condition_type == "random_clusters" else None,
-                inter_group_margin=148.0 if condition_type == "random_clusters" else 84.0,
+                cluster_spread=30.0 if condition_type == "random_clusters" else None,
+                inter_group_margin=178.0 if condition_type == "random_clusters" else 84.0,
                 stripe_count=0,
                 shape_bias_strength=None,
                 path_crossing_count=0,
@@ -837,10 +837,10 @@ class StructureSensitiveVisualGenerator:
         base_spread = factors.cluster_spread or 36.0
         max_radius = float(max(SIZE_TO_RADIUS.values()))
         required_clearance = 2 * max_radius + 6.0
-        intra_group_min_distance = max(required_clearance, float(factors.min_gap))
+        intra_group_min_distance = max(required_clearance, float(factors.min_gap) - 6.0)
         inter_group_min_distance = max(required_clearance, float(factors.min_gap))
         for group_index, (size, center) in enumerate(zip(group_sizes, centers), start=1):
-            spread = max(base_spread, math.sqrt(size) * intra_group_min_distance * 0.95)
+            spread = max(base_spread, math.sqrt(size) * intra_group_min_distance * 0.72)
             group_positions: list[tuple[float, float]] = []
             for _ in range(size):
                 placed = False
@@ -1004,7 +1004,7 @@ class StructureSensitiveVisualGenerator:
         width = float(partition["width"])
         height = float(partition["height"])
         max_radius = max(SIZE_TO_RADIUS.values())
-        required_clearance = 2 * max_radius + 6
+        required_clearance = 2 * max_radius + 10
         cols = max(1, int(width // required_clearance))
         rows = max(1, int(height // required_clearance))
         cell_w = width / cols
@@ -1946,6 +1946,7 @@ class StructureSensitiveVisualGenerator:
         item: VisualItemSpec,
         item_index: int,
         factors: StructureSensitiveVisualFactors,
+        all_items: list[VisualItemSpec],
     ) -> None:
         radius = SIZE_TO_RADIUS[item.size]
         label = str(item_index)
@@ -1956,18 +1957,38 @@ class StructureSensitiveVisualGenerator:
         pad = 4
         gap = 3
         side_offset = radius + gap
-        candidates = [
-            (item.x + side_offset, item.y - text_h / 2),
-            (item.x - side_offset - text_w, item.y - text_h / 2),
-            (item.x + side_offset, item.y - text_h - gap),
-            (item.x - side_offset - text_w, item.y - text_h - gap),
-        ]
+        if item.shape == "triangle":
+            side_offset = max(radius * 0.72, radius - 4)
+        if factors.condition_type == "gap_grid":
+            candidates = self._gap_grid_id_candidates(
+                item,
+                text_w=text_w,
+                text_h=text_h,
+                radius=radius,
+                side_offset=side_offset,
+                gap=gap,
+                factors=factors,
+            )
+            use_collision_guard = True
+        else:
+            candidates = [
+                (item.x + side_offset, item.y - text_h / 2),
+                (item.x - side_offset - text_w, item.y - text_h / 2),
+                (item.x + side_offset, item.y - text_h - gap),
+                (item.x - side_offset - text_w, item.y - text_h - gap),
+            ]
+            use_collision_guard = False
 
         def fits(x: float, y: float) -> bool:
-            return (
+            if not (
                 pad <= x <= factors.width - text_w - pad
                 and pad <= y <= factors.height - text_h - pad
-            )
+            ):
+                return False
+            if not use_collision_guard:
+                return True
+            label_box = (x, y, x + text_w, y + text_h)
+            return not self._label_box_hits_other_items(label_box, item, all_items)
 
         x, y = next(((cx, cy) for cx, cy in candidates if fits(cx, cy)), candidates[0])
         x = max(pad, min(x, factors.width - text_w - pad))
@@ -1980,6 +2001,72 @@ class StructureSensitiveVisualGenerator:
             stroke_width=stroke_width,
             stroke_fill=(255, 255, 255),
         )
+
+    def _gap_grid_id_candidates(
+        self,
+        item: VisualItemSpec,
+        *,
+        text_w: float,
+        text_h: float,
+        radius: float,
+        side_offset: float,
+        gap: float,
+        factors: StructureSensitiveVisualFactors,
+    ) -> list[tuple[float, float]]:
+        usable_top = factors.margin + 28
+        estimated_row_band = max(1, int((radius * 2) + 18))
+        row_index = max(0, int((item.y - usable_top) // estimated_row_band))
+        vertical_offset = radius + 1
+        above = (item.x - text_w / 2, item.y - vertical_offset - text_h)
+        below = (item.x - text_w / 2, item.y + vertical_offset - 1)
+        right = (item.x + side_offset - 2, item.y - text_h / 2)
+        left = (item.x - side_offset - text_w + 2, item.y - text_h / 2)
+        if row_index % 2 == 0:
+            return [above, below, right, left]
+        return [below, above, right, left]
+
+    def _label_box_hits_other_items(
+        self,
+        label_box: tuple[float, float, float, float],
+        current_item: VisualItemSpec,
+        all_items: list[VisualItemSpec],
+    ) -> bool:
+        for other_item in all_items:
+            if other_item.item_id == current_item.item_id:
+                continue
+            if self._label_box_overlaps_item(label_box, other_item):
+                return True
+            if other_item.is_anchor and self._label_box_overlaps_anchor_marker(label_box, other_item):
+                return True
+        return False
+
+    def _label_box_overlaps_item(
+        self,
+        label_box: tuple[float, float, float, float],
+        item: VisualItemSpec,
+    ) -> bool:
+        radius = self._shape_cover_radius(item)
+        item_box = (
+            item.x - radius,
+            item.y - radius,
+            item.x + radius,
+            item.y + radius,
+        )
+        return self._rects_overlap(label_box, item_box)
+
+    def _label_box_overlaps_anchor_marker(
+        self,
+        label_box: tuple[float, float, float, float],
+        item: VisualItemSpec,
+    ) -> bool:
+        marker_radius = SIZE_TO_RADIUS[item.size] + 10
+        marker_box = (
+            item.x - marker_radius,
+            item.y - marker_radius,
+            item.x + marker_radius,
+            item.y + marker_radius,
+        )
+        return self._rects_overlap(label_box, marker_box)
 
     def _target_description(self, target_value: str) -> str:
         return target_value
@@ -2344,6 +2431,20 @@ class StructureSensitiveVisualGenerator:
     ) -> bool:
         left, top, right, bottom = rect
         return left <= x <= right and top <= y <= bottom
+
+    def _rects_overlap(
+        self,
+        rect_a: tuple[float, float, float, float],
+        rect_b: tuple[float, float, float, float],
+    ) -> bool:
+        left_a, top_a, right_a, bottom_a = rect_a
+        left_b, top_b, right_b, bottom_b = rect_b
+        return not (
+            right_a <= left_b
+            or right_b <= left_a
+            or bottom_a <= top_b
+            or bottom_b <= top_a
+        )
 
     def _point_too_close_to_region(
         self,
