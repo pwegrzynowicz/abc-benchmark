@@ -417,6 +417,14 @@ class StructureSensitiveVisualGenerator:
         variant: str | None = None,
     ) -> StructureSensitiveVisualFactors:
         variant_name = variant or principle_variant
+        effective_difficulty = difficulty
+        if dimension == "principle":
+            effective_difficulty = {
+                "proximity": "medium",
+                "similarity": "hard",
+                "continuity": "hard",
+                "common_region": "easy",
+            }[principle_variant]
         if principle_variant == "proximity":
             condition_type, layout_pattern = rng.choice(
                 [
@@ -430,11 +438,11 @@ class StructureSensitiveVisualGenerator:
                 principle="proximity",
                 condition_type=condition_type,
                 layout_pattern=layout_pattern,
-                difficulty=difficulty,
+                difficulty=effective_difficulty,
                 grouping_feature_primary="proximity",
                 grouping_feature_secondary=None,
                 queried_feature="shape",
-                num_groups=3 if difficulty != "hard" else 4,
+                num_groups=3 if effective_difficulty != "hard" else 4,
                 cluster_spread=30.0 if condition_type == "random_clusters" else None,
                 inter_group_margin=178.0 if condition_type == "random_clusters" else 84.0,
                 stripe_count=0,
@@ -459,7 +467,7 @@ class StructureSensitiveVisualGenerator:
                 principle="similarity",
                 condition_type=condition_type,
                 layout_pattern=layout_pattern,
-                difficulty=difficulty,
+                difficulty=effective_difficulty,
                 grouping_feature_primary="color",
                 grouping_feature_secondary=None,
                 queried_feature="shape",
@@ -479,7 +487,7 @@ class StructureSensitiveVisualGenerator:
                 principle="continuity",
                 condition_type="single_crossing",
                 layout_pattern="straight_vs_arc",
-                difficulty=difficulty,
+                difficulty=effective_difficulty,
                 grouping_feature_primary="path_continuity",
                 grouping_feature_secondary=None,
                 queried_feature="shape",
@@ -505,7 +513,7 @@ class StructureSensitiveVisualGenerator:
                 principle="common_region",
                 condition_type=condition_type,
                 layout_pattern=layout_pattern,
-                difficulty=difficulty,
+                difficulty=effective_difficulty,
                 grouping_feature_primary="common_region",
                 grouping_feature_secondary=None,
                 queried_feature="shape",
@@ -516,7 +524,7 @@ class StructureSensitiveVisualGenerator:
                 shape_bias_strength=0.0,
                 path_crossing_count=0,
                 region_count=2,
-                loose_item_count=2 if condition_type == "outside_items" and difficulty == "hard" else (1 if condition_type == "outside_items" else 0),
+                loose_item_count=2 if condition_type == "outside_items" and effective_difficulty == "hard" else (1 if condition_type == "outside_items" else 0),
             )
         raise ValueError(f"Unknown principle variant: {principle_variant}")
 
@@ -562,9 +570,9 @@ class StructureSensitiveVisualGenerator:
             "easy": dict(
                 min_items_per_group=4,
                 max_items_per_group=5,
-                target_in_anchor_group=2,
+                target_in_anchor_group=1,
                 target_outside_anchor_group=1,
-                non_target_in_anchor_group=2,
+                non_target_in_anchor_group=3,
                 min_gap=30,
                 jitter=6,
             ),
@@ -658,8 +666,11 @@ class StructureSensitiveVisualGenerator:
             }
             return items, [], [], metadata
         if factors.condition_type == "gap_grid":
-            items = self._items_from_gap_grid(rng, factors, group_sizes)
-            metadata = {"group_sizes": group_sizes}
+            items, gap_grid_metadata = self._items_from_gap_grid(rng, factors, group_sizes)
+            metadata = {
+                "group_sizes": gap_grid_metadata["group_sizes"],
+                **gap_grid_metadata,
+            }
             return items, [], [], metadata
         raise ValueError(f"Unsupported proximity condition_type: {factors.condition_type}")
 
@@ -738,12 +749,15 @@ class StructureSensitiveVisualGenerator:
 
         if factors.principle == "proximity" and factors.condition_type == "gap_grid":
             anchor_floor = factors.target_in_anchor_group + factors.non_target_in_anchor_group
-            size_by_difficulty = {
-                "easy": 4,
-                "medium": 6,
-                "hard": 6,
+            size_bounds = {
+                "easy": (4, 5),
+                "medium": (4, 6),
+                "hard": (5, 6),
             }
-            return [max(size_by_difficulty[factors.difficulty], anchor_floor)] * factors.num_groups
+            low, high = size_bounds[factors.difficulty]
+            sizes = [rng.randint(low, high) for _ in range(factors.num_groups)]
+            sizes[0] = max(sizes[0], anchor_floor)
+            return sizes
 
         sizes = [
             rng.randint(factors.min_items_per_group, factors.max_items_per_group)
@@ -873,52 +887,295 @@ class StructureSensitiveVisualGenerator:
         rng: random.Random,
         factors: StructureSensitiveVisualFactors,
         group_sizes: list[int],
-    ) -> list[VisualItemSpec]:
+    ) -> tuple[list[VisualItemSpec], dict[str, object]]:
         max_radius = max(SIZE_TO_RADIUS.values())
         required_clearance = 2 * max_radius + 6
         usable_left = factors.margin + 28
         usable_right = factors.width - factors.margin - 28
         usable_top = factors.margin + 28
         usable_bottom = factors.height - factors.margin - 28
-        rows = None
-        total_cols = None
-        cell_w = None
-        cell_h = None
-        for candidate_rows in range(2, 5):
-            candidate_total_cols = (
-                sum(max(2, math.ceil(size / candidate_rows)) for size in group_sizes)
-                + len(group_sizes)
-                - 1
-            )
-            candidate_cell_w = (usable_right - usable_left) / candidate_total_cols
-            candidate_cell_h = (usable_bottom - usable_top) / candidate_rows
-            if min(candidate_cell_w, candidate_cell_h) >= max(factors.min_gap + 10, required_clearance):
-                rows = candidate_rows
-                total_cols = candidate_total_cols
-                cell_w = candidate_cell_w
-                cell_h = candidate_cell_h
-                break
-        if rows is None or total_cols is None or cell_w is None or cell_h is None:
-            raise GenerationError("Gap grid cells too small")
+        layout = self._sample_gap_grid_layout(
+            rng,
+            factors,
+            group_sizes,
+            required_clearance=required_clearance,
+            usable_left=usable_left,
+            usable_right=usable_right,
+            usable_top=usable_top,
+            usable_bottom=usable_bottom,
+        )
 
         items: list[VisualItemSpec] = []
-        cursor_col = 0
-        for group_index, size in enumerate(group_sizes, start=1):
-            group_cols = max(2, math.ceil(size / rows))
-            slots = [
+        row_centers = layout["row_centers"]
+        col_centers = layout["col_centers"]
+        actual_group_sizes: list[int] = []
+        for partition in layout["partitions"]:
+            group_id = str(partition["group_id"])
+            candidate_slots = [
                 (row, col)
-                for row in range(rows)
-                for col in range(group_cols)
+                for row in range(int(partition["row_start"]), int(partition["row_end"]))
+                for col in range(int(partition["col_start"]), int(partition["col_end"]))
             ]
-            for row, col in slots[:size]:
-                x = usable_left + (cursor_col + col + 0.5) * cell_w
-                y = usable_top + (row + 0.5) * cell_h
-                if factors.jitter and factors.condition_type != "gap_grid":
-                    x += rng.uniform(-factors.jitter, factors.jitter)
-                    y += rng.uniform(-factors.jitter, factors.jitter)
-                items.append(self._make_placeholder_item(len(items) + 1, x, y, group_id=f"G{group_index}"))
-            cursor_col += group_cols + 1
-        return items
+            if not candidate_slots:
+                raise GenerationError("Gap grid partition must contain at least one slot")
+            actual_group_sizes.append(len(candidate_slots))
+            for row, col in candidate_slots:
+                items.append(
+                    self._make_placeholder_item(
+                        len(items) + 1,
+                        col_centers[col],
+                        row_centers[row],
+                        group_id=group_id,
+                    )
+                )
+        metadata = {
+            "group_sizes": actual_group_sizes,
+            "grid_split_pattern": layout["template_name"],
+            "grid_row_count": layout["row_count"],
+            "grid_col_count": layout["col_count"],
+            "gap_after_rows": layout["gap_after_rows"],
+            "gap_after_cols": layout["gap_after_cols"],
+            "group_partitions": layout["partitions"],
+        }
+        return items, metadata
+
+    def _sample_gap_grid_layout(
+        self,
+        rng: random.Random,
+        factors: StructureSensitiveVisualFactors,
+        group_sizes: list[int],
+        *,
+        required_clearance: float,
+        usable_left: float,
+        usable_right: float,
+        usable_top: float,
+        usable_bottom: float,
+    ) -> dict[str, object]:
+        if factors.num_groups == 3:
+            template_names = ["vertical_bands", "horizontal_bands", "l_split"]
+        elif factors.num_groups == 4:
+            template_names = ["quadrants"]
+        else:
+            raise GenerationError("Unsupported gap grid group count")
+        rng.shuffle(template_names)
+        for template_name in template_names:
+            attempts = 18 if template_name != "quadrants" else 24
+            for _ in range(attempts):
+                layout = self._build_gap_grid_template(template_name, rng, group_sizes)
+                row_centers = self._gap_grid_axis_centers(
+                    count=int(layout["row_count"]),
+                    span_start=usable_top,
+                    span_end=usable_bottom,
+                    preferred_step=max(float(factors.min_gap) - 2.0, required_clearance + 4.0),
+                    min_step=required_clearance + 2.0,
+                    gap_after=layout["gap_after_rows"],
+                    gap_multiplier=2.15,
+                )
+                if row_centers is None:
+                    continue
+                col_centers = self._gap_grid_axis_centers(
+                    count=int(layout["col_count"]),
+                    span_start=usable_left,
+                    span_end=usable_right,
+                    preferred_step=max(float(factors.min_gap) + 8.0, required_clearance + 12.0),
+                    min_step=required_clearance + 8.0,
+                    gap_after=layout["gap_after_cols"],
+                    gap_multiplier=2.25,
+                )
+                if col_centers is None:
+                    continue
+                return {
+                    **layout,
+                    "row_centers": row_centers,
+                    "col_centers": col_centers,
+                }
+        raise GenerationError("Gap grid cells too small")
+
+    def _build_gap_grid_template(
+        self,
+        template_name: str,
+        rng: random.Random,
+        group_sizes: list[int],
+    ) -> dict[str, object]:
+        if template_name == "vertical_bands":
+            rows = rng.choice([2, 3])
+            col_widths = [max(2, math.ceil(size / rows)) for size in group_sizes]
+            partitions: list[dict[str, int | str]] = []
+            cursor_col = 0
+            for group_index, col_width in enumerate(col_widths, start=1):
+                partitions.append(
+                    {
+                        "group_id": f"G{group_index}",
+                        "row_start": 0,
+                        "row_end": rows,
+                        "col_start": cursor_col,
+                        "col_end": cursor_col + col_width,
+                    }
+                )
+                cursor_col += col_width
+            return {
+                "template_name": template_name,
+                "row_count": rows,
+                "col_count": cursor_col,
+                "gap_after_rows": [],
+                "gap_after_cols": self._gap_boundaries(col_widths),
+                "partitions": partitions,
+            }
+        if template_name == "horizontal_bands":
+            cols = rng.choice([4, 5, 6])
+            row_heights = [max(1, math.ceil(size / cols)) for size in group_sizes]
+            partitions = []
+            cursor_row = 0
+            for group_index, row_height in enumerate(row_heights, start=1):
+                partitions.append(
+                    {
+                        "group_id": f"G{group_index}",
+                        "row_start": cursor_row,
+                        "row_end": cursor_row + row_height,
+                        "col_start": 0,
+                        "col_end": cols,
+                    }
+                )
+                cursor_row += row_height
+            return {
+                "template_name": template_name,
+                "row_count": cursor_row,
+                "col_count": cols,
+                "gap_after_rows": self._gap_boundaries(row_heights),
+                "gap_after_cols": [],
+                "partitions": partitions,
+            }
+        if template_name == "l_split":
+            return self._build_gap_grid_l_split(rng, group_sizes)
+        if template_name == "quadrants":
+            return self._build_gap_grid_quadrants(rng, group_sizes)
+        raise GenerationError(f"Unsupported gap grid template: {template_name}")
+
+    def _build_gap_grid_l_split(
+        self,
+        rng: random.Random,
+        group_sizes: list[int],
+    ) -> dict[str, object]:
+        orientation = rng.choice(["left_full", "right_full", "top_full", "bottom_full"])
+        primary_size, secondary_a, secondary_b = group_sizes
+        if orientation in {"left_full", "right_full"}:
+            right_cols = rng.choice([2, 3])
+            top_rows = rng.choice([1, 2])
+            bottom_rows = rng.choice([1, 2])
+            total_rows = top_rows + bottom_rows
+            primary_cols = max(2, math.ceil(primary_size / total_rows))
+            right_cols = max(
+                right_cols,
+                math.ceil(secondary_a / top_rows),
+                math.ceil(secondary_b / bottom_rows),
+            )
+            if orientation == "left_full":
+                partitions = [
+                    {"group_id": "G1", "row_start": 0, "row_end": total_rows, "col_start": 0, "col_end": primary_cols},
+                    {"group_id": "G2", "row_start": 0, "row_end": top_rows, "col_start": primary_cols, "col_end": primary_cols + right_cols},
+                    {"group_id": "G3", "row_start": top_rows, "row_end": total_rows, "col_start": primary_cols, "col_end": primary_cols + right_cols},
+                ]
+            else:
+                partitions = [
+                    {"group_id": "G1", "row_start": 0, "row_end": total_rows, "col_start": right_cols, "col_end": right_cols + primary_cols},
+                    {"group_id": "G2", "row_start": 0, "row_end": top_rows, "col_start": 0, "col_end": right_cols},
+                    {"group_id": "G3", "row_start": top_rows, "row_end": total_rows, "col_start": 0, "col_end": right_cols},
+                ]
+            return {
+                "template_name": f"l_split_{orientation}",
+                "row_count": total_rows,
+                "col_count": primary_cols + right_cols,
+                "gap_after_rows": [top_rows],
+                "gap_after_cols": [primary_cols] if orientation == "left_full" else [right_cols],
+                "partitions": partitions,
+            }
+        secondary_rows = rng.choice([1, 2])
+        left_cols = max(2, math.ceil(secondary_a / secondary_rows))
+        right_cols = max(2, math.ceil(secondary_b / secondary_rows))
+        total_cols = left_cols + right_cols
+        primary_rows = max(1, math.ceil(primary_size / total_cols))
+        if orientation == "top_full":
+            partitions = [
+                {"group_id": "G1", "row_start": 0, "row_end": primary_rows, "col_start": 0, "col_end": total_cols},
+                {"group_id": "G2", "row_start": primary_rows, "row_end": primary_rows + secondary_rows, "col_start": 0, "col_end": left_cols},
+                {"group_id": "G3", "row_start": primary_rows, "row_end": primary_rows + secondary_rows, "col_start": left_cols, "col_end": total_cols},
+            ]
+        else:
+            partitions = [
+                {"group_id": "G1", "row_start": secondary_rows, "row_end": secondary_rows + primary_rows, "col_start": 0, "col_end": total_cols},
+                {"group_id": "G2", "row_start": 0, "row_end": secondary_rows, "col_start": 0, "col_end": left_cols},
+                {"group_id": "G3", "row_start": 0, "row_end": secondary_rows, "col_start": left_cols, "col_end": total_cols},
+            ]
+        return {
+            "template_name": f"l_split_{orientation}",
+            "row_count": max(partition["row_end"] for partition in partitions),
+            "col_count": total_cols,
+            "gap_after_rows": [primary_rows] if orientation == "top_full" else [secondary_rows],
+            "gap_after_cols": [left_cols],
+            "partitions": partitions,
+        }
+
+    def _build_gap_grid_quadrants(
+        self,
+        rng: random.Random,
+        group_sizes: list[int],
+    ) -> dict[str, object]:
+        top_rows = rng.choice([1, 2])
+        bottom_rows = rng.choice([1, 2])
+        left_cols = max(2, math.ceil(max(group_sizes[0], group_sizes[2]) / max(top_rows, bottom_rows)))
+        right_cols = max(2, math.ceil(max(group_sizes[1], group_sizes[3]) / max(top_rows, bottom_rows)))
+        partitions = [
+            {"group_id": "G1", "row_start": 0, "row_end": top_rows, "col_start": 0, "col_end": left_cols},
+            {"group_id": "G2", "row_start": 0, "row_end": top_rows, "col_start": left_cols, "col_end": left_cols + right_cols},
+            {"group_id": "G3", "row_start": top_rows, "row_end": top_rows + bottom_rows, "col_start": 0, "col_end": left_cols},
+            {"group_id": "G4", "row_start": top_rows, "row_end": top_rows + bottom_rows, "col_start": left_cols, "col_end": left_cols + right_cols},
+        ]
+        return {
+            "template_name": "quadrants",
+            "row_count": top_rows + bottom_rows,
+            "col_count": left_cols + right_cols,
+            "gap_after_rows": [top_rows],
+            "gap_after_cols": [left_cols],
+            "partitions": partitions,
+        }
+
+    def _gap_boundaries(self, segment_lengths: list[int]) -> list[int]:
+        boundaries: list[int] = []
+        cursor = 0
+        for segment_length in segment_lengths[:-1]:
+            cursor += segment_length
+            boundaries.append(cursor)
+        return boundaries
+
+    def _gap_grid_axis_centers(
+        self,
+        *,
+        count: int,
+        span_start: float,
+        span_end: float,
+        preferred_step: float,
+        min_step: float,
+        gap_after: list[int],
+        gap_multiplier: float,
+    ) -> list[float] | None:
+        if count <= 0:
+            return None
+        if count == 1:
+            return [(span_start + span_end) / 2.0]
+        gap_boundaries = set(gap_after)
+        units = (count - 1) + len(gap_boundaries) * (gap_multiplier - 1.0)
+        available = span_end - span_start
+        step = min(preferred_step, available / units)
+        if step < min_step:
+            return None
+        current = span_start + (available - units * step) / 2.0
+        centers = [current]
+        for axis_index in range(1, count):
+            previous_index = axis_index - 1
+            delta = step * (gap_multiplier if axis_index in gap_boundaries else 1.0)
+            current += delta
+            centers.append(current)
+        return centers
 
     def _similarity_partitions(
         self,
