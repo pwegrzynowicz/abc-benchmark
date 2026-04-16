@@ -73,7 +73,7 @@ The evaluated benchmark bundle contains:
 - **1410** feature-sensitive text examples
 - **630** feature-sensitive visual examples
 - **390** structure-sensitive text examples
-- **240** structure-sensitive visual examples
+- **390** structure-sensitive visual examples
 
 Each row includes the metadata required for exact evaluation and later analysis, such as task group, dimension, variant, prompt, gold answer, and task-specific target or distractor statistics. Because every example is generated from an explicit underlying state, provenance is straightforward and the dataset is fully auditable.
 
