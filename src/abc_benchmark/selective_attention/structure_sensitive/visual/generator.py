@@ -43,7 +43,7 @@ LayoutPatternName = Literal[
 ]
 
 DifficultyName = Literal["easy", "medium", "hard"]
-DimensionName = Literal["baseline", "principle", "combined"]
+DimensionName = Literal["baseline", "principle", "target_count", "combined"]
 ShapeName = Literal["circle", "square", "triangle"]
 ColorName = Literal["red", "blue", "green", "yellow"]
 SizeName = Literal["small", "large"]
@@ -286,6 +286,8 @@ class StructureSensitiveVisualGenerator:
             return self._sample_baseline_factors(rng)
         if dimension == "principle":
             return self._sample_principle_factors(rng, principle_variant=variant)
+        if dimension == "target_count":
+            return self._sample_target_count_factors(rng, variant=variant)
         if dimension == "combined":
             return self._sample_combined_factors(rng, variant=variant)
         raise ValueError(f"Unknown dimension: {dimension}")
@@ -545,6 +547,29 @@ class StructureSensitiveVisualGenerator:
             variant=variant,
         )
 
+    def _sample_target_count_factors(
+        self,
+        rng: random.Random,
+        *,
+        variant: str,
+    ) -> StructureSensitiveVisualFactors:
+        mapping = {"0": 0, "1": 1, "3": 3, "6": 6}
+        if variant not in mapping:
+            raise ValueError(f"Unknown target_count variant: {variant}")
+        principle_options = ["proximity", "similarity", "continuity", "common_region"]
+        if mapping[variant] >= 6:
+            # Large target-count overrides exceed the current continuity path capacity.
+            principle_options = [principle for principle in principle_options if principle != "continuity"]
+        principle_variant = rng.choice(principle_options)
+        factors = self._sample_principle_factors(
+            rng,
+            principle_variant=principle_variant,
+            difficulty="medium",
+            dimension="target_count",
+            variant=variant,
+        )
+        return self._override_target_count(factors, mapping[variant])
+
     def _factors_for_difficulty(
         self,
         *,
@@ -621,6 +646,28 @@ class StructureSensitiveVisualGenerator:
             loose_item_count=loose_item_count or 0,
             min_gap=cfg["min_gap"],
             jitter=cfg["jitter"],
+        )
+
+    def _override_target_count(
+        self,
+        factors: StructureSensitiveVisualFactors,
+        target_count_override: int,
+    ) -> StructureSensitiveVisualFactors:
+        if target_count_override < 0:
+            raise ValueError("target_count_override must be >= 0")
+        target_outside_anchor_group = 2 if target_count_override == 0 else max(1, target_count_override // 2)
+        return replace(
+            factors,
+            target_in_anchor_group=target_count_override,
+            target_outside_anchor_group=target_outside_anchor_group,
+            non_target_in_anchor_group=max(
+                factors.non_target_in_anchor_group,
+                3 if target_count_override == 0 else max(3, target_count_override // 2),
+            ),
+            max_items_per_group=max(
+                factors.max_items_per_group,
+                target_count_override + max(3, factors.non_target_in_anchor_group),
+            ),
         )
 
     def _build_scene(

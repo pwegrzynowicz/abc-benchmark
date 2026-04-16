@@ -6,7 +6,7 @@ script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 repo_root="$(cd "${script_dir}/.." && pwd)"
 
 datasets_root="${repo_root}/artifacts/datasets"
-archive_path="${datasets_root}/abc_gestalt_selective_attention_dataset.zip"
+archive_path="${datasets_root}/abc_selective_attention_dataset.zip"
 staging_dir="${datasets_root}/_zip_staging"
 source_root_name="selective_attention"
 source_root_path="${datasets_root}/${source_root_name}"
