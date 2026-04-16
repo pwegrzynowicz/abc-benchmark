@@ -73,7 +73,7 @@ The evaluated benchmark bundle contains:
 - **1410** feature-sensitive text examples
 - **630** feature-sensitive visual examples
 - **390** structure-sensitive text examples
-- **390** structure-sensitive visual examples
+- **360** structure-sensitive visual examples
 
 Each row includes the metadata required for exact evaluation and later analysis, such as task group, dimension, variant, prompt, gold answer, and task-specific target or distractor statistics. Because every example is generated from an explicit underlying state, provenance is straightforward and the dataset is fully auditable.
 
@@ -85,7 +85,7 @@ ABC was built around three technical requirements: **deterministic gold generati
 
 **Strict output checking.** The benchmark uses constrained, machine-checkable outputs rather than open-ended answers. In counting tasks, the model must return an exact integer in a fixed schema. In filtering tasks, it must return the exact structured subset, which is validated deterministically against the gold selection. This avoids vague free-form answers and keeps evaluation robust.
 
-**Diagnostic evaluation.** Every example is labeled by **task group**, **dimension**, and **variant**. This supports analysis at multiple levels: by modality, by attentional basis, by task type, and by specific source of pressure. Baseline variants are part of this design: they help distinguish failures caused by weak perceptual or structural readout from failures caused by distractor pressure, rule maintenance, or grouping-based attention.
+**Diagnostic evaluation.** Every example is labeled by **task group**, **dimension**, and **variant**. This supports analysis at multiple levels: by modality, by attentional basis, by task type, and by specific source of pressure. Baseline dimensions are part of this design: they help distinguish failures caused by weak perceptual or structural readout from failures caused by distractor pressure, rule maintenance, or grouping-based attention.
 
 Together, these choices make ABC not only automatically scorable, but also interpretable. The benchmark can reveal not just that a model failed, but whether it failed because it could not solve the basic task, could not preserve the rule, could not suppress distractors, or could not maintain attention over the correct structured unit.
 
