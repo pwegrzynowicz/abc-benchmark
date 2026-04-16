@@ -1,5 +1,7 @@
 ### Project Name
 
+
+
 ABC: Attention Benchmark for Cognition
 
 ### Your Team
@@ -9,7 +11,7 @@ Patrycja Węgrzynowicz, Ksawery Kopeć
 
 ### Problem Statement
 
-Current LLM and multimodal benchmarks measure broad capabilities such as knowledge, reasoning, instruction following, or general multimodal competence, but they rarely isolate **attention** as a capability in its own right. In particular, they say little about whether a model can keep its focus on the correct targets when plausible distractors compete for attention.
+Current LLM and multimodal benchmarks measure broad capabilities such as knowledge, reasoning, instruction following, and general multimodal competence, but they rarely isolate **attention** as a capability in its own right. In particular, they say little about whether a model can keep its focus on the correct targets when plausible distractors compete for attention.
 
 ABC addresses this gap by evaluating **selective attention under interference**.
 
@@ -29,7 +31,7 @@ The key conceptual distinction is between:
 - **feature-sensitive attention**, where relevance is determined by local attributes or logical combinations of attributes;
 - **structure-sensitive attention**, where relevance depends on higher-level organization such as grouping, region membership, continuity, or scope.
 
-A model may follow explicit local rules well while still failing when the correct answer depends on belonging to the right group, line, region, or scoped subset. ABC is designed to expose that gap.
+A model may follow explicit local rules well while still failing when the correct answer depends on belonging to the right group, line, region, or subset. ABC is designed to expose that gap.
 
 ### Task & benchmark construction
 
@@ -44,7 +46,7 @@ This keeps the benchmark conceptually consistent across modalities. What changes
 
 In **feature-sensitive** tasks, pressure comes from distractors, compositional rules, and rule maintenance. The model must identify the rule-relevant features, apply the correct conjunction, negation, or disjunction, and ignore plausible confounds.
 
-In **structure-sensitive** tasks, pressure comes from organization. This branch is inspired by Gestalt principles such as **proximity**, **similarity**, **common region**, and **continuity**. In vision, these appear directly through scene layout and grouping. In text, they are adapted through grouping, spacing, indentation, layout, and scoped organization. The task is not just to find a locally matching item, but to attend to the correct **unit of organization** first.
+In **structure-sensitive** tasks, pressure comes from organization. This branch is inspired by Gestalt principles such as **proximity**, **similarity**, **common region**, and **continuity**. In vision, these appear directly through scene layout and grouping. In text, they are adapted through grouping, spacing, indentation, and layout. The task is not just to find a locally matching item, but to attend to the correct **unit of organization**.
 
 Within each task group, the dataset contains multiple **dimensions** and **variants**. Dimensions define the main source of attentional pressure; variants are concrete realizations of that pressure. This supports diagnostic analysis: instead of observing only that a model scored lower, we can often identify whether the failure is driven by distractor pressure, unstable rule maintenance, weak structural binding, or inability to perform the basic form of the task.
 
@@ -81,7 +83,7 @@ Each row includes the metadata required for exact evaluation and later analysis,
 
 ABC was built around three technical requirements: **deterministic gold generation**, **strict output checking**, and **diagnostic evaluation**.
 
-**Deterministic gold generation.** Each example is generated from an explicit underlying state: a structured record set in text or an object-and-group specification in vision. Gold answers are computed from that state and the task rule itself, not inferred from rendered output or post-hoc annotation. This guarantees correctness by construction.
+**Deterministic gold generation.** Each example is generated from an explicit underlying state: a structured record set in text or an object-and-group scene specification in vision. Gold answers are computed from that state and the task rule itself, not inferred from rendered output or post-hoc annotation. This guarantees correctness by construction.
 
 **Strict output checking.** The benchmark uses constrained, machine-checkable outputs rather than open-ended answers. In counting tasks, the model must return an exact integer in a fixed schema. In filtering tasks, it must return the exact structured subset, which is validated deterministically against the gold selection. This avoids vague free-form answers and keeps evaluation robust.
 
@@ -99,7 +101,7 @@ The central result is that **selective attention is not monolithic**.
 
 Across models, performance is strongest when relevance is defined by explicit local features and weakest when relevance depends on higher-level organization such as grouping, continuity, common region, or scope-like structure. Strong local matching is therefore not the same as robust attention over structure.
 
-This is the main insight revealed by ABC. In feature-sensitive tasks, a model can often succeed by matching explicit attributes and suppressing obvious distractors. In structure-sensitive tasks, that is not enough. The model must first identify the correct group, region, line, or scoped subset, preserve that structural binding, and only then apply the rule. Many models that appear strong on instruction following and surface-level selection are substantially less reliable in this regime.
+This is the main insight revealed by ABC. In feature-sensitive tasks, a model can often succeed by matching explicit attributes and suppressing obvious distractors. In structure-sensitive tasks, that is not enough. The model must first identify the correct group, region, line, or subset, preserve that structural binding, and only then apply the rule. Many models that appear strong on surface-level selection and general task execution are substantially less reliable in this regime.
 
 The benchmark also reveals distinct failure modes. Adversarial-confound errors indicate weak distractor suppression. Negation and disjunction failures indicate unstable rule maintenance. Continuity and common-region failures indicate weak structural binding. Scope-like text failures indicate flattening of hierarchy rather than preservation of grouped structure. ABC therefore diagnoses **how** attention fails, not just **which** model scores higher.
 
@@ -115,3 +117,6 @@ In short, many models are much better at **matching the right local cue** than a
 ### Organizational affiliations
 
 Independent
+
+### References & citations
+- Wagemans, J. et al. (2012). A Century of Gestalt Psychology in Visual Perception: Perceptual Grouping and Figure–Ground Organization.
