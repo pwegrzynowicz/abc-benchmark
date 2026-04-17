@@ -1,0 +1,9 @@
+basis_folder,modality,task_type,task_name,num_models,avg_accuracy_pct
+feature_sensitive,text,counting,selective attention - feature sensitive text counting,15,77.48
+feature_sensitive,text,filtering,selective attention - feature sensitive text filtering,15,84.46
+feature_sensitive,visual,counting,selective attention - feature sensitive visual counting,15,61.66
+feature_sensitive,visual,filtering,selective attention - feature sensitive visual filtering,15,66.32
+structure_sensitive,text,counting,selective attention - structure sensitive text counting,15,71.76
+structure_sensitive,text,filtering,selective attention - structure sensitive text filtering,15,70.94
+structure_sensitive,visual,counting,selective attention - structure sensitive visual counting,15,54.67
+structure_sensitive,visual,filtering,selective attention - structure sensitive visual filtering,15,44.43
