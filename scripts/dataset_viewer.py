@@ -111,7 +111,7 @@ class DatasetIndex:
 
             for _, row in df.iterrows():
                 record = {col: normalize_value(row[col]) for col in df.columns}
-                for key in ["gold_indices", "gold_lines"]:
+                for key in ["gold_indices", "gold_lines", "gold_ids"]:
                     if key in record:
                         record[key] = maybe_parse_json(record[key])
 
@@ -209,6 +209,8 @@ class DatasetIndex:
         filter_gold = row.get("gold_indices")
         if filter_gold is None:
             filter_gold = row.get("gold_lines")
+        if filter_gold is None:
+            filter_gold = row.get("gold_ids")
 
         return {
             "id": sample_id,
@@ -246,7 +248,7 @@ HTML = """<!DOCTYPE html>
       color: #111827;
     }
     .wrap {
-      max-width: 1400px;
+      max-width: 1560px;
       margin: 0 auto;
       padding: 20px;
     }
@@ -269,15 +271,23 @@ HTML = """<!DOCTYPE html>
       margin-bottom: 16px;
       padding: 18px 20px;
     }
+    .title-meta {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 14px;
+      align-items: center;
+    }
     .sample-title {
       font-size: 30px;
       font-weight: 800;
       line-height: 1.2;
     }
     .content {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 16px;
+      display: block;
+    }
+    .content.text-mode {
+      max-width: 768px;
     }
     h1 {
       margin: 0 0 16px 0;
@@ -320,6 +330,17 @@ HTML = """<!DOCTYPE html>
       border-radius: 12px;
       margin: 0;
       font-size: 13px;
+    }
+    .content.text-mode #countPrompt,
+    .content.text-mode #filterPrompt {
+      white-space: pre-wrap;
+      word-break: normal;
+      overflow-wrap: anywhere;
+    }
+    .content.text-mode .panel,
+    .content.text-mode .prompt-media,
+    .content.text-mode .prompt-media > div {
+      min-width: 0;
     }
     .stack { display: grid; gap: 14px; }
     .muted { color: #6b7280; font-size: 13px; }
@@ -367,12 +388,15 @@ HTML = """<!DOCTYPE html>
       gap: 14px;
       align-items: start;
     }
+    .content.text-mode .prompt-media {
+      grid-template-columns: 1fr;
+    }
     .prompt-media .image-card img {
       max-height: 42vh;
     }
     @media (max-width: 980px) {
-      .content {
-        grid-template-columns: 1fr;
+      .content.text-mode {
+        max-width: none;
       }
       .prompt-media {
         grid-template-columns: 1fr;
@@ -386,6 +410,10 @@ HTML = """<!DOCTYPE html>
 
   <div class=\"panel title-panel\">
     <div id=\"sampleTitle\" class=\"sample-title\"></div>
+    <div class=\"title-meta\">
+      <span id=\"positionBadge\" class=\"pill\"></span>
+      <div id=\"sourceFile\" class=\"muted\"></div>
+    </div>
   </div>
 
   <div class=\"bar\">
@@ -397,15 +425,6 @@ HTML = """<!DOCTYPE html>
   </div>
 
   <div class=\"content\">
-    <div class=\"panel stack\">
-      <div class=\"headerline\">
-        <h2>Sample</h2>
-        <span id=\"positionBadge\" class=\"pill\"></span>
-      </div>
-      <div id=\"sourceFile\" class=\"muted\"></div>
-      <div id=\"sampleView\" class=\"stack\"></div>
-    </div>
-
     <div class=\"stack\">
       <div class=\"panel stack\">
         <h2>Count</h2>
@@ -452,8 +471,8 @@ HTML = """<!DOCTYPE html>
   }
 
   function renderSample(sample) {
-    const wrap = document.getElementById('sampleView');
-    wrap.innerHTML = '';
+    const content = document.querySelector('.content');
+    content.classList.toggle('text-mode', sample.modality === 'text');
     renderPromptImage(
       document.getElementById('countImageView'),
       sample.image_url,
@@ -469,19 +488,10 @@ HTML = """<!DOCTYPE html>
       'No image-with-ids found.'
     );
 
-    if (sample.modality === 'visual' && (sample.image_url || sample.image_ids_url)) {
-      const note = document.createElement('pre');
-      note.textContent = 'Visual sample. Plain image is paired with Count, and image with IDs is paired with Filter.';
-      wrap.appendChild(note);
-      return;
+    if (sample.modality !== 'visual' || (!sample.image_url && !sample.image_ids_url)) {
+      document.getElementById('countImageView').innerHTML = '';
+      document.getElementById('filterImageView').innerHTML = '';
     }
-
-    document.getElementById('countImageView').innerHTML = '';
-    document.getElementById('filterImageView').innerHTML = '';
-
-    const pre = document.createElement('pre');
-    pre.textContent = sample.text_value || 'No image or text found for this sample.';
-    wrap.appendChild(pre);
   }
 
   function renderPromptImage(container, imageUrl, labelText, altText, emptyText) {
